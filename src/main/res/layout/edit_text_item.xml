@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/edit_text_item_top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="15dip"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/edit_text_item_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dip"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/edit_text_item_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="15dip"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edit_text_item_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/edit_text_item_key"
+            android:layout_toLeftOf="@id/edit_text_item_unit"
+            android:background="@null"
+            android:padding="15dip"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_alignWithParentIfMissing="true"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/edit_text_item_summary_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <TextView
+        android:id="@+id/edit_text_item_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip"
+        android:textColor="@color/gray"
+        android:textSize="15sp" />
+</LinearLayout>
