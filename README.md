@@ -1,2 +1,2 @@
 # Android-List
-Android列表（包含GridView、ExpandableListView、PinnedHeaderExpandableListView）等
+Android列表（包含GridView）等
