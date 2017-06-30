@@ -1,12 +1,15 @@
 package com.fpliu.newton.ui.list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.fpliu.newton.ui.base.BaseActivity;
+import com.fpliu.newton.ui.base.BaseView;
+import com.fpliu.newton.ui.base.LazyFragment;
 import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
@@ -18,38 +21,53 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableGridActivity<T> extends BaseActivity
-        implements IPullableGrid<T, PullableGridView>,
+public abstract class PullableGridFragment<T> extends LazyFragment implements
+        IPullableGrid<T, PullableGridView>,
         AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<PullableGridView> {
 
     private IPullableGrid<T, PullableGridView> pullableGrid;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
+
+        Activity activity = getActivity();
 
         pullableGrid = new PullableGridImpl<>();
-        addContentView(pullableGrid.init(this));
+        addContentView(pullableGrid.init(activity));
         setOnItemClickListener(this);
         setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                return PullableGridActivity.this.getItemView(position, convertView, parent);
+                return PullableGridFragment.this.getItemView(position, convertView, parent);
             }
 
             @Override
             public int getViewTypeCount() {
-                return PullableGridActivity.this.getItemViewTypeCount();
+                return PullableGridFragment.this.getItemViewTypeCount();
             }
 
             @Override
             public int getItemViewType(int position) {
-                return PullableGridActivity.this.getItemViewType(position);
+                return PullableGridFragment.this.getItemViewType(position);
             }
         });
+        return baseView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setOnItemClickListener(this);
         setRefreshOrLoadMoreCallback(this);
     }
 
+    @Override
+    protected void onFragmentStartLazy() {
+        super.onFragmentStartLazy();
+        onRefreshOrLoadMore(getPullableViewContainer(), Type.REFRESH, 1, 10);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

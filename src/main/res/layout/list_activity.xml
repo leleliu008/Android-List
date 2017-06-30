@@ -13,8 +13,15 @@
     <ListView
         android:id="@+id/list_activity_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/divider"
         android:dividerHeight="0px" />
+
+    <LinearLayout
+        android:id="@+id/list_activity_footer_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 </LinearLayout>

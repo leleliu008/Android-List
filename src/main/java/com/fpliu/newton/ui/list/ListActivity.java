@@ -1,13 +1,10 @@
 package com.fpliu.newton.ui.list;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.fpliu.newton.ui.base.BaseActivity;
@@ -20,96 +17,147 @@ import java.util.List;
  *
  * @author 792793182@qq.com 2016-06-01.
  */
-public abstract class ListActivity<T> extends BaseActivity implements AdapterView.OnItemClickListener {
+public abstract class ListActivity<T> extends BaseActivity implements IList<T, ListView>, AdapterView.OnItemClickListener {
 
-    private ListView listView;
-
-    private ItemAdapter<T> itemAdapter;
+    private IList<T, ListView> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addContentView(R.layout.list_activity);
+        list = new ListImpl<>();
+        addContentView(init(this));
+        setOnItemClickListener(this);
+        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return ListActivity.this.getItemView(position, convertView, parent);
+            }
 
-        listView = (ListView) findViewById(R.id.list_activity_list_view);
-        listView.setOnItemClickListener(this);
+            @Override
+            public int getViewTypeCount() {
+                return ListActivity.this.getItemViewTypeCount();
+            }
 
-        if (itemAdapter == null) {
-            itemAdapter = new ItemAdapter<T>(null) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    return ListActivity.this.getView(position, convertView, parent);
-                }
-            };
-        }
-        listView.setAdapter(itemAdapter);
-
-        ImageView imageView = new ImageView(this);
-        imageView.setBackgroundColor(getResources().getColor(R.color.divider));
-        imageView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
-        listView.addFooterView(imageView, null, false);
-    }
-
-    public final ListView getListView() {
-        return listView;
-    }
-
-    protected final void addHeaderView(int layoutId) {
-        LinearLayout headPanel = (LinearLayout) findViewById(R.id.list_activity_head_panel);
-        LayoutInflater.from(this).inflate(layoutId, headPanel, true);
+            @Override
+            public int getItemViewType(int position) {
+                return ListActivity.this.getItemViewType(position);
+            }
+        });
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public View init(Context context) {
+        return list.init(context);
     }
 
-    protected final void setItemAdapter(ItemAdapter<T> itemAdapter) {
-        this.itemAdapter = itemAdapter;
-
-        if (listView != null) {
-            listView.setAdapter(itemAdapter);
-        }
+    @Override
+    public ListView getListView() {
+        return list.getListView();
     }
 
-    protected final ItemAdapter<T> getListAdapter() {
-        return itemAdapter;
+    @Override
+    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
+        list.setItemAdapterIfEmpty(itemAdapter);
     }
 
-    protected final void setItems(List<T> items) {
-        itemAdapter.setItems(items);
+    @Override
+    public void setItemAdapter(ItemAdapter<T> itemAdapter) {
+        list.setItemAdapter(itemAdapter);
     }
 
-    protected final List<T> getItems() {
-        return itemAdapter.getItems();
+    @Override
+    public ItemAdapter<T> getItemAdapter() {
+        return list.getItemAdapter();
     }
 
-    protected final boolean addAll(Collection<? extends T> collection) {
-        return itemAdapter.addAll(collection);
+    @Override
+    public void setItems(List<T> items) {
+        list.setItems(items);
     }
 
-    protected final boolean add(T item) {
-        return itemAdapter.add(item);
+    @Override
+    public List<T> getItems() {
+        return list.getItems();
     }
 
-    protected final T getItem(int position) {
-        return itemAdapter.get(position);
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
+        return list.addAll(collection);
     }
 
-    protected final int getCount() {
-        return itemAdapter.getCount();
+    @Override
+    public boolean add(T item) {
+        return list.add(item);
     }
 
-    protected int getViewTypeCount() {
-        return itemAdapter.getViewTypeCount();
+    @Override
+    public T set(int location, T item) {
+        return list.set(location, item);
     }
 
-    protected int getItemViewType(int position) {
-        return itemAdapter.getItemViewType(position);
+    @Override
+    public boolean remove(T item) {
+        return list.remove(item);
     }
 
-    protected View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    @Override
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public T getItem(int position) {
+        return list.getItem(position);
+    }
+
+    @Override
+    public int getCount() {
+        return list.getCount();
+    }
+
+    @Override
+    public int getItemViewTypeCount() {
+        return list.getItemViewTypeCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return list.getItemViewType(position);
+    }
+
+    @Override
+    public void setDividerHeight(int height) {
+        list.setDividerHeight(height);
+    }
+
+    @Override
+    public void setViewBeforeBody(int layoutId) {
+        list.setViewBeforeBody(layoutId);
+    }
+
+    @Override
+    public void setViewBeforeBody(View view) {
+        list.setViewBeforeBody(view);
+    }
+
+    @Override
+    public void setViewAfterBody(int layoutId) {
+        list.setViewAfterBody(layoutId);
+    }
+
+    @Override
+    public void setViewAfterBody(View view) {
+        list.setViewAfterBody(view);
+    }
+
+    @Override
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        list.setOnItemClickListener(listener);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

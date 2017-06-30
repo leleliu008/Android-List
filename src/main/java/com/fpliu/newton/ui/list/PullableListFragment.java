@@ -1,18 +1,15 @@
 package com.fpliu.newton.ui.list;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
-import com.fpliu.newton.ui.base.UIUtil;
 import com.fpliu.newton.ui.pullable.PullableListView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
@@ -24,11 +21,11 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableListFragment<T> extends LazyFragment implements AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<PullableListView> {
+public abstract class PullableListFragment<T> extends LazyFragment implements
+        IPullableList<T, PullableListView>,
+        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<PullableListView> {
 
-    private PullableViewContainer<PullableListView> pullableViewContainer;
-
-    private ItemAdapter<T> itemAdapter;
+    private IPullableList<T, PullableListView> pullableList;
 
     @Override
     public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,24 +33,25 @@ public abstract class PullableListFragment<T> extends LazyFragment implements Ad
 
         Activity activity = getActivity();
 
-        pullableViewContainer = new PullableViewContainer<>(activity, PullableListView.class);
-        PullableListView pullableListView = pullableViewContainer.getPullableView();
-        pullableListView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        pullableListView.setCacheColorHint(Color.TRANSPARENT);
-        pullableListView.setDivider(new ColorDrawable(getResources().getColor(R.color.background_body)));
-        pullableListView.setDividerHeight(UIUtil.dip2px(getActivity(), 15));
+        pullableList = new PullableListImpl<>();
+        addContentView(pullableList.init(activity));
+        setOnItemClickListener(this);
+        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return PullableListFragment.this.getItemView(position, convertView, parent);
+            }
 
-        if (itemAdapter == null) {
-            itemAdapter = new ItemAdapter<T>(null) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    return PullableListFragment.this.getView(position, convertView, parent);
-                }
-            };
-        }
-        pullableListView.setAdapter(itemAdapter);
-        pullableListView.setOnItemClickListener(this);
-        addContentView(pullableViewContainer);
+            @Override
+            public int getViewTypeCount() {
+                return PullableListFragment.this.getItemViewTypeCount();
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return PullableListFragment.this.getItemViewType(position);
+            }
+        });
 
         return baseView;
     }
@@ -61,14 +59,7 @@ public abstract class PullableListFragment<T> extends LazyFragment implements Ad
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                pullableViewContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                pullableViewContainer.setRefreshOrLoadMoreCallback(PullableListFragment.this);
-            }
-        });
+        setRefreshOrLoadMoreCallback(this);
     }
 
     @Override
@@ -77,68 +68,139 @@ public abstract class PullableListFragment<T> extends LazyFragment implements Ad
         onRefreshOrLoadMore(getPullableViewContainer(), Type.REFRESH, 1, 10);
     }
 
-    public final void setItemAdapter(ItemAdapter<T> itemAdapter) {
-        this.itemAdapter = itemAdapter;
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (pullableViewContainer != null) {
-            pullableViewContainer.getPullableView().setAdapter(itemAdapter);
-        }
-    }
-
-    public final ItemAdapter<T> getListAdapter() {
-        return itemAdapter;
-    }
-
-    public PullableViewContainer<PullableListView> getPullableViewContainer() {
-        return pullableViewContainer;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+    public void canPullDown(boolean canPullDown) {
+        pullableList.canPullDown(canPullDown);
     }
 
-    public final void setItems(List<T> items) {
-        itemAdapter.setItems(items);
+    @Override
+    public void canPullUp(boolean canPullUp) {
+        pullableList.canPullUp(canPullUp);
     }
 
-    public final List<T> getItems() {
-        return itemAdapter.getItems();
+    @Override
+    public void finishRequestSuccess(Type type, List<T> items) {
+        pullableList.finishRequestSuccess(type, items);
     }
 
-    public final boolean addAll(Collection<? extends T> collection) {
-        return itemAdapter.addAll(collection);
+    @Override
+    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
+        pullableList.setRefreshOrLoadMoreCallback(callback);
     }
 
-    public final T set(int location, T item) {
-        return itemAdapter.set(location, item);
+    @Override
+    public View init(Context context) {
+        return pullableList.init(context);
     }
 
-    public final boolean add(T item) {
-        return itemAdapter.add(item);
+    @Override
+    public PullableViewContainer<PullableListView> getPullableViewContainer() {
+        return pullableList.getPullableViewContainer();
     }
 
-    public final T getItem(int position) {
-        return itemAdapter.get(position);
+    @Override
+    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
+        pullableList.setItemAdapterIfEmpty(itemAdapter);
     }
 
-    public int getViewTypeCount() {
-        return itemAdapter.getViewTypeCount();
+    @Override
+    public void setItemAdapter(ItemAdapter<T> itemAdapter) {
+        pullableList.setItemAdapter(itemAdapter);
     }
 
+    @Override
+    public ItemAdapter<T> getItemAdapter() {
+        return pullableList.getItemAdapter();
+    }
+
+    @Override
+    public void setItems(List<T> items) {
+        pullableList.setItems(items);
+    }
+
+    @Override
+    public List<T> getItems() {
+        return pullableList.getItems();
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
+        return pullableList.addAll(collection);
+    }
+
+    @Override
+    public boolean add(T item) {
+        return pullableList.add(item);
+    }
+
+    @Override
+    public T set(int location, T item) {
+        return pullableList.set(location, item);
+    }
+
+    @Override
+    public boolean remove(T item) {
+        return pullableList.remove(item);
+    }
+
+    @Override
+    public T getItem(int position) {
+        return pullableList.getItem(position);
+    }
+
+    @Override
+    public int getCount() {
+        return pullableList.getCount();
+    }
+
+    @Override
+    public void clear() {
+        pullableList.clear();
+    }
+
+    @Override
+    public int getItemViewTypeCount() {
+        return pullableList.getItemViewTypeCount();
+    }
+
+    @Override
     public int getItemViewType(int position) {
-        return itemAdapter.getItemViewType(position);
+        return pullableList.getItemViewType(position);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    @Override
+    public void setDividerHeight(int height) {
+        pullableList.setDividerHeight(height);
     }
 
-    protected final void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getPullableView().canPullDown(canPullDown);
+    @Override
+    public void setViewBeforeBody(int layoutId) {
+        pullableList.setViewBeforeBody(layoutId);
     }
 
-    protected final void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getPullableView().canPullUp(canPullUp);
+    @Override
+    public void setViewBeforeBody(View view) {
+        pullableList.setViewBeforeBody(view);
     }
+
+    @Override
+    public void setViewAfterBody(int layoutId) {
+        pullableList.setViewAfterBody(layoutId);
+    }
+
+    @Override
+    public void setViewAfterBody(View view) {
+        pullableList.setViewAfterBody(view);
+    }
+
+    @Override
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        pullableList.setOnItemClickListener(listener);
+    }
+
 }

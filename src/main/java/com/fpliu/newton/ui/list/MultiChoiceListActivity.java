@@ -48,11 +48,11 @@ public class MultiChoiceListActivity extends ListActivity<MultiChoiceListActivit
         super.onItemClick(adapterView, convertView, position, id);
 
         getItem(position).toggle();
-        getListAdapter().notifyDataSetChanged();
+        getItemAdapter().notifyDataSetChanged();
     }
 
     @Override
-    protected View getView(int position, View convertView, ViewGroup parent) {
+    public View getItemView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.single_choice_activity, convertView, parent);
 
         TextView textView = viewHolder.getWidgetView(R.id.single_choice_activity_tv);
