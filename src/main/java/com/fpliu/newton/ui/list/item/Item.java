@@ -20,7 +20,7 @@ public abstract class Item<SubClass> {
         return (SubClass) this;
     }
 
-    public int getId() {
+    public int id() {
         return id;
     }
 
