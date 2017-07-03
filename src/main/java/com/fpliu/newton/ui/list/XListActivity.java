@@ -28,6 +28,6 @@ public abstract class XListActivity extends ListActivity<Item> {
 
     @Override
     public View getItemView(int position, View convertView, ViewGroup parent) {
-        return null;
+        throw new RuntimeException("can't call this method");
     }
 }

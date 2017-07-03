@@ -126,6 +126,11 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        list.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         list.setDividerHeight(height);
     }

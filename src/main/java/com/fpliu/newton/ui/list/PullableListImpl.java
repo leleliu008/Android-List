@@ -139,6 +139,11 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        itemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         pullableViewContainer.getPullableView().setDividerHeight(height);
     }

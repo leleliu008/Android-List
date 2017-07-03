@@ -123,6 +123,11 @@ public class ListImpl<T> implements IList<T, ListView> {
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        itemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         listView.setDividerHeight(height);
     }

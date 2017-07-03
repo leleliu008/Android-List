@@ -136,6 +136,11 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        itemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         //do nothing
     }

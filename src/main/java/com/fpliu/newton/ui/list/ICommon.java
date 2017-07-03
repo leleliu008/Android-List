@@ -45,6 +45,8 @@ public interface ICommon<T> {
 
     View getItemView(int position, View convertView, ViewGroup parent);
 
+    void notifyDataSetChanged();
+
     void setDividerHeight(int height);
 
     void setViewBeforeBody(int layoutId);
