@@ -28,7 +28,7 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
         list = new ListImpl<>();
         addContentView(init(this));
         setOnItemClickListener(this);
-        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+        setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return ListActivity.this.getItemView(position, convertView, parent);
@@ -54,11 +54,6 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     @Override
     public ListView getListView() {
         return list.getListView();
-    }
-
-    @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        list.setItemAdapterIfEmpty(itemAdapter);
     }
 
     @Override

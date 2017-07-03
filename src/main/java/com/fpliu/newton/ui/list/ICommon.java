@@ -17,8 +17,6 @@ public interface ICommon<T> {
 
     View init(Context context);
 
-    void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter);
-
     void setItemAdapter(ItemAdapter<T> itemAdapter);
 
     ItemAdapter<T> getItemAdapter();

@@ -30,7 +30,7 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
         list = new ListImpl<>();
         addContentView(init(getActivity()));
         setOnItemClickListener(this);
-        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+        setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return ListFragment.this.getItemView(position, convertView, parent);
@@ -58,11 +58,6 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     @Override
     public ListView getListView() {
         return list.getListView();
-    }
-
-    @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        list.setItemAdapterIfEmpty(itemAdapter);
     }
 
     @Override

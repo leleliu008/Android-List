@@ -62,17 +62,6 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        if (this.itemAdapter == null) {
-            this.itemAdapter = itemAdapter;
-
-            if (pullableViewContainer != null) {
-                pullableViewContainer.getPullableView().setAdapter(itemAdapter);
-            }
-        }
-    }
-
-    @Override
     public void setItemAdapter(ItemAdapter<T> itemAdapter) {
         this.itemAdapter = itemAdapter;
 

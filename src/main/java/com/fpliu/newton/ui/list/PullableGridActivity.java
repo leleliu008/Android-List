@@ -31,7 +31,7 @@ public abstract class PullableGridActivity<T> extends BaseActivity
         pullableGrid = new PullableGridImpl<>();
         addContentView(pullableGrid.init(this));
         setOnItemClickListener(this);
-        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+        setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return PullableGridActivity.this.getItemView(position, convertView, parent);
@@ -84,11 +84,6 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     @Override
     public PullableViewContainer<PullableGridView> getPullableViewContainer() {
         return pullableGrid.getPullableViewContainer();
-    }
-
-    @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        pullableGrid.setItemAdapterIfEmpty(itemAdapter);
     }
 
     @Override

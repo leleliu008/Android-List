@@ -36,7 +36,7 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
         pullableList = new PullableListImpl<>();
         addContentView(pullableList.init(activity));
         setOnItemClickListener(this);
-        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+        setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return PullableListFragment.this.getItemView(position, convertView, parent);
@@ -101,11 +101,6 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     @Override
     public PullableViewContainer<PullableListView> getPullableViewContainer() {
         return pullableList.getPullableViewContainer();
-    }
-
-    @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        pullableList.setItemAdapterIfEmpty(itemAdapter);
     }
 
     @Override

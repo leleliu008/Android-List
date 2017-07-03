@@ -13,17 +13,17 @@ import com.fpliu.newton.ui.list.ViewHolder;
  *
  * @author 792793182@qq.com 2016-05-31.
  */
-public class ButtonItem extends Item {
+public class ButtonItem extends Item<ButtonItem> {
 
     private String btnText;
 
-    public String btnText() {
-        return btnText;
-    }
-
-    public ButtonItem btnText(String btnText) {
+    public ButtonItem text(String btnText) {
         this.btnText = btnText;
         return this;
+    }
+
+    public String text() {
+        return btnText;
     }
 
     @Override

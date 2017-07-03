@@ -49,17 +49,6 @@ public class ListImpl<T> implements IList<T, ListView> {
     }
 
     @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        if (this.itemAdapter == null) {
-            this.itemAdapter = itemAdapter;
-
-            if (listView != null) {
-                listView.setAdapter(itemAdapter);
-            }
-        }
-    }
-
-    @Override
     public void setItemAdapter(ItemAdapter<T> itemAdapter) {
         this.itemAdapter = itemAdapter;
 

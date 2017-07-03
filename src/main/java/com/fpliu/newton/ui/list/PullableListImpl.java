@@ -65,17 +65,6 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        if (this.itemAdapter == null) {
-            this.itemAdapter = itemAdapter;
-
-            if (pullableViewContainer != null) {
-                pullableViewContainer.getPullableView().setAdapter(itemAdapter);
-            }
-        }
-    }
-
-    @Override
     public void setItemAdapter(ItemAdapter<T> itemAdapter) {
         this.itemAdapter = itemAdapter;
 

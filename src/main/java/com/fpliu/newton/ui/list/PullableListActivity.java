@@ -33,7 +33,7 @@ public abstract class PullableListActivity<T> extends BaseActivity
         pullableList = new PullableListImpl<>();
         addContentView(pullableList.init(this));
         setOnItemClickListener(this);
-        setItemAdapterIfEmpty(new ItemAdapter<T>(null) {
+        setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return PullableListActivity.this.getItemView(position, convertView, parent);
@@ -86,11 +86,6 @@ public abstract class PullableListActivity<T> extends BaseActivity
     @Override
     public PullableViewContainer<PullableListView> getPullableViewContainer() {
         return pullableList.getPullableViewContainer();
-    }
-
-    @Override
-    public void setItemAdapterIfEmpty(ItemAdapter<T> itemAdapter) {
-        pullableList.setItemAdapterIfEmpty(itemAdapter);
     }
 
     @Override
