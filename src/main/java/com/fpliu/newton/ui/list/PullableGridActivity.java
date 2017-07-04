@@ -152,6 +152,11 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        pullableGrid.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         pullableGrid.setDividerHeight(height);
     }

@@ -117,13 +117,13 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     }
 
     @Override
-    public void notifyDataSetChanged() {
-        list.notifyDataSetChanged();
+    public int getItemViewType(int position) {
+        return list.getItemViewType(position);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return list.getItemViewType(position);
+    public void notifyDataSetChanged() {
+        list.notifyDataSetChanged();
     }
 
     @Override

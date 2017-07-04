@@ -154,6 +154,11 @@ public abstract class PullableListActivity<T> extends BaseActivity
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        pullableList.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         pullableList.setDividerHeight(height);
     }

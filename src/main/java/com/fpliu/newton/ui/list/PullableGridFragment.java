@@ -170,6 +170,11 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        pullableGrid.notifyDataSetChanged();
+    }
+
+    @Override
     public void setDividerHeight(int height) {
         pullableGrid.setDividerHeight(height);
     }
