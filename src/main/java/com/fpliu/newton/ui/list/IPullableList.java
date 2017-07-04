@@ -22,4 +22,6 @@ public interface IPullableList<T, V extends View> extends ICommon<T> {
     void finishRequestSuccess(Type type, List<T> items);
 
     void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback);
+
+    void refresh();
 }

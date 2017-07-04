@@ -63,12 +63,6 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     }
 
     @Override
-    protected void onFragmentStartLazy() {
-        super.onFragmentStartLazy();
-        onRefreshOrLoadMore(getPullableViewContainer(), Type.REFRESH, 1, 10);
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
@@ -201,6 +195,11 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         pullableList.setOnItemClickListener(listener);
+    }
+
+    @Override
+    public void refresh() {
+        pullableList.refresh();
     }
 
 }

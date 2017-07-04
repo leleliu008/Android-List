@@ -190,4 +190,9 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     public void setNumColumns(int numColumns) {
         pullableGrid.setNumColumns(numColumns);
     }
+
+    @Override
+    public void refresh() {
+        pullableGrid.refresh();
+    }
 }

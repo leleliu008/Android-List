@@ -202,4 +202,9 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
             }
         });
     }
+
+    @Override
+    public void refresh() {
+        pullableViewContainer.refresh();
+    }
 }

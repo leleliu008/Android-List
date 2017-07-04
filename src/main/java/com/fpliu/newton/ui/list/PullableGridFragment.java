@@ -208,4 +208,9 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     public void setNumColumns(int numColumns) {
         pullableGrid.setNumColumns(numColumns);
     }
+
+    @Override
+    public void refresh() {
+        pullableGrid.refresh();
+    }
 }

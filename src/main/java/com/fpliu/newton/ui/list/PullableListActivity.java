@@ -187,4 +187,9 @@ public abstract class PullableListActivity<T> extends BaseActivity
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         pullableList.setOnItemClickListener(listener);
     }
+
+    @Override
+    public void refresh() {
+        pullableList.refresh();
+    }
 }

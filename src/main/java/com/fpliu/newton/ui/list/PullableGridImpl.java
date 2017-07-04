@@ -204,4 +204,9 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     public void setNumColumns(int numColumns) {
         pullableViewContainer.getPullableView().setNumColumns(numColumns);
     }
+
+    @Override
+    public void refresh() {
+        pullableViewContainer.refresh();
+    }
 }
