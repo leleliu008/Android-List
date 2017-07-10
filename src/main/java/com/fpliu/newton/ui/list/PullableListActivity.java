@@ -74,6 +74,11 @@ public abstract class PullableListActivity<T> extends BaseActivity
     }
 
     @Override
+    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+        pullableList.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
+    }
+
+    @Override
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
         pullableList.setRefreshOrLoadMoreCallback(callback);
     }

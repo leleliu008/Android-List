@@ -72,6 +72,11 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
+    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+        pullableGrid.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
+    }
+
+    @Override
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
         pullableGrid.setRefreshOrLoadMoreCallback(callback);
     }

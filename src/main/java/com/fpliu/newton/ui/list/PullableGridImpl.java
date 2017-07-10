@@ -190,6 +190,22 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
         pullableViewContainer.finishRequestSuccess(type);
     }
 
+    @Override
+    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+        if (type == Type.LOAD_MORE) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithRefresh(type, true, "刷新成功", itemsEmptyMessageWhenRefresh);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
     public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback) {
         pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
