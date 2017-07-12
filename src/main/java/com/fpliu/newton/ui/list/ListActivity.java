@@ -21,6 +21,18 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
 
     private IList<T, ListView> list;
 
+    private View headerView;
+
+    private Object headerData;
+
+    private boolean headerIsSelectable;
+
+    private View footerView;
+
+    private Object footerData;
+
+    private boolean footerIsSelectable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +40,15 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
         list = new ListImpl<>();
         addContentView(init(this));
         setOnItemClickListener(this);
+
+        if (headerView != null) {
+            list.addHeaderView(headerView, headerData, headerIsSelectable);
+        }
+
+        if (footerView != null) {
+            list.addHeaderView(footerView, footerData, footerIsSelectable);
+        }
+
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -149,6 +170,22 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     @Override
     public void setViewAfterBody(View view) {
         list.setViewAfterBody(view);
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        this.headerView = view;
+        this.headerData = data;
+        this.headerIsSelectable = isSelectable;
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        this.footerView = view;
+        this.footerData = data;
+        this.footerIsSelectable = isSelectable;
     }
 
     @Override

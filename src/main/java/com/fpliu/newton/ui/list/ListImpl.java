@@ -153,6 +153,16 @@ public class ListImpl<T> implements IList<T, ListView> {
     }
 
     @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        listView.addHeaderView(view, data, isSelectable);
+    }
+
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        listView.addFooterView(view, data, isSelectable);
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         listView.setOnItemClickListener(listener);
     }

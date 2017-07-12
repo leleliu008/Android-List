@@ -26,6 +26,18 @@ public abstract class PullableListActivity<T> extends BaseActivity
 
     private IPullableList<T, PullableListView> pullableList;
 
+    private View headerView;
+
+    private Object headerData;
+
+    private boolean headerIsSelectable;
+
+    private View footerView;
+
+    private Object footerData;
+
+    private boolean footerIsSelectable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +45,15 @@ public abstract class PullableListActivity<T> extends BaseActivity
         pullableList = new PullableListImpl<>();
         addContentView(pullableList.init(this));
         setOnItemClickListener(this);
+
+        if (headerView != null) {
+            pullableList.addHeaderView(headerView, headerData, headerIsSelectable);
+        }
+
+        if (footerView != null) {
+            pullableList.addHeaderView(footerView, footerData, footerIsSelectable);
+        }
+
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -186,6 +207,22 @@ public abstract class PullableListActivity<T> extends BaseActivity
     @Override
     public void setViewAfterBody(View view) {
         pullableList.setViewAfterBody(view);
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        this.headerView = view;
+        this.headerData = data;
+        this.headerIsSelectable = isSelectable;
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        this.footerView = view;
+        this.footerData = data;
+        this.footerIsSelectable = isSelectable;
     }
 
     @Override

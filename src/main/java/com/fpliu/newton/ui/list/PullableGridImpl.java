@@ -166,6 +166,16 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        //do nothing
+    }
+
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        //do nothing
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         pullableViewContainer.getPullableView().setOnItemClickListener(listener);
     }

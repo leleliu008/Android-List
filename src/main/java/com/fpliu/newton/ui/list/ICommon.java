@@ -57,5 +57,9 @@ public interface ICommon<T> {
 
     void setViewAfterBody(View view);
 
+    void addHeaderView(View view, Object data, boolean isSelectable);
+
+    void addFooterView(View view, Object data, boolean isSelectable);
+
     void setOnItemClickListener(AdapterView.OnItemClickListener listener);
 }

@@ -187,6 +187,16 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        //do nothing
+    }
+
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        //do nothing
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         pullableGrid.setOnItemClickListener(listener);
     }

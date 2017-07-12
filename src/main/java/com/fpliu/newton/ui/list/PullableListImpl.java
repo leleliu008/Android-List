@@ -169,6 +169,16 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        pullableViewContainer.getPullableView().addHeaderView(view, data, isSelectable);
+    }
+
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        pullableViewContainer.getPullableView().addFooterView(view, data, isSelectable);
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         pullableViewContainer.getPullableView().setOnItemClickListener(listener);
     }
