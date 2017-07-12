@@ -78,8 +78,8 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
+        super.onCreateViewLazy(baseView, savedInstanceState);
         setRefreshOrLoadMoreCallback(this);
     }
 
