@@ -40,8 +40,8 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     private boolean footerIsSelectable;
 
     @Override
-    public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
+    protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
+        super.onCreateViewLazy(baseView, savedInstanceState);
 
         Activity activity = getActivity();
 
@@ -73,13 +73,6 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
                 return PullableListFragment.this.getItemViewType(position);
             }
         });
-
-        return baseView;
-    }
-
-    @Override
-    protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
-        super.onCreateViewLazy(baseView, savedInstanceState);
         setRefreshOrLoadMoreCallback(this);
     }
 
