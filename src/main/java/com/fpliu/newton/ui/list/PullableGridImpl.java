@@ -182,12 +182,12 @@ public class PullableGridImpl<T> implements IPullableGrid<T, GridView> {
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullDown);
+        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullUp);
+        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullUp);
     }
 
     @Override

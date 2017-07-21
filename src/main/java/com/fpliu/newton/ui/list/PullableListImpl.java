@@ -185,12 +185,12 @@ public class PullableListImpl<T> implements IPullableList<T, ListView> {
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullDown);
+        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullUp);
+        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullUp);
     }
 
     @Override

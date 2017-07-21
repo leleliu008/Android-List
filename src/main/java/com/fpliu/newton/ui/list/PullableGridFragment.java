@@ -3,7 +3,6 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,14 +27,15 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     private IPullableGrid<T, GridView> pullableGrid;
 
     @Override
-    public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
+    protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
+        super.onCreateViewLazy(baseView, savedInstanceState);
 
         Activity activity = getActivity();
 
         pullableGrid = new PullableGridImpl<>();
         addContentView(pullableGrid.init(activity));
         setOnItemClickListener(this);
+
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -52,14 +52,6 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
                 return PullableGridFragment.this.getItemViewType(position);
             }
         });
-        return baseView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setOnItemClickListener(this);
         setRefreshOrLoadMoreCallback(this);
     }
 
