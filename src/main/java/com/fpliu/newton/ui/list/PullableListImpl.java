@@ -11,10 +11,10 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.fpliu.newton.ui.base.UIUtil;
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableListView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.Collection;
 import java.util.List;
@@ -194,8 +194,8 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items) {
-        if (type == Type.LOAD_MORE) {
+    public void finishRequestSuccess(PullType type, List<T> items) {
+        if (type == PullType.UP) {
             addAll(items);
         } else {
             setItems(items);
@@ -204,8 +204,8 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
-        if (type == Type.LOAD_MORE) {
+    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+        if (type == PullType.UP) {
             addAll(items);
             pullableViewContainer.finishRequestSuccess(type);
         } else {

@@ -10,10 +10,10 @@ import android.widget.AdapterView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,12 +64,6 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    protected void onFragmentStartLazy() {
-        super.onFragmentStartLazy();
-        onRefreshOrLoadMore(getPullableViewContainer(), Type.REFRESH, 1, 10);
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
@@ -85,12 +79,12 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items) {
+    public void finishRequestSuccess(PullType type, List<T> items) {
         pullableGrid.finishRequestSuccess(type, items);
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
         pullableGrid.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
     }
 

@@ -2,6 +2,7 @@ package com.fpliu.newton.ui.list;
 
 import android.view.View;
 
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.pullable.Type;
@@ -19,9 +20,9 @@ public interface IPullableList<T, V extends View> extends ICommon<T> {
 
     void canPullUp(boolean canPullUp);
 
-    void finishRequestSuccess(Type type, List<T> items);
+    void finishRequestSuccess(PullType type, List<T> items);
 
-    void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh);
+    void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh);
 
     void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback);
 

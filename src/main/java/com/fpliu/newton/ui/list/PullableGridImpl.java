@@ -10,10 +10,10 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.Collection;
 import java.util.List;
@@ -191,8 +191,8 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items) {
-        if (type == Type.LOAD_MORE) {
+    public void finishRequestSuccess(PullType type, List<T> items) {
+        if (type == PullType.UP) {
             addAll(items);
         } else {
             setItems(items);
@@ -201,8 +201,8 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
-        if (type == Type.LOAD_MORE) {
+    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+        if (type == PullType.UP) {
             addAll(items);
             pullableViewContainer.finishRequestSuccess(type);
         } else {

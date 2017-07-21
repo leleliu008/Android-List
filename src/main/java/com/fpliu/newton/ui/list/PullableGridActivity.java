@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.fpliu.newton.ui.base.BaseActivity;
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.Collection;
 import java.util.List;
@@ -67,12 +67,12 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items) {
+    public void finishRequestSuccess(PullType type, List<T> items) {
         pullableGrid.finishRequestSuccess(type, items);
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
         pullableGrid.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
     }
 

@@ -3,17 +3,16 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
+import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableListView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.Collection;
 import java.util.List;
@@ -92,12 +91,12 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items) {
+    public void finishRequestSuccess(PullType type, List<T> items) {
         pullableList.finishRequestSuccess(type, items);
     }
 
     @Override
-    public void finishRequestSuccess(Type type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
         pullableList.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
     }
 
