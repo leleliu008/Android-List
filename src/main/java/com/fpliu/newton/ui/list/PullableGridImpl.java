@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.fpliu.newton.ui.pullable.PullType;
-import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 
@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
+public class PullableGridImpl<T> implements IPullableGrid<T, GridView> {
 
     private LinearLayout headPanel;
 
     private LinearLayout footerPanel;
 
-    private PullableViewContainer<PullableGridView> pullableViewContainer;
+    private PullableViewContainer<GridView> pullableViewContainer;
 
     private ItemAdapter<T> itemAdapter;
 
@@ -41,12 +41,12 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(context, PullableGridView.class);
+        pullableViewContainer = new PullableViewContainer<>(context, GridView.class);
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
-        PullableGridView pullableGridView = pullableViewContainer.getPullableView();
-        pullableGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        pullableGridView.setCacheColorHint(Color.TRANSPARENT);
+        GridView gridView = pullableViewContainer.getPullableView();
+        gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gridView.setCacheColorHint(Color.TRANSPARENT);
 
         footerPanel = new LinearLayout(context);
         footerPanel.setOrientation(LinearLayout.VERTICAL);
@@ -57,7 +57,7 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
     }
 
     @Override
-    public PullableViewContainer<PullableGridView> getPullableViewContainer() {
+    public PullableViewContainer<GridView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
@@ -182,12 +182,12 @@ public class PullableGridImpl<T> implements IPullableGrid<T, PullableGridView> {
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getPullableView().canPullDown(canPullDown);
+        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getPullableView().canPullUp(canPullUp);
+        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullUp);
     }
 
     @Override

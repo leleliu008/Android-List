@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.fpliu.newton.ui.base.UIUtil;
 import com.fpliu.newton.ui.pullable.PullType;
-import com.fpliu.newton.ui.pullable.PullableListView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 
@@ -22,13 +22,13 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
+public class PullableListImpl<T> implements IPullableList<T, ListView> {
 
     private LinearLayout headPanel;
 
     private LinearLayout footerPanel;
 
-    private PullableViewContainer<PullableListView> pullableViewContainer;
+    private PullableViewContainer<ListView> pullableViewContainer;
 
     private ItemAdapter<T> itemAdapter;
 
@@ -42,14 +42,14 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(context, PullableListView.class);
+        pullableViewContainer = new PullableViewContainer<>(context, ListView.class);
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
-        PullableListView pullableListView = pullableViewContainer.getPullableView();
-        pullableListView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        pullableListView.setCacheColorHint(Color.TRANSPARENT);
-        pullableListView.setDivider(new ColorDrawable(context.getResources().getColor(R.color.background_body)));
-        pullableListView.setDividerHeight(UIUtil.dip2px(context, 1));
+        ListView listView = pullableViewContainer.getPullableView();
+        listView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        listView.setCacheColorHint(Color.TRANSPARENT);
+        listView.setDivider(new ColorDrawable(context.getResources().getColor(R.color.background_body)));
+        listView.setDividerHeight(UIUtil.dip2px(context, 1));
 
         footerPanel = new LinearLayout(context);
         footerPanel.setOrientation(LinearLayout.VERTICAL);
@@ -60,7 +60,7 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
     }
 
     @Override
-    public PullableViewContainer<PullableListView> getPullableViewContainer() {
+    public PullableViewContainer<ListView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
@@ -185,12 +185,12 @@ public class PullableListImpl<T> implements IPullableList<T, PullableListView> {
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getPullableView().canPullDown(canPullDown);
+        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getPullableView().canPullUp(canPullUp);
+        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullUp);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.view.View;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.pullable.Type;
 
 import java.util.List;
 

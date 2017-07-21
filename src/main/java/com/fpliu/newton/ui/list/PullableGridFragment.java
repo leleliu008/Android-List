@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
 import com.fpliu.newton.ui.pullable.PullType;
-import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 
@@ -22,10 +22,10 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableGridFragment<T> extends LazyFragment implements
-        IPullableGrid<T, PullableGridView>,
-        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<PullableGridView> {
+        IPullableGrid<T, GridView>,
+        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<GridView> {
 
-    private IPullableGrid<T, PullableGridView> pullableGrid;
+    private IPullableGrid<T, GridView> pullableGrid;
 
     @Override
     public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public PullableViewContainer<PullableGridView> getPullableViewContainer() {
+    public PullableViewContainer<GridView> getPullableViewContainer() {
         return pullableGrid.getPullableViewContainer();
     }
 

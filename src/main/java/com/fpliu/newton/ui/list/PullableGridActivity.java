@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.fpliu.newton.ui.base.BaseActivity;
 import com.fpliu.newton.ui.pullable.PullType;
-import com.fpliu.newton.ui.pullable.PullableGridView;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 
@@ -19,10 +19,10 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableGridActivity<T> extends BaseActivity
-        implements IPullableGrid<T, PullableGridView>,
-        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<PullableGridView> {
+        implements IPullableGrid<T, GridView>,
+        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<GridView> {
 
-    private IPullableGrid<T, PullableGridView> pullableGrid;
+    private IPullableGrid<T, GridView> pullableGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
-    public PullableViewContainer<PullableGridView> getPullableViewContainer() {
+    public PullableViewContainer<GridView> getPullableViewContainer() {
         return pullableGrid.getPullableViewContainer();
     }
 
