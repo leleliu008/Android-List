@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
@@ -24,7 +23,7 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAbs> extends LazyFragment implements
-        IPullableRecyclerView<T, H>, OnItemClickListener<T, H>, RefreshOrLoadMoreCallback<ListView> {
+        IPullableRecyclerView<T, H>, OnItemClickListener<T, H>, RefreshOrLoadMoreCallback<RecyclerView> {
 
     private IPullableRecyclerView<T, H> pullableRecyclerView;
 
