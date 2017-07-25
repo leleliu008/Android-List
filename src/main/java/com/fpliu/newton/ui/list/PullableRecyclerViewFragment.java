@@ -36,7 +36,6 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
 
         pullableRecyclerView = new PullableRecyclerViewImpl<>();
         addContentView(pullableRecyclerView.init(activity));
-        setOnItemClickListener(this);
         setItemAdapter(new ItemAdapter<T, H>(null) {
             @Override
             public H onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,6 +52,7 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
                 return PullableRecyclerViewFragment.this.getItemViewType(position);
             }
         });
+        setOnItemClickListener(this);
         setRefreshOrLoadMoreCallback(this);
     }
 
