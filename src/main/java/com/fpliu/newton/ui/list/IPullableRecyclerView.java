@@ -12,6 +12,7 @@ import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -79,6 +80,12 @@ public interface IPullableRecyclerView<T, H extends ItemViewHolderAbs> {
     void setLayoutManager(RecyclerView.LayoutManager layoutManager);
 
     void addItemDecoration(RecyclerView.ItemDecoration itemDecoration);
+
+    void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration);
+
+    ArrayList<RecyclerView.ItemDecoration> getItemDecorations();
+
+    void clearItemDecorations();
 
     void setItemAnimator(RecyclerView.ItemAnimator itemAnimator);
 }

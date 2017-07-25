@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
+import com.fpliu.newton.log.Logger;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
@@ -18,6 +19,8 @@ import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -230,6 +233,29 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
         pullableViewContainer.getPullableView().addItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        pullableViewContainer.getPullableView().removeItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public ArrayList<RecyclerView.ItemDecoration> getItemDecorations() {
+        RecyclerView recyclerView = pullableViewContainer.getPullableView();
+        try {
+            Field mItemDecorationsField = RecyclerView.class.getDeclaredField("mItemDecorations");
+            mItemDecorationsField.setAccessible(true);
+            return (ArrayList<RecyclerView.ItemDecoration>) mItemDecorationsField.get(recyclerView);
+        } catch (Exception e) {
+            Logger.e(getClass().getSimpleName(), "getItemDecorations()", e);
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void clearItemDecorations() {
+        getItemDecorations().clear();
     }
 
     @Override

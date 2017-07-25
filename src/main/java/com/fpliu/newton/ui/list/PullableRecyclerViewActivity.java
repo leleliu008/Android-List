@@ -14,6 +14,7 @@ import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -186,6 +187,21 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
         pullableRecyclerView.addItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        pullableRecyclerView.removeItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public ArrayList<RecyclerView.ItemDecoration> getItemDecorations() {
+        return pullableRecyclerView.getItemDecorations();
+    }
+
+    @Override
+    public void clearItemDecorations() {
+        pullableRecyclerView.clearItemDecorations();
     }
 
     @Override
