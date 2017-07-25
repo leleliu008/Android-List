@@ -115,8 +115,23 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
+    public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess && itemAdapter.isEmpty()) {
+            pullableViewContainer.getStateView().showErrorWithAction(message, actionText, action);
+        }
+        return isSuccess;
+    }
+
+    @Override
     public void clear() {
         itemAdapter.clear();
+    }
+
+    @Override
+    public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
+        itemAdapter.clear();
+        pullableViewContainer.getStateView().showErrorWithAction(message, actionText, action);
     }
 
     @Override

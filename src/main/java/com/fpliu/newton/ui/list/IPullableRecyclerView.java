@@ -41,7 +41,11 @@ public interface IPullableRecyclerView<T, H extends ItemViewHolderAbs> {
 
     boolean remove(T item);
 
+    boolean removeThenShowActionIfEmpty(T item, CharSequence message, final String actionText, final Runnable action);
+
     void clear();
+
+    void clearThenShowAction(CharSequence message, final String actionText, final Runnable action);
 
     int getItemCount();
 

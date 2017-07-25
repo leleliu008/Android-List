@@ -132,6 +132,21 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     }
 
     @Override
+    public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
+        return pullableRecyclerView.removeThenShowActionIfEmpty(item, message, actionText, action);
+    }
+
+    @Override
+    public void clear() {
+        pullableRecyclerView.clear();
+    }
+
+    @Override
+    public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
+        pullableRecyclerView.clearThenShowAction(message, actionText, action);
+    }
+
+    @Override
     public T getItem(int position) {
         return pullableRecyclerView.getItem(position);
     }
@@ -139,11 +154,6 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     @Override
     public int getItemCount() {
         return pullableRecyclerView.getItemCount();
-    }
-
-    @Override
-    public void clear() {
-        pullableRecyclerView.clear();
     }
 
     @Override
