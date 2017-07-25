@@ -18,6 +18,7 @@ import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
+import com.fpliu.newton.ui.stateview.StateView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -118,7 +119,11 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
         boolean isSuccess = itemAdapter.remove(item);
         if (isSuccess && itemAdapter.isEmpty()) {
-            pullableViewContainer.getStateView().showErrorWithAction(message, actionText, action);
+            StateView stateView = pullableViewContainer.getStateView();
+            if (stateView != null) {
+                stateView.setVisibility(View.VISIBLE);
+                stateView.showErrorWithAction(message, actionText, action);
+            }
         }
         return isSuccess;
     }
@@ -131,7 +136,11 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
         itemAdapter.clear();
-        pullableViewContainer.getStateView().showErrorWithAction(message, actionText, action);
+        StateView stateView = pullableViewContainer.getStateView();
+        if (stateView != null) {
+            stateView.setVisibility(View.VISIBLE);
+            stateView.showErrorWithAction(message, actionText, action);
+        }
     }
 
     @Override
