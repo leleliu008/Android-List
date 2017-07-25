@@ -200,4 +200,9 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     public void setOnItemClickListener(OnItemClickListener<T, H> onItemClickListener) {
         pullableRecyclerView.setOnItemClickListener(onItemClickListener);
     }
+
+    @Override
+    public void onItemClick(H holder, int position, T item) {
+
+    }
 }
