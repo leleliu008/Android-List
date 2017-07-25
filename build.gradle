@@ -63,6 +63,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-8'
     compile 'com.fpliu:Android-Pullable:1.0.0'
     compile 'com.fpliu:Android-BaseUI:1.0.0'
+    compile 'com.fpliu:Android-RecyclerViewAdapter:1.0.0'
     compile 'com.fpliu:Android-CustomDrawable:1.0.0'
     compile 'com.fpliu:Android-Logger:1.0.0'
 }
