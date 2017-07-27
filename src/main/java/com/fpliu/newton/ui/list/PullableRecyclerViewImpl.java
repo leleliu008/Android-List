@@ -54,7 +54,16 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         RecyclerView recyclerView = pullableViewContainer.getPullableView();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+                try {
+                    super.onLayoutChildren(recycler, state);
+                } catch (Exception e) {
+                    Logger.e(PullableRecyclerViewImpl.class.getSimpleName(), "onLayoutChildren()", e);
+                }
+            }
+        });
         recyclerView.addItemDecoration(new DividerItemDecoration(context, VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
