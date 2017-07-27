@@ -1,7 +1,5 @@
 package com.fpliu.newton.ui.list;
 
-import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,36 +8,13 @@ import android.view.ViewGroup;
  *
  * @author 792793182@qq.com 2015-06-11
  */
-public final class ViewHolder {
-
-    /**
-     * 条目对应的视图
-     */
-    private View convertView;
-
-    private SparseArray<View> widgetViews;
+public final class ViewHolder extends ViewHolderAbs<ViewHolder> {
 
     private ViewHolder(int layoutId, ViewGroup parent) {
-        convertView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        convertView.setTag(layoutId, this);
-
-        widgetViews = new SparseArray<>();
+        super(layoutId, parent);
     }
 
-    public static ViewHolder getViewHolder(int layoutId, View convertView, ViewGroup parent) {
-        return (convertView == null) ? new ViewHolder(layoutId, parent) : (ViewHolder) convertView.getTag(layoutId);
-    }
-
-    public <T extends View> T getWidgetView(int widgetId) {
-        View widgetView = widgetViews.get(widgetId);
-        if (widgetView == null) {
-            widgetView = convertView.findViewById(widgetId);
-            widgetViews.put(widgetId, widgetView);
-        }
-        return (T) widgetView;
-    }
-
-    public View getConvertView() {
-        return convertView;
+    public static ViewHolder getInstance(int layoutId, View convertView, ViewGroup parent) {
+        return getInstance(layoutId, convertView, parent, ViewHolder.class);
     }
 }
