@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.base.TextBtn;
 
@@ -28,8 +27,8 @@ public class MultiChoiceListActivity extends ListActivity<MultiChoiceListActivit
         getContentView()
                 .setRightViewStrategy(new TextBtn() {
                     @Override
-                    public Button getView(RelativeLayout headView) {
-                        Button okBtn = super.getView(headView);
+                    public Button onCreateView(RelativeLayout headView) {
+                        Button okBtn = super.onCreateView(headView);
                         okBtn.setText("确定");
                         return okBtn;
                     }
@@ -53,19 +52,13 @@ public class MultiChoiceListActivity extends ListActivity<MultiChoiceListActivit
 
     @Override
     public View getItemView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.single_choice_activity, convertView, parent);
-
-        TextView textView = viewHolder.getWidgetView(R.id.single_choice_activity_tv);
-
         Item item = getItem(position);
-        if (item.isSelected()) {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_box_enabled_checked_blue, 0, 0, 0);
-        } else {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_box_enabled_unchecked_blue, 0, 0, 0);
-        }
-        textView.setText(item.getDisplay());
-
-        return viewHolder.getConvertView();
+        return ViewHolder
+                .getInstance(R.layout.single_choice_activity, convertView, parent)
+                .id(R.id.single_choice_activity_tv)
+                .compoundDrawablesWithIntrinsicBounds(item.isSelected() ? R.drawable.btn_check_box_enabled_checked_blue : R.drawable.btn_check_box_enabled_unchecked_blue, 0, 0, 0)
+                .text(item.getDisplay())
+                .getItemView();
     }
 
     protected void onResult(List<Item> items) {

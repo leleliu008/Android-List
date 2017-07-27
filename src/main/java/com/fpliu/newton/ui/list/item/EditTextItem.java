@@ -70,27 +70,12 @@ public class EditTextItem extends Item<EditTextItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.edit_text_item, convertView, parent);
+        ViewHolder holder = ViewHolder.getInstance(R.layout.edit_text_item, convertView, parent);
 
-        EditText valueEt = viewHolder.getWidgetView(R.id.edit_text_item_value);
-        valueEt.setText(value);
+        holder.id(R.id.edit_text_item_key).text(key);
 
-        if (convertView == null) {
-            if (onCreateView != null) {
-                onCreateView.onCreate(valueEt);
-            }
-        }
-
-        TextView keyTv = viewHolder.getWidgetView(R.id.edit_text_item_key);
-        if (TextUtils.isEmpty(key)) {
-            keyTv.setVisibility(View.GONE);
-        } else {
-            keyTv.setText(key);
-            keyTv.setVisibility(View.VISIBLE);
-        }
-
-        ImageView summaryDivider = viewHolder.getWidgetView(R.id.edit_text_item_summary_divider);
-        TextView summaryTv = viewHolder.getWidgetView(R.id.edit_text_item_summary);
+        ImageView summaryDivider = holder.id(R.id.edit_text_item_summary_divider).getImageView();
+        TextView summaryTv = holder.id(R.id.edit_text_item_summary).getTextView();
         if (TextUtils.isEmpty(summary)) {
             summaryTv.setVisibility(View.GONE);
             summaryDivider.setVisibility(View.GONE);
@@ -100,22 +85,16 @@ public class EditTextItem extends Item<EditTextItem> {
             summaryDivider.setVisibility(View.VISIBLE);
         }
 
-        TextView unitTv = viewHolder.getWidgetView(R.id.edit_text_item_unit);
-        if (TextUtils.isEmpty(unit)) {
-            unitTv.setVisibility(View.GONE);
-        } else {
-            unitTv.setText(unit);
-            unitTv.setVisibility(View.VISIBLE);
+        EditText valueEt = holder.id(R.id.edit_text_item_value).text(value).getEditText();
+        if (convertView == null) {
+            if (onCreateView != null) {
+                onCreateView.onCreate(valueEt);
+            }
         }
 
-        ImageView topDivider = viewHolder.getWidgetView(R.id.edit_text_item_top_divider);
-        if (isGroupFirst()) {
-            topDivider.setVisibility(View.GONE);
-        } else {
-            topDivider.setVisibility(View.VISIBLE);
-        }
-
-        return viewHolder.getConvertView();
+        holder.id(R.id.edit_text_item_unit).text(unit);
+        holder.id(R.id.edit_text_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
+        return holder.getItemView();
     }
 
     public interface OnCreateView {

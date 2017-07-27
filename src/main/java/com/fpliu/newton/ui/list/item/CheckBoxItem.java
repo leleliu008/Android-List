@@ -3,8 +3,6 @@ package com.fpliu.newton.ui.list.item;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.list.R;
 import com.fpliu.newton.ui.list.ViewHolder;
@@ -52,27 +50,14 @@ public class CheckBoxItem extends Item<CheckBoxItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.check_box_item, convertView, parent);
-
-        TextView textTv = viewHolder.getWidgetView(R.id.check_box_item_text);
-        textTv.setText(text);
-
-        CheckBox checkBox = viewHolder.getWidgetView(R.id.check_box_item_checkbox);
-        checkBox.setChecked(isChecked);
-        if (convertView == null) {
-            if (onCreateView != null) {
-                onCreateView.onCreate(checkBox);
-            }
+        ViewHolder holder = ViewHolder.getInstance(R.layout.check_box_item, convertView, parent);
+        holder.id(R.id.check_box_item_text).text(text);
+        CheckBox checkBox = holder.id(R.id.check_box_item_checkbox).checked(isChecked).getCheckBox();
+        if (convertView == null && onCreateView != null) {
+            onCreateView.onCreate(checkBox);
         }
-
-        ImageView topDivider = viewHolder.getWidgetView(R.id.check_box_item_top_divider);
-        if (isGroupFirst()) {
-            topDivider.setVisibility(View.GONE);
-        } else {
-            topDivider.setVisibility(View.VISIBLE);
-        }
-
-        return viewHolder.getConvertView();
+        holder.id(R.id.check_box_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
+        return holder.getItemView();
     }
 
     public interface OnCreateView {

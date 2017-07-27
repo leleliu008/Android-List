@@ -15,7 +15,6 @@ public class ThinDividerItem extends Item<ThinDividerItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.thin_divider_item, convertView, parent);
-        return viewHolder.getConvertView();
+        return ViewHolder.getInstance(R.layout.thin_divider_item, convertView, parent).getItemView();
     }
 }

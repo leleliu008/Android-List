@@ -2,8 +2,6 @@ package com.fpliu.newton.ui.list.item;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.list.R;
 import com.fpliu.newton.ui.list.ViewHolder;
@@ -41,29 +39,16 @@ public class IconTitleSummaryItem<T> extends IconTitleItem<T> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.icon_title_summary_item, convertView, parent);
-
-        ImageView imageView = viewHolder.getWidgetView(R.id.icon_title_summary_item_icon);
-        TextView titleTv = viewHolder.getWidgetView(R.id.icon_title_summary_item_title);
-        TextView summaryTv = viewHolder.getWidgetView(R.id.icon_title_summary_item_summary);
-
+        ViewHolder holder = ViewHolder.getInstance(R.layout.icon_title_summary_item, convertView, parent);
         T icon = icon();
         if (icon instanceof Integer) {
-            imageView.setImageResource((Integer) icon);
+            holder.id(R.id.icon_title_summary_item_icon).image((Integer) icon);
         } else if (icon instanceof String) {
-            imageDisplay().display(imageView, (String) icon, R.drawable.user_icon_default);
+            imageDisplay().display(holder.id(R.id.icon_title_summary_item_icon).getImageView(), (String) icon, R.drawable.user_icon_default);
         }
-
-        titleTv.setText(title());
-        summaryTv.setText(summary());
-
-        ImageView topDivider = viewHolder.getWidgetView(R.id.icon_title_summary_item_top_divider);
-        if (isGroupFirst()) {
-            topDivider.setVisibility(View.GONE);
-        } else {
-            topDivider.setVisibility(View.VISIBLE);
-        }
-
-        return viewHolder.getConvertView();
+        holder.id(R.id.icon_title_summary_item_title).text(title());
+        holder.id(R.id.icon_title_summary_item_summary).text(summary());
+        holder.id(R.id.icon_title_summary_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
+        return holder.getItemView();
     }
 }

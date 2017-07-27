@@ -2,8 +2,6 @@ package com.fpliu.newton.ui.list.item;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.list.R;
 import com.fpliu.newton.ui.list.ViewHolder;
@@ -52,26 +50,18 @@ public class IconTitleItem<T> extends Item<IconTitleItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.icon_title_item, convertView, parent);
+        ViewHolder holder = ViewHolder.getInstance(R.layout.icon_title_item, convertView, parent);
 
-        ImageView imageView = viewHolder.getWidgetView(R.id.icon_title_item_icon);
-        TextView titleTv = viewHolder.getWidgetView(R.id.icon_title_item_title);
+        holder.id(R.id.icon_title_item_title).text(title);
 
         if (icon instanceof Integer) {
-            imageView.setImageResource((Integer) icon);
+            holder.id(R.id.icon_title_item_icon).image((Integer) icon);
         } else if (icon instanceof String) {
-            imageDisplay.display(imageView, (String) icon, R.drawable.user_icon_default);
+            imageDisplay.display(holder.id(R.id.icon_title_item_icon).getImageView(), (String) icon, R.drawable.user_icon_default);
         }
 
-        titleTv.setText(title);
+        holder.id(R.id.icon_title_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
 
-        ImageView topDivider = viewHolder.getWidgetView(R.id.icon_title_item_top_divider);
-        if (isGroupFirst()) {
-            topDivider.setVisibility(View.GONE);
-        } else {
-            topDivider.setVisibility(View.VISIBLE);
-        }
-
-        return viewHolder.getConvertView();
+        return holder.getItemView();
     }
 }

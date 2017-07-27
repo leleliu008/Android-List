@@ -3,8 +3,6 @@ package com.fpliu.newton.ui.list.item;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.list.R;
 import com.fpliu.newton.ui.list.ViewHolder;
@@ -52,25 +50,14 @@ public class AvatarItem extends Item<AvatarItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.kv_image_item, convertView, parent);
-
-        TextView keyTv = viewHolder.getWidgetView(R.id.kv_image_item_key);
-        keyTv.setText(key);
-
-        ImageView valueIv = viewHolder.getWidgetView(R.id.kv_image_item_value);
+        ViewHolder holder = ViewHolder.getInstance(R.layout.kv_image_item, convertView, parent);
+        holder.id(R.id.kv_image_item_key).text(key);
         if (convertView == null) {
-            valueIv.setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        imageDisplay.display(valueIv, avatarUri, R.drawable.user_icon_default);
-
-        ImageView topDivider = viewHolder.getWidgetView(R.id.kv_image_item_top_divider);
-        if (isGroupFirst()) {
-            topDivider.setVisibility(View.GONE);
+            holder.id(R.id.kv_image_item_value).backgroundColor(Color.TRANSPARENT);
         } else {
-            topDivider.setVisibility(View.VISIBLE);
+            imageDisplay.display(holder.id(R.id.kv_image_item_value).getImageView(), avatarUri, R.drawable.user_icon_default);
         }
-
-        return viewHolder.getConvertView();
+        holder.id(R.id.kv_image_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
+        return holder.getItemView();
     }
 }

@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.fpliu.newton.ui.base.TextBtn;
 
@@ -32,8 +31,8 @@ public abstract class SingleChoiceListActivity<T> extends ListActivity<T> {
 
         getContentView().setRightViewStrategy(new TextBtn() {
             @Override
-            public Button getView(RelativeLayout headView) {
-                Button commitBtn = super.getView(headView);
+            public Button onCreateView(RelativeLayout headView) {
+                Button commitBtn = super.onCreateView(headView);
                 commitBtn.setEnabled(true);
                 return commitBtn;
             }
@@ -51,17 +50,12 @@ public abstract class SingleChoiceListActivity<T> extends ListActivity<T> {
 
     @Override
     public View getItemView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.single_choice_activity, convertView, parent);
-
-        TextView textView = viewHolder.getWidgetView(R.id.single_choice_activity_tv);
-        if (position == selectedIndex) {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_radio_checked, 0, 0, 0);
-        } else {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_radio_unchecked, 0, 0, 0);
-        }
-        textView.setText(getItemDisplay(position));
-
-        return viewHolder.getConvertView();
+        return ViewHolder
+                .getInstance(R.layout.single_choice_activity, convertView, parent)
+                .id(R.id.single_choice_activity_tv)
+                .compoundDrawablesWithIntrinsicBounds(position == selectedIndex ? R.drawable.btn_radio_checked : R.drawable.btn_radio_unchecked, 0, 0, 0)
+                .text(getItemDisplay(position))
+                .getItemView();
     }
 
     public final void setSelectedIndex(int selectedIndex) {

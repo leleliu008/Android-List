@@ -8,13 +8,13 @@ import com.fpliu.newton.ui.list.ViewHolder;
 
 /**
  * 粗的分割线
+ *
  * @author 792793182@qq.com 2016-06-12.
  */
 public class FatDividerItem extends Item<FatDividerItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = ViewHolder.getViewHolder(R.layout.fat_divider_item, convertView, parent);
-        return viewHolder.getConvertView();
+        return ViewHolder.getInstance(R.layout.fat_divider_item, convertView, parent).getItemView();
     }
 }
