@@ -17,8 +17,7 @@
         android:id="@+id/kv_image_item_top_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="15dip"
-        android:background="@color/divider" />
+        android:layout_marginLeft="15dip" />
 
     <ImageView
         android:id="@+id/kv_image_item_value"
@@ -29,6 +28,5 @@
         android:layout_marginBottom="5dip"
         android:layout_marginRight="15dip"
         android:layout_marginTop="5dip"
-        android:background="@color/gray"
         android:scaleType="centerInside" />
 </RelativeLayout>
