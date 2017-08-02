@@ -1,6 +1,5 @@
 package com.fpliu.newton.ui.list.item;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -52,11 +51,7 @@ public class AvatarItem extends Item<AvatarItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getInstance(R.layout.kv_image_item, convertView, parent);
         holder.id(R.id.kv_image_item_key).text(key);
-        if (convertView == null) {
-            holder.id(R.id.kv_image_item_value).backgroundColor(Color.TRANSPARENT);
-        } else {
-            imageDisplay.display(holder.id(R.id.kv_image_item_value).getImageView(), avatarUri, R.drawable.user_icon_default);
-        }
+        imageDisplay.display(holder.id(R.id.kv_image_item_value).getImageView(), avatarUri, R.drawable.user_icon_default);
         holder.id(R.id.kv_image_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
         return holder.getItemView();
     }
