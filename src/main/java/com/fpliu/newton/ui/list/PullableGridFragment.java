@@ -76,8 +76,33 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
-        pullableGrid.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullableGrid.finishRequestSuccessWithMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullableGrid.finishRequestSuccessWithMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullableGrid.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullableGrid.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        pullableGrid.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
+        pullableGrid.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
     }
 
     @Override
@@ -136,6 +161,61 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
+    public void clear() {
+        pullableGrid.clear();
+    }
+
+    @Override
+    public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
+        return pullableGrid.removeThenShowMessageIfEmpty(item, message);
+    }
+
+    @Override
+    public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
+        return pullableGrid.removeThenShowImageIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
+        return pullableGrid.removeThenShowRefreshActionIfEmpty(item, message);
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
+        return pullableGrid.removeThenShowRefreshActionIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
+        return pullableGrid.removeThenShowActionIfEmpty(item, message, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowMessage(CharSequence message) {
+        pullableGrid.clearThenShowMessage(message);
+    }
+
+    @Override
+    public void clearThenShowImage(int imageResId) {
+        pullableGrid.clearThenShowImage(imageResId);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(CharSequence message) {
+        pullableGrid.clearThenShowRefreshAction(message);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(int imageResId) {
+        pullableGrid.clearThenShowRefreshAction(imageResId);
+    }
+
+    @Override
+    public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
+        pullableGrid.clearThenShowAction(message, actionText, action);
+    }
+
+    @Override
     public T getItem(int position) {
         return pullableGrid.getItem(position);
     }
@@ -143,11 +223,6 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     @Override
     public int getCount() {
         return pullableGrid.getCount();
-    }
-
-    @Override
-    public void clear() {
-        pullableGrid.clear();
     }
 
     @Override

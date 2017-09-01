@@ -72,8 +72,33 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     }
 
     @Override
-    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
-        pullableRecyclerView.finishRequestSuccess(type, items, itemsEmptyMessageWhenRefresh);
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullableRecyclerView.finishRequestSuccessWithMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullableRecyclerView.finishRequestSuccessWithMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullableRecyclerView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullableRecyclerView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        pullableRecyclerView.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
+        pullableRecyclerView.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
     }
 
     @Override

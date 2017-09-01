@@ -18,7 +18,6 @@ import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
-import com.fpliu.newton.ui.stateview.StateView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -125,31 +124,83 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
-    public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
-        boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess && itemAdapter.isEmpty()) {
-            StateView stateView = pullableViewContainer.getStateView();
-            if (stateView != null) {
-                stateView.setVisibility(View.VISIBLE);
-                stateView.showErrorWithAction(message, actionText, action);
-            }
-        }
-        return isSuccess;
-    }
-
-    @Override
     public void clear() {
         itemAdapter.clear();
     }
 
     @Override
+    public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorTextOnly(message);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorImageOnly(imageResId);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorTextWithRefreshAction(message);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorTextWithRefreshAction(imageResId);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorTextWithAction(message, actionText, action);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public void clearThenShowMessage(CharSequence message) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorTextOnly(message);
+    }
+
+    @Override
+    public void clearThenShowImage(int imageResId) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorImageOnly(imageResId);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(CharSequence message) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorTextWithRefreshAction(message);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(int imageResId) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorTextWithRefreshAction(imageResId);
+    }
+
+    @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
         itemAdapter.clear();
-        StateView stateView = pullableViewContainer.getStateView();
-        if (stateView != null) {
-            stateView.setVisibility(View.VISIBLE);
-            stateView.showErrorWithAction(message, actionText, action);
-        }
+        pullableViewContainer.showErrorTextWithAction(message, actionText, action);
     }
 
     @Override
@@ -228,14 +279,94 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
-    public void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh) {
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
             addAll(items);
             pullableViewContainer.finishRequestSuccess(type);
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
-                pullableViewContainer.finishRequestWithRefresh(type, true, "刷新成功", itemsEmptyMessageWhenRefresh);
+                pullableViewContainer.finishRequest(type, true, messageWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequest(type, true, imageResIdWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithRefresh(type, true, messageWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithRefresh(type, true, imageResIdWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithAction(type, true, messageWhenItemsEmpty, actionText, action);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithAction(type, true, imageResIdWhenItemsEmpty, actionText, action);
             } else {
                 setItems(items);
                 pullableViewContainer.finishRequestSuccess(type);

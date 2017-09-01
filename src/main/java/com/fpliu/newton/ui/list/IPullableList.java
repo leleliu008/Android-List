@@ -21,9 +21,39 @@ public interface IPullableList<T, V extends View> extends ICommon<T> {
 
     void finishRequestSuccess(PullType type, List<T> items);
 
-    void finishRequestSuccess(PullType type, List<T> items, String itemsEmptyMessageWhenRefresh);
+    void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty);
+
+    void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty);
+
+    void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty);
+
+    void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty);
+
+    void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action);
+
+    void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action);
 
     void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback);
+
+    boolean removeThenShowMessageIfEmpty(T item, CharSequence message);
+
+    boolean removeThenShowImageIfEmpty(T item, int imageResId);
+
+    boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message);
+
+    boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId);
+
+    boolean removeThenShowActionIfEmpty(T item, CharSequence message, final String actionText, final Runnable action);
+
+    void clearThenShowMessage(CharSequence message);
+
+    void clearThenShowImage(int imageResId);
+
+    void clearThenShowRefreshAction(CharSequence message);
+
+    void clearThenShowRefreshAction(int imageResId);
+
+    void clearThenShowAction(CharSequence message, final String actionText, final Runnable action);
 
     void refresh();
 }
