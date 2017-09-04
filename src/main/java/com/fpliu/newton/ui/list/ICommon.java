@@ -2,8 +2,6 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,10 +14,6 @@ import java.util.List;
 public interface ICommon<T> {
 
     View init(Context context);
-
-    void setItemAdapter(ItemAdapter<T> itemAdapter);
-
-    ItemAdapter<T> getItemAdapter();
 
     void setItems(List<T> items);
 
@@ -35,19 +29,9 @@ public interface ICommon<T> {
 
     void clear();
 
-    int getCount();
+    int getItemCount();
 
     T getItem(int position);
-
-    int getItemViewTypeCount();
-
-    int getItemViewType(int position);
-
-    View getItemView(int position, View convertView, ViewGroup parent);
-
-    void notifyDataSetChanged();
-
-    void setDividerHeight(int height);
 
     void setViewBeforeBody(int layoutId);
 
@@ -56,10 +40,4 @@ public interface ICommon<T> {
     void setViewAfterBody(int layoutId);
 
     void setViewAfterBody(View view);
-
-    void addHeaderView(View view, Object data, boolean isSelectable);
-
-    void addFooterView(View view, Object data, boolean isSelectable);
-
-    void setOnItemClickListener(AdapterView.OnItemClickListener listener);
 }

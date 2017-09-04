@@ -98,7 +98,7 @@ public class ListImpl<T> implements IList<T, ListView> {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return itemAdapter.getCount();
     }
 

@@ -3,24 +3,18 @@ package com.fpliu.newton.ui.list;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
 
 /**
- * List操作
- *
- * @author 792793182@qq.com 2017-06-29.
+ * @author 792793182@qq.com 2017-06-30.
  */
-public interface IList<T, V extends ListView> extends ICommon<T> {
+public interface IGrid<T, V extends GridView> extends ICommon<T> {
 
-    V getListView();
+    V getGridView();
 
     void setItemAdapter(ItemAdapter<T> itemAdapter);
 
     ItemAdapter<T> getItemAdapter();
-
-    void addHeaderView(View view, Object data, boolean isSelectable);
-
-    void addFooterView(View view, Object data, boolean isSelectable);
 
     void setOnItemClickListener(AdapterView.OnItemClickListener listener);
 
@@ -32,5 +26,5 @@ public interface IList<T, V extends ListView> extends ICommon<T> {
 
     void notifyDataSetChanged();
 
-    void setDividerHeight(int height);
+    void setNumColumns(int numColumns);
 }

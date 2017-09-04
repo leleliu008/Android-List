@@ -128,8 +128,8 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     }
 
     @Override
-    public int getCount() {
-        return list.getCount();
+    public int getItemCount() {
+        return list.getItemCount();
     }
 
     @Override

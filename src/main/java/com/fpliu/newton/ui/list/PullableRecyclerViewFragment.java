@@ -23,10 +23,12 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAbs> extends LazyFragment implements
-        IPullableRecyclerView<T, H>, OnItemClickListener<T, H>, RefreshOrLoadMoreCallback<RecyclerView> {
+public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAbs> extends LazyFragment
+        implements IPullable<T, RecyclerView>, IRecyclerView<T, H>,
+        OnItemClickListener<T, H>, RefreshOrLoadMoreCallback<RecyclerView> {
 
-    private IPullableRecyclerView<T, H> pullableRecyclerView;
+    private IPullable<T, RecyclerView> pullable;
+    private IRecyclerView<T, H> recyclerView;
 
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
@@ -34,8 +36,9 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
 
         Activity activity = getActivity();
 
-        pullableRecyclerView = new PullableRecyclerViewImpl<>();
-        addContentView(pullableRecyclerView.init(activity));
+        pullable = new PullableRecyclerViewImpl<>();
+        recyclerView = (IRecyclerView<T, H>) pullable;
+        addContentView(recyclerView.init(activity));
         setItemAdapter(new ItemAdapter<T, H>(null) {
             @Override
             public H onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,238 +61,293 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableRecyclerView.canPullDown(canPullDown);
+        pullable.canPullDown(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableRecyclerView.canPullUp(canPullUp);
+        pullable.canPullUp(canPullUp);
     }
 
     @Override
     public void finishRequestSuccess(PullType type, List<T> items) {
-        pullableRecyclerView.finishRequestSuccess(type, items);
+        pullable.finishRequestSuccess(type, items);
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullableRecyclerView.finishRequestSuccessWithMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    public void finishRequestSuccessWithErrorMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullableRecyclerView.finishRequestSuccessWithMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    public void finishRequestSuccessWithErrorImageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorImageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullableRecyclerView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullableRecyclerView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
-        pullableRecyclerView.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
-        pullableRecyclerView.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
     }
 
     @Override
-    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
-        pullableRecyclerView.setRefreshOrLoadMoreCallback(callback);
-    }
-
-    @Override
-    public View init(Context context) {
-        return pullableRecyclerView.init(context);
-    }
-
-    @Override
-    public PullableViewContainer<RecyclerView> getPullableViewContainer() {
-        return pullableRecyclerView.getPullableViewContainer();
-    }
-
-    @Override
-    public void setItemAdapter(ItemAdapter<T, H> itemAdapter) {
-        pullableRecyclerView.setItemAdapter(itemAdapter);
-    }
-
-    @Override
-    public ItemAdapter<T, H> getItemAdapter() {
-        return pullableRecyclerView.getItemAdapter();
-    }
-
-    @Override
-    public void setItems(List<T> items) {
-        pullableRecyclerView.setItems(items);
-    }
-
-    @Override
-    public List<T> getItems() {
-        return pullableRecyclerView.getItems();
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> collection) {
-        return pullableRecyclerView.addAll(collection);
-    }
-
-    @Override
-    public boolean add(T item) {
-        return pullableRecyclerView.add(item);
-    }
-
-    @Override
-    public T set(int location, T item) {
-        return pullableRecyclerView.set(location, item);
-    }
-
-    @Override
-    public boolean remove(T item) {
-        return pullableRecyclerView.remove(item);
-    }
-
-    @Override
-    public void clear() {
-        pullableRecyclerView.clear();
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
-        return pullableRecyclerView.removeThenShowMessageIfEmpty(item, message);
+        return pullable.removeThenShowMessageIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
-        return pullableRecyclerView.removeThenShowImageIfEmpty(item, imageResId);
+        return pullable.removeThenShowImageIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowImageAndTextIfEmpty(T item, int imageResId, CharSequence message) {
+        return pullable.removeThenShowImageAndTextIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
-        return pullableRecyclerView.removeThenShowRefreshActionIfEmpty(item, message);
+        return pullable.removeThenShowRefreshActionIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
-        return pullableRecyclerView.removeThenShowRefreshActionIfEmpty(item, imageResId);
+        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId, CharSequence message) {
+        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
-        return pullableRecyclerView.removeThenShowActionIfEmpty(item, message, actionText, action);
+        return pullable.removeThenShowActionIfEmpty(item, message, actionText, action);
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, String actionText, Runnable action) {
+        return pullable.removeThenShowActionIfEmpty(item, imageResId, actionText, action);
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, CharSequence message, String actionText, Runnable action) {
+        return pullable.removeThenShowActionIfEmpty(item, imageResId, message, actionText, action);
     }
 
     @Override
     public void clearThenShowMessage(CharSequence message) {
-        pullableRecyclerView.clearThenShowMessage(message);
+        pullable.clearThenShowMessage(message);
     }
 
     @Override
     public void clearThenShowImage(int imageResId) {
-        pullableRecyclerView.clearThenShowImage(imageResId);
+        pullable.clearThenShowImage(imageResId);
+    }
+
+    @Override
+    public void clearThenShowImageAndText(int imageResId, CharSequence message) {
+        pullable.clearThenShowImageAndText(imageResId, message);
     }
 
     @Override
     public void clearThenShowRefreshAction(CharSequence message) {
-        pullableRecyclerView.clearThenShowRefreshAction(message);
+        pullable.clearThenShowRefreshAction(message);
     }
 
     @Override
     public void clearThenShowRefreshAction(int imageResId) {
-        pullableRecyclerView.clearThenShowRefreshAction(imageResId);
+        pullable.clearThenShowRefreshAction(imageResId);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(int imageResId, CharSequence message) {
+        pullable.clearThenShowRefreshAction(imageResId, message);
     }
 
     @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
-        pullableRecyclerView.clearThenShowAction(message, actionText, action);
+        pullable.clearThenShowAction(message, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, String actionText, Runnable action) {
+        pullable.clearThenShowAction(imageResId, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, CharSequence message, String actionText, Runnable action) {
+        pullable.clearThenShowAction(imageResId, message, actionText, action);
+    }
+
+    @Override
+    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
+        pullable.setRefreshOrLoadMoreCallback(callback);
+    }
+
+    @Override
+    public PullableViewContainer<RecyclerView> getPullableViewContainer() {
+        return pullable.getPullableViewContainer();
+    }
+
+    @Override
+    public void refresh() {
+        pullable.refresh();
+    }
+
+    @Override
+    public View init(Context context) {
+        return recyclerView.init(context);
+    }
+
+    @Override
+    public void setItemAdapter(ItemAdapter<T, H> itemAdapter) {
+        recyclerView.setItemAdapter(itemAdapter);
+    }
+
+    @Override
+    public ItemAdapter<T, H> getItemAdapter() {
+        return recyclerView.getItemAdapter();
+    }
+
+    @Override
+    public void setItems(List<T> items) {
+        recyclerView.setItems(items);
+    }
+
+    @Override
+    public List<T> getItems() {
+        return recyclerView.getItems();
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
+        return recyclerView.addAll(collection);
+    }
+
+    @Override
+    public boolean add(T item) {
+        return recyclerView.add(item);
+    }
+
+    @Override
+    public T set(int location, T item) {
+        return recyclerView.set(location, item);
+    }
+
+    @Override
+    public boolean remove(T item) {
+        return recyclerView.remove(item);
+    }
+
+    @Override
+    public void clear() {
+        recyclerView.clear();
     }
 
     @Override
     public T getItem(int position) {
-        return pullableRecyclerView.getItem(position);
+        return recyclerView.getItem(position);
     }
 
     @Override
     public int getItemCount() {
-        return pullableRecyclerView.getItemCount();
+        return recyclerView.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return pullableRecyclerView.getItemViewType(position);
+        return recyclerView.getItemViewType(position);
     }
 
     @Override
     public void notifyDataSetChanged() {
-        pullableRecyclerView.notifyDataSetChanged();
+        recyclerView.notifyDataSetChanged();
     }
 
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        pullableRecyclerView.setViewBeforeBody(layoutId);
+        recyclerView.setViewBeforeBody(layoutId);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        pullableRecyclerView.setViewBeforeBody(view);
+        recyclerView.setViewBeforeBody(view);
     }
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        pullableRecyclerView.setViewAfterBody(layoutId);
+        recyclerView.setViewAfterBody(layoutId);
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        pullableRecyclerView.setViewAfterBody(view);
-    }
-
-    @Override
-    public void refresh() {
-        pullableRecyclerView.refresh();
+        recyclerView.setViewAfterBody(view);
     }
 
     @Override
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        pullableRecyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        pullableRecyclerView.addItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
     public void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        pullableRecyclerView.removeItemDecoration(itemDecoration);
+        recyclerView.removeItemDecoration(itemDecoration);
     }
 
     @Override
     public ArrayList<RecyclerView.ItemDecoration> getItemDecorations() {
-        return pullableRecyclerView.getItemDecorations();
+        return recyclerView.getItemDecorations();
     }
 
     @Override
     public void clearItemDecorations() {
-        pullableRecyclerView.clearItemDecorations();
+        recyclerView.clearItemDecorations();
     }
 
     @Override
     public void setItemAnimator(RecyclerView.ItemAnimator itemAnimator) {
-        pullableRecyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(itemAnimator);
     }
 
     @Override
     public void setOnItemClickListener(OnItemClickListener<T, H> onItemClickListener) {
-        pullableRecyclerView.setOnItemClickListener(onItemClickListener);
+        recyclerView.setOnItemClickListener(onItemClickListener);
     }
 
     @Override

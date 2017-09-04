@@ -21,10 +21,11 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableListFragment<T> extends LazyFragment implements
-        IPullableList<T, ListView>,
+        IPullable<T, ListView>, IList<T, ListView>,
         AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<ListView> {
 
-    private IPullableList<T, ListView> pullableList;
+    private IPullable<T, ListView> pullable;
+    private IList<T, ListView> list;
 
     private View headerView;
 
@@ -44,16 +45,17 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
         Activity activity = getActivity();
 
-        pullableList = new PullableListImpl<>();
-        addContentView(pullableList.init(activity));
+        pullable = new PullableListImpl<>();
+        list = (IList<T, ListView>) pullable;
+        addContentView(list.init(activity));
         setOnItemClickListener(this);
 
         if (headerView != null) {
-            pullableList.addHeaderView(headerView, headerData, headerIsSelectable);
+            list.addHeaderView(headerView, headerData, headerIsSelectable);
         }
 
         if (footerView != null) {
-            pullableList.addHeaderView(footerView, footerData, footerIsSelectable);
+            list.addHeaderView(footerView, footerData, footerIsSelectable);
         }
 
         setItemAdapter(new ItemAdapter<T>(null) {
@@ -82,207 +84,272 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableList.canPullDown(canPullDown);
+        pullable.canPullDown(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableList.canPullUp(canPullUp);
+        pullable.canPullUp(canPullUp);
     }
 
     @Override
     public void finishRequestSuccess(PullType type, List<T> items) {
-        pullableList.finishRequestSuccess(type, items);
+        pullable.finishRequestSuccess(type, items);
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullableList.finishRequestSuccessWithMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
+    public void finishRequestSuccessWithErrorMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullableList.finishRequestSuccessWithMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    public void finishRequestSuccessWithErrorImageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorImageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullableList.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullableList.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
-        pullableList.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
-        pullableList.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
     }
 
     @Override
-    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
-        pullableList.setRefreshOrLoadMoreCallback(callback);
-    }
-
-    @Override
-    public View init(Context context) {
-        return pullableList.init(context);
-    }
-
-    @Override
-    public PullableViewContainer<ListView> getPullableViewContainer() {
-        return pullableList.getPullableViewContainer();
-    }
-
-    @Override
-    public void setItemAdapter(ItemAdapter<T> itemAdapter) {
-        pullableList.setItemAdapter(itemAdapter);
-    }
-
-    @Override
-    public ItemAdapter<T> getItemAdapter() {
-        return pullableList.getItemAdapter();
-    }
-
-    @Override
-    public void setItems(List<T> items) {
-        pullableList.setItems(items);
-    }
-
-    @Override
-    public List<T> getItems() {
-        return pullableList.getItems();
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> collection) {
-        return pullableList.addAll(collection);
-    }
-
-    @Override
-    public boolean add(T item) {
-        return pullableList.add(item);
-    }
-
-    @Override
-    public T set(int location, T item) {
-        return pullableList.set(location, item);
-    }
-
-    @Override
-    public boolean remove(T item) {
-        return pullableList.remove(item);
-    }
-
-    @Override
-    public void clear() {
-        pullableList.clear();
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
-        return pullableList.removeThenShowMessageIfEmpty(item, message);
+        return pullable.removeThenShowMessageIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
-        return pullableList.removeThenShowImageIfEmpty(item, imageResId);
+        return pullable.removeThenShowImageIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowImageAndTextIfEmpty(T item, int imageResId, CharSequence message) {
+        return pullable.removeThenShowImageAndTextIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
-        return pullableList.removeThenShowRefreshActionIfEmpty(item, message);
+        return pullable.removeThenShowRefreshActionIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
-        return pullableList.removeThenShowRefreshActionIfEmpty(item, imageResId);
+        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId);
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId, CharSequence message) {
+        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
-        return pullableList.removeThenShowActionIfEmpty(item, message, actionText, action);
+        return pullable.removeThenShowActionIfEmpty(item, message, actionText, action);
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, String actionText, Runnable action) {
+        return pullable.removeThenShowActionIfEmpty(item, imageResId, actionText, action);
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, CharSequence message, String actionText, Runnable action) {
+        return pullable.removeThenShowActionIfEmpty(item, imageResId, message, actionText, action);
     }
 
     @Override
     public void clearThenShowMessage(CharSequence message) {
-        pullableList.clearThenShowMessage(message);
+        pullable.clearThenShowMessage(message);
     }
 
     @Override
     public void clearThenShowImage(int imageResId) {
-        pullableList.clearThenShowImage(imageResId);
+        pullable.clearThenShowImage(imageResId);
+    }
+
+    @Override
+    public void clearThenShowImageAndText(int imageResId, CharSequence message) {
+        pullable.clearThenShowImageAndText(imageResId, message);
     }
 
     @Override
     public void clearThenShowRefreshAction(CharSequence message) {
-        pullableList.clearThenShowRefreshAction(message);
+        pullable.clearThenShowRefreshAction(message);
     }
 
     @Override
     public void clearThenShowRefreshAction(int imageResId) {
-        pullableList.clearThenShowRefreshAction(imageResId);
+        pullable.clearThenShowRefreshAction(imageResId);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(int imageResId, CharSequence message) {
+        pullable.clearThenShowRefreshAction(imageResId, message);
     }
 
     @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
-        pullableList.clearThenShowAction(message, actionText, action);
+        pullable.clearThenShowAction(message, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, String actionText, Runnable action) {
+        pullable.clearThenShowAction(imageResId, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, CharSequence message, String actionText, Runnable action) {
+        pullable.clearThenShowAction(imageResId, message, actionText, action);
+    }
+
+    @Override
+    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
+        pullable.setRefreshOrLoadMoreCallback(callback);
+    }
+
+    @Override
+    public PullableViewContainer<ListView> getPullableViewContainer() {
+        return pullable.getPullableViewContainer();
+    }
+
+    @Override
+    public void refresh() {
+        pullable.refresh();
+    }
+
+    @Override
+    public View init(Context context) {
+        return list.init(context);
+    }
+
+    @Override
+    public ListView getListView() {
+        return list.getListView();
+    }
+
+    @Override
+    public void setItemAdapter(ItemAdapter<T> itemAdapter) {
+        list.setItemAdapter(itemAdapter);
+    }
+
+    @Override
+    public ItemAdapter<T> getItemAdapter() {
+        return list.getItemAdapter();
+    }
+
+    @Override
+    public void setItems(List<T> items) {
+        list.setItems(items);
+    }
+
+    @Override
+    public List<T> getItems() {
+        return list.getItems();
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
+        return list.addAll(collection);
+    }
+
+    @Override
+    public boolean add(T item) {
+        return list.add(item);
+    }
+
+    @Override
+    public T set(int location, T item) {
+        return list.set(location, item);
+    }
+
+    @Override
+    public boolean remove(T item) {
+        return list.remove(item);
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
     }
 
     @Override
     public T getItem(int position) {
-        return pullableList.getItem(position);
+        return list.getItem(position);
     }
 
     @Override
-    public int getCount() {
-        return pullableList.getCount();
+    public int getItemCount() {
+        return list.getItemCount();
     }
 
     @Override
     public int getItemViewTypeCount() {
-        return pullableList.getItemViewTypeCount();
+        return list.getItemViewTypeCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return pullableList.getItemViewType(position);
+        return list.getItemViewType(position);
     }
 
     @Override
     public void notifyDataSetChanged() {
-        pullableList.notifyDataSetChanged();
+        list.notifyDataSetChanged();
     }
 
     @Override
     public void setDividerHeight(int height) {
-        pullableList.setDividerHeight(height);
+        list.setDividerHeight(height);
     }
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        pullableList.setViewBeforeBody(layoutId);
+        list.setViewBeforeBody(layoutId);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        pullableList.setViewBeforeBody(view);
+        list.setViewBeforeBody(view);
     }
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        pullableList.setViewAfterBody(layoutId);
+        list.setViewAfterBody(layoutId);
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        pullableList.setViewAfterBody(view);
+        list.setViewAfterBody(view);
     }
 
     //必须在super.onCreate()之前调用
@@ -303,12 +370,7 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        pullableList.setOnItemClickListener(listener);
-    }
-
-    @Override
-    public void refresh() {
-        pullableList.refresh();
+        list.setOnItemClickListener(listener);
     }
 
 }

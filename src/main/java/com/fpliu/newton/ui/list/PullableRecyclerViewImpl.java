@@ -29,7 +29,7 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements IPullableRecyclerView<T, H> {
+public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements IPullable<T, RecyclerView>, IRecyclerView<T, H> {
 
     private LinearLayout headPanel;
 
@@ -132,7 +132,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
         boolean isSuccess = itemAdapter.remove(item);
         if (isSuccess) {
-            pullableViewContainer.showErrorTextOnly(message);
+            pullableViewContainer.showErrorText(message);
         }
         return isSuccess;
     }
@@ -141,7 +141,16 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
         boolean isSuccess = itemAdapter.remove(item);
         if (isSuccess) {
-            pullableViewContainer.showErrorImageOnly(imageResId);
+            pullableViewContainer.showErrorImage(imageResId);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowImageAndTextIfEmpty(T item, int imageResId, CharSequence message) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorImageAndText(imageResId, message);
         }
         return isSuccess;
     }
@@ -159,7 +168,16 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
         boolean isSuccess = itemAdapter.remove(item);
         if (isSuccess) {
-            pullableViewContainer.showErrorTextWithRefreshAction(imageResId);
+            pullableViewContainer.showErrorImageWithRefreshAction(imageResId);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId, CharSequence message) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorImageAndTextWithRefreshAction(imageResId, message);
         }
         return isSuccess;
     }
@@ -174,15 +192,39 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, String actionText, Runnable action) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorImageWithAction(imageResId, actionText, action);
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean removeThenShowActionIfEmpty(T item, int imageResId, CharSequence message, String actionText, Runnable action) {
+        boolean isSuccess = itemAdapter.remove(item);
+        if (isSuccess) {
+            pullableViewContainer.showErrorImageAndTextWithAction(imageResId, message, actionText, action);
+        }
+        return isSuccess;
+    }
+
+    @Override
     public void clearThenShowMessage(CharSequence message) {
         itemAdapter.clear();
-        pullableViewContainer.showErrorTextOnly(message);
+        pullableViewContainer.showErrorText(message);
     }
 
     @Override
     public void clearThenShowImage(int imageResId) {
         itemAdapter.clear();
-        pullableViewContainer.showErrorImageOnly(imageResId);
+        pullableViewContainer.showErrorImage(imageResId);
+    }
+
+    @Override
+    public void clearThenShowImageAndText(int imageResId, CharSequence message) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorImageAndText(imageResId, message);
     }
 
     @Override
@@ -194,13 +236,31 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     @Override
     public void clearThenShowRefreshAction(int imageResId) {
         itemAdapter.clear();
-        pullableViewContainer.showErrorTextWithRefreshAction(imageResId);
+        pullableViewContainer.showErrorImageWithRefreshAction(imageResId);
+    }
+
+    @Override
+    public void clearThenShowRefreshAction(int imageResId, CharSequence message) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorImageAndTextWithRefreshAction(imageResId, message);
     }
 
     @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
         itemAdapter.clear();
         pullableViewContainer.showErrorTextWithAction(message, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, String actionText, Runnable action) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorImageWithAction(imageResId, actionText, action);
+    }
+
+    @Override
+    public void clearThenShowAction(int imageResId, CharSequence message, String actionText, Runnable action) {
+        itemAdapter.clear();
+        pullableViewContainer.showErrorImageAndTextWithAction(imageResId, message, actionText, action);
     }
 
     @Override
@@ -279,7 +339,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
+    public void finishRequestSuccessWithErrorMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
             addAll(items);
             pullableViewContainer.finishRequestSuccess(type);
@@ -295,7 +355,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
-    public void finishRequestSuccessWithMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
+    public void finishRequestSuccessWithErrorImageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
         if (type == PullType.UP) {
             addAll(items);
             pullableViewContainer.finishRequestSuccess(type);
@@ -311,6 +371,22 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
+    public void finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequest(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
             addAll(items);
@@ -318,7 +394,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
-                pullableViewContainer.finishRequestWithRefresh(type, true, messageWhenItemsEmpty);
+                pullableViewContainer.finishRequestWithRefreshAction(type, true, messageWhenItemsEmpty);
             } else {
                 setItems(items);
                 pullableViewContainer.finishRequestSuccess(type);
@@ -334,7 +410,23 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
-                pullableViewContainer.finishRequestWithRefresh(type, true, imageResIdWhenItemsEmpty);
+                pullableViewContainer.finishRequestWithRefreshAction(type, true, imageResIdWhenItemsEmpty);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithRefreshAction(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
             } else {
                 setItems(items);
                 pullableViewContainer.finishRequestSuccess(type);
@@ -367,6 +459,22 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
             if (items == null || items.isEmpty()) {
                 clear();
                 pullableViewContainer.finishRequestWithAction(type, true, imageResIdWhenItemsEmpty, actionText, action);
+            } else {
+                setItems(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
+        }
+    }
+
+    @Override
+    public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty, String actionText, Runnable action) {
+        if (type == PullType.UP) {
+            addAll(items);
+            pullableViewContainer.finishRequestSuccess(type);
+        } else {
+            if (items == null || items.isEmpty()) {
+                clear();
+                pullableViewContainer.finishRequestWithAction(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
             } else {
                 setItems(items);
                 pullableViewContainer.finishRequestSuccess(type);

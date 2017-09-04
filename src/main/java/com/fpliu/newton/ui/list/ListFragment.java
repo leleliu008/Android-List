@@ -132,8 +132,8 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     }
 
     @Override
-    public int getCount() {
-        return list.getCount();
+    public int getItemCount() {
+        return list.getItemCount();
     }
 
     @Override
