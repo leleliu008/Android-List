@@ -328,8 +328,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithErrorMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequest(type, true, messageWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -344,8 +353,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithErrorImageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequest(type, true, imageResIdWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -360,8 +378,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequest(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -376,8 +403,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithRefreshAction(type, true, messageWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -392,8 +428,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithRefreshAction(type, true, imageResIdWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -408,8 +453,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithRefreshAction(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -424,8 +478,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithAction(type, true, messageWhenItemsEmpty, actionText, action);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -440,8 +503,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithAction(type, true, imageResIdWhenItemsEmpty, actionText, action);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
@@ -456,8 +528,17 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty, String actionText, Runnable action) {
         if (type == PullType.UP) {
-            addAll(items);
-            pullableViewContainer.finishRequestSuccess(type);
+            if (items == null || items.isEmpty()) {
+                items = getItems();
+                if (items == null || items.isEmpty()) {
+                    pullableViewContainer.finishRequestWithAction(type, true, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
+                } else {
+                    pullableViewContainer.finishRequestSuccess(type);
+                }
+            } else {
+                addAll(items);
+                pullableViewContainer.finishRequestSuccess(type);
+            }
         } else {
             if (items == null || items.isEmpty()) {
                 clear();
