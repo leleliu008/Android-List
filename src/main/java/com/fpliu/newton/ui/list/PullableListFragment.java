@@ -47,7 +47,7 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
         pullable = new PullableListImpl<>();
         list = (IList<T, ListView>) pullable;
-        addContentView(list.init(activity));
+        addViewInBody(list.init(activity));
         setOnItemClickListener(this);
 
         if (headerView != null) {

@@ -45,7 +45,7 @@ public abstract class PullableListActivity<T> extends BaseActivity
 
         pullable = new PullableListImpl<>();
         list = (IList<T, ListView>) pullable;
-        addContentView(list.init(this));
+        addViewInBody(list.init(this));
         setOnItemClickListener(this);
 
         if (headerView != null) {

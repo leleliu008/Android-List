@@ -40,7 +40,7 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
         BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
 
         list = new ListImpl<>();
-        addContentView(init(getActivity()));
+        addViewInBody(init(getActivity()));
         setOnItemClickListener(this);
 
         if (headerView != null) {

@@ -14,6 +14,8 @@ import java.util.ArrayList;
  */
 public interface IRecyclerView<T, H extends ItemViewHolderAbs> extends ICommon<T> {
 
+    RecyclerView getRecyclerView();
+
     void setOnItemClickListener(OnItemClickListener<T, H> onItemClickListener);
 
     void setItemAdapter(ItemAdapter<T, H> itemAdapter);
@@ -30,6 +32,8 @@ public interface IRecyclerView<T, H extends ItemViewHolderAbs> extends ICommon<T
 
     void setLayoutManager(RecyclerView.LayoutManager layoutManager);
 
+    void setItemDecoration(RecyclerView.ItemDecoration itemDecoration);
+
     void addItemDecoration(RecyclerView.ItemDecoration itemDecoration);
 
     void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration);
@@ -39,4 +43,8 @@ public interface IRecyclerView<T, H extends ItemViewHolderAbs> extends ICommon<T
     void clearItemDecorations();
 
     void setItemAnimator(RecyclerView.ItemAnimator itemAnimator);
+
+    void asList();
+
+    void asGrid(int columnNumber);
 }

@@ -35,7 +35,7 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
 
         pullable = new PullableGridImpl<>();
         grid = (IGrid<T, GridView>) pullable;
-        addContentView(grid.init(activity));
+        addViewInBody(grid.init(activity));
         setOnItemClickListener(this);
 
         setItemAdapter(new ItemAdapter<T>(null) {

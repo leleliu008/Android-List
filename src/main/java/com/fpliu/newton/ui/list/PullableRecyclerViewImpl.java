@@ -3,6 +3,7 @@ package com.fpliu.newton.ui.list;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
  */
 public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements IPullable<T, RecyclerView>, IRecyclerView<T, H> {
 
+    private static final String TAG = PullableRecyclerViewImpl.class.getSimpleName();
+
     private LinearLayout headPanel;
 
     private LinearLayout footerPanel;
@@ -52,19 +55,8 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
         pullableViewContainer = new PullableViewContainer<>(context, RecyclerView.class);
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
-        RecyclerView recyclerView = pullableViewContainer.getPullableView();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context) {
-            @Override
-            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-                try {
-                    super.onLayoutChildren(recycler, state);
-                } catch (Exception e) {
-                    Logger.e(PullableRecyclerViewImpl.class.getSimpleName(), "onLayoutChildren()", e);
-                }
-            }
-        });
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        setItemAnimator(new DefaultItemAnimator());
+        asList();
 
         footerPanel = new LinearLayout(context);
         footerPanel.setOrientation(LinearLayout.VERTICAL);
@@ -77,6 +69,11 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     @Override
     public PullableViewContainer<RecyclerView> getPullableViewContainer() {
         return pullableViewContainer;
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return pullableViewContainer.getPullableView();
     }
 
     @Override
@@ -584,6 +581,12 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     }
 
     @Override
+    public void setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        clearItemDecorations();
+        addItemDecoration(itemDecoration);
+    }
+
+    @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
         pullableViewContainer.getPullableView().addItemDecoration(itemDecoration);
     }
@@ -601,7 +604,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
             mItemDecorationsField.setAccessible(true);
             return (ArrayList<RecyclerView.ItemDecoration>) mItemDecorationsField.get(recyclerView);
         } catch (Exception e) {
-            Logger.e(getClass().getSimpleName(), "getItemDecorations()", e);
+            Logger.e(TAG, "getItemDecorations()", e);
             return new ArrayList<>();
         }
     }
@@ -614,5 +617,37 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     @Override
     public void setItemAnimator(RecyclerView.ItemAnimator itemAnimator) {
         pullableViewContainer.getPullableView().setItemAnimator(itemAnimator);
+    }
+
+    @Override
+    public void asList() {
+        Context context = getRecyclerView().getContext();
+        setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+                try {
+                    super.onLayoutChildren(recycler, state);
+                } catch (Exception e) {
+                    Logger.e(TAG, "onLayoutChildren()", e);
+                }
+            }
+        });
+        setItemDecoration(new DividerItemDecoration(context, VERTICAL));
+    }
+
+    @Override
+    public void asGrid(int columnNumber) {
+        Context context = getRecyclerView().getContext();
+        setLayoutManager(new GridLayoutManager(context, columnNumber) {
+            @Override
+            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+                try {
+                    super.onLayoutChildren(recycler, state);
+                } catch (Exception e) {
+                    Logger.e(TAG, "onLayoutChildren()", e);
+                }
+            }
+        });
+        setItemDecoration(new GridDividerItemDecoration(context));
     }
 }

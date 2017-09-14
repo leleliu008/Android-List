@@ -38,7 +38,7 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
         super.onCreate(savedInstanceState);
 
         list = new ListImpl<>();
-        addContentView(init(this));
+        addViewInBody(init(this));
         setOnItemClickListener(this);
 
         if (headerView != null) {

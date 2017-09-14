@@ -31,7 +31,7 @@ public abstract class PullableGridActivity<T> extends BaseActivity
 
         pullable = new PullableGridImpl<>();
         grid = (IGrid<T, GridView>) pullable;
-        addContentView(grid.init(this));
+        addViewInBody(grid.init(this));
         setOnItemClickListener(this);
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override

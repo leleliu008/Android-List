@@ -1,22 +1,21 @@
 package com.fpliu.newton.ui.list;
 
-import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpliu.newton.ui.list.item.Item;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 792793182@qq.com 2016-06-11.
  */
 public class XItemAdapter extends ItemAdapter<Item> {
 
-    private int typeCount = 1;
-
-    private SparseIntArray typeMap = new SparseIntArray();
+    private ArrayList<String> uniqueItems;
 
     /**
      * 构造方法
@@ -42,39 +41,32 @@ public class XItemAdapter extends ItemAdapter<Item> {
 
     @Override
     public int getViewTypeCount() {
-        return typeCount;
+        return uniqueItems == null ? 1 : uniqueItems.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return typeMap.get(position);
+        return uniqueItems == null ? 0 : uniqueItems.indexOf(get(position).getClass().toString());
     }
 
     private void count(List<Item> items) {
-        if (items == null) {
+        if (items == null || items.isEmpty()) {
             return;
         }
 
         int size = items.size();
-        ArrayList<String> types = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            Item xPreferenceItem = items.get(i);
-            String tag = xPreferenceItem.getClass().toString();
-            boolean notHave = true;
-            for (String type : types) {
-                if (tag.equals(type)) {
-                    continue;
-                }
-            }
 
-            typeMap.put(i, types.size());
-
-            //如果没有
-            if (notHave) {
-                types.add(tag);
-            }
+        if (size == 1) {
+            uniqueItems = new ArrayList<>(1);
+            uniqueItems.add(items.get(0).getClass().toString());
+            return;
         }
 
-        typeCount = types.size();
+        Set<String> types = new HashSet<>(size);
+        for (int i = 0; i < size; i++) {
+            types.add(items.get(i).getClass().toString());
+        }
+        uniqueItems = new ArrayList<>(types.size());
+        uniqueItems.addAll(types);
     }
 }

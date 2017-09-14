@@ -36,7 +36,7 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
 
         pullable = new PullableRecyclerViewImpl<>();
         recyclerView = (IRecyclerView<T, H>) pullable;
-        addContentView(recyclerView.init(this));
+        addViewInBody(recyclerView.init(this));
         setItemAdapter(new ItemAdapter<T, H>(null) {
 
             @Override
@@ -218,6 +218,11 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     }
 
     @Override
+    public RecyclerView getRecyclerView() {
+        return recyclerView.getRecyclerView();
+    }
+
+    @Override
     public void refresh() {
         pullable.refresh();
     }
@@ -318,6 +323,11 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     }
 
     @Override
+    public void setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        recyclerView.setItemDecoration(itemDecoration);
+    }
+
+    @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
         recyclerView.addItemDecoration(itemDecoration);
     }
@@ -340,6 +350,16 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     @Override
     public void setItemAnimator(RecyclerView.ItemAnimator itemAnimator) {
         recyclerView.setItemAnimator(itemAnimator);
+    }
+
+    @Override
+    public void asList() {
+        recyclerView.asList();
+    }
+
+    @Override
+    public void asGrid(int columnNumber) {
+        recyclerView.asGrid(columnNumber);
     }
 
     @Override
