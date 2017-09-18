@@ -48,23 +48,6 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
         if (footerView != null) {
             list.addHeaderView(footerView, footerData, footerIsSelectable);
         }
-
-        setItemAdapter(new ItemAdapter<T>(null) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return ListActivity.this.getItemView(position, convertView, parent);
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return ListActivity.this.getItemViewTypeCount();
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                return ListActivity.this.getItemViewType(position);
-            }
-        });
     }
 
     @Override
@@ -89,7 +72,22 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
 
     @Override
     public void setItems(List<T> items) {
-        list.setItems(items);
+        setItemAdapter(new ItemAdapter<T>(items) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return ListActivity.this.getItemView(position, convertView, parent);
+            }
+
+            @Override
+            public int getViewTypeCount() {
+                return ListActivity.this.getItemViewTypeCount();
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return ListActivity.this.getItemViewType(position);
+            }
+        });
     }
 
     @Override

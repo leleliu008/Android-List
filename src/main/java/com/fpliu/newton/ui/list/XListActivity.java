@@ -1,6 +1,5 @@
 package com.fpliu.newton.ui.list;
 
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,12 +11,6 @@ import java.util.List;
  * @author 792793182@qq.com 2017-06-30.
  */
 public abstract class XListActivity extends ListActivity<Item> {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setItemAdapter(new XItemAdapter(null));
-    }
 
     public Item getItemById(int id) {
         List<Item> items = getItems();
@@ -31,6 +24,11 @@ public abstract class XListActivity extends ListActivity<Item> {
             }
             return null;
         }
+    }
+
+    @Override
+    public void setItems(List<Item> items) {
+        setItemAdapter(new XItemAdapter(items));
     }
 
     @Override

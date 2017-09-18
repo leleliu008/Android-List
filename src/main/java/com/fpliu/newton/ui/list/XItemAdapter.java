@@ -3,6 +3,7 @@ package com.fpliu.newton.ui.list;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fpliu.newton.log.Logger;
 import com.fpliu.newton.ui.list.item.Item;
 
 import java.util.ArrayList;
@@ -34,23 +35,29 @@ public class XItemAdapter extends ItemAdapter<Item> {
 
     @Override
     public void setItems(List<Item> items) {
-        super.setItems(items);
-
         count(items);
+        super.setItems(items);
     }
 
     @Override
     public int getViewTypeCount() {
-        return uniqueItems == null ? 1 : uniqueItems.size();
+        int xx = uniqueItems == null ? 1 : uniqueItems.size();
+        Logger.d("XX", "getViewTypeCount() uniqueItems = " + uniqueItems);
+        Logger.d("XX", "getViewTypeCount() = " + xx);
+        return xx;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return uniqueItems == null ? 0 : uniqueItems.indexOf(get(position).getClass().toString());
+        int xx = uniqueItems == null ? 0 : uniqueItems.indexOf(get(position).getClass().getName());
+        Logger.d("XX", "getItemViewType(" + position + ") uniqueItems = " + uniqueItems);
+        Logger.d("XX", "getItemViewType(" + position + ") = " + xx);
+        return xx;
     }
 
     private void count(List<Item> items) {
         if (items == null || items.isEmpty()) {
+            uniqueItems = null;
             return;
         }
 
@@ -58,15 +65,16 @@ public class XItemAdapter extends ItemAdapter<Item> {
 
         if (size == 1) {
             uniqueItems = new ArrayList<>(1);
-            uniqueItems.add(items.get(0).getClass().toString());
+            uniqueItems.add(items.get(0).getClass().getName());
             return;
         }
 
         Set<String> types = new HashSet<>(size);
         for (int i = 0; i < size; i++) {
-            types.add(items.get(i).getClass().toString());
+            types.add(items.get(i).getClass().getName());
         }
         uniqueItems = new ArrayList<>(types.size());
         uniqueItems.addAll(types);
+        Logger.d("XX", "count() uniqueItems = " + uniqueItems);
     }
 }
