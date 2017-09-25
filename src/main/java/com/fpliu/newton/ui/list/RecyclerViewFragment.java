@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
+import com.fpliu.newton.ui.pullable.PullType;
+import com.fpliu.newton.ui.pullable.PullableViewContainer;
+import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
@@ -31,6 +34,7 @@ public abstract class RecyclerViewFragment<T, H extends ItemViewHolderAbs> exten
         recyclerView = pullableRecyclerView;
         pullableRecyclerView.canPullDown(false);
         pullableRecyclerView.canPullUp(false);
+        pullableRecyclerView.getPullableViewContainer().getStateView().setVisibility(View.GONE);
         setItemAdapter(new ItemAdapter<T, H>(null) {
 
             @Override

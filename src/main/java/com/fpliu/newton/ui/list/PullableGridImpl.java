@@ -118,7 +118,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorText(message);
         }
         return isSuccess;
@@ -127,7 +127,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImage(imageResId);
         }
         return isSuccess;
@@ -136,7 +136,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowImageAndTextIfEmpty(T item, int imageResId, CharSequence message) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImageAndText(imageResId, message);
         }
         return isSuccess;
@@ -145,7 +145,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorTextWithRefreshAction(message);
         }
         return isSuccess;
@@ -154,7 +154,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImageWithRefreshAction(imageResId);
         }
         return isSuccess;
@@ -163,7 +163,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId, CharSequence message) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImageAndTextWithRefreshAction(imageResId, message);
         }
         return isSuccess;
@@ -172,7 +172,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorTextWithAction(message, actionText, action);
         }
         return isSuccess;
@@ -181,7 +181,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowActionIfEmpty(T item, int imageResId, String actionText, Runnable action) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImageWithAction(imageResId, actionText, action);
         }
         return isSuccess;
@@ -190,7 +190,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     @Override
     public boolean removeThenShowActionIfEmpty(T item, int imageResId, CharSequence message, String actionText, Runnable action) {
         boolean isSuccess = itemAdapter.remove(item);
-        if (isSuccess) {
+        if (isSuccess && itemAdapter.isEmpty()) {
             pullableViewContainer.showErrorImageAndTextWithAction(imageResId, message, actionText, action);
         }
         return isSuccess;

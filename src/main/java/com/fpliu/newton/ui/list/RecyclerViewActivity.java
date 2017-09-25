@@ -30,6 +30,7 @@ public abstract class RecyclerViewActivity<T, H extends ItemViewHolderAbs> exten
         recyclerView = pullableRecyclerView;
         pullableRecyclerView.canPullDown(false);
         pullableRecyclerView.canPullUp(false);
+        pullableRecyclerView.getPullableViewContainer().getStateView().setVisibility(View.GONE);
         setItemAdapter(new ItemAdapter<T, H>(null) {
 
             @Override
