@@ -268,6 +268,16 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     }
 
     @Override
+    public T removeAt(int position) {
+        return recyclerView.removeAt(position);
+    }
+
+    @Override
+    public T removeLastItem() {
+        return recyclerView.removeLastItem();
+    }
+
+    @Override
     public boolean remove(T item) {
         return recyclerView.remove(item);
     }
@@ -280,6 +290,11 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     @Override
     public T getItem(int position) {
         return recyclerView.getItem(position);
+    }
+
+    @Override
+    public T getLastItem() {
+        return recyclerView.getLastItem();
     }
 
     @Override

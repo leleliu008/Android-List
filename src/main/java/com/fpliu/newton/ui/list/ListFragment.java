@@ -117,6 +117,16 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     }
 
     @Override
+    public T removeAt(int position) {
+        return list.removeAt(position);
+    }
+
+    @Override
+    public T removeLastItem() {
+        return list.removeLastItem();
+    }
+
+    @Override
     public boolean remove(T item) {
         return list.remove(item);
     }
@@ -129,6 +139,11 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     @Override
     public T getItem(int position) {
         return list.getItem(position);
+    }
+
+    @Override
+    public T getLastItem() {
+        return list.getLastItem();
     }
 
     @Override

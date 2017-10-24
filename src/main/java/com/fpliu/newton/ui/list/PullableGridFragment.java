@@ -273,6 +273,16 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
+    public T removeAt(int position) {
+        return grid.removeAt(position);
+    }
+
+    @Override
+    public T removeLastItem() {
+        return grid.removeLastItem();
+    }
+
+    @Override
     public boolean remove(T item) {
         return grid.remove(item);
     }
@@ -285,6 +295,11 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     @Override
     public T getItem(int position) {
         return grid.getItem(position);
+    }
+
+    @Override
+    public T getLastItem() {
+        return grid.getLastItem();
     }
 
     @Override

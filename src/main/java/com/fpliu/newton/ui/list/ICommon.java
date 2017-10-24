@@ -25,6 +25,10 @@ public interface ICommon<T> {
 
     T set(int location, T item);
 
+    T removeAt(int position);
+
+    T removeLastItem();
+
     boolean remove(T item);
 
     void clear();
@@ -32,6 +36,8 @@ public interface ICommon<T> {
     int getItemCount();
 
     T getItem(int position);
+
+    T getLastItem();
 
     void setViewBeforeBody(int layoutId);
 

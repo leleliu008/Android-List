@@ -109,6 +109,16 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
     }
 
     @Override
+    public T removeAt(int position) {
+        return itemAdapter.remove(position);
+    }
+
+    @Override
+    public T removeLastItem() {
+        return itemAdapter.remove(itemAdapter.size() - 1);
+    }
+
+    @Override
     public boolean remove(T item) {
         return itemAdapter.remove(item);
     }
@@ -256,6 +266,11 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
     @Override
     public T getItem(int position) {
         return itemAdapter.getItem(position);
+    }
+
+    @Override
+    public T getLastItem() {
+        return itemAdapter.getItem(itemAdapter.size() - 1);
     }
 
     @Override
