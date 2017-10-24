@@ -13,11 +13,19 @@ import com.fpliu.newton.ui.list.ViewHolder;
  */
 public class KVImageItem extends Item<KVImageItem> {
 
+    private static final int SHAPE_ORIGIN = 1;
+
+    private static final int SHAPE_CIRCLE = 2;
+
+    private static final int SHAPE_ROUND_RECT = 3;
+
     private String key;
 
     private String avatarUri;
 
-    private ImageDisplay imageDisplay;
+    private int shape = SHAPE_ORIGIN;
+
+    private int radius = 6;
 
 
     public KVImageItem key(String key) {
@@ -38,20 +46,33 @@ public class KVImageItem extends Item<KVImageItem> {
         return avatarUri;
     }
 
-    public KVImageItem imageDisplay(ImageDisplay imageDisplay) {
-        this.imageDisplay = imageDisplay;
+    public KVImageItem showAsCircle() {
+        this.shape = SHAPE_CIRCLE;
         return this;
     }
 
-    public ImageDisplay imageDisplay() {
-        return imageDisplay;
+    public KVImageItem showAsRoundRect(int radius) {
+        this.shape = SHAPE_ROUND_RECT;
+        this.radius = radius;
+        return this;
+    }
+
+    public KVImageItem showAsRoundRect() {
+        this.shape = SHAPE_ROUND_RECT;
+        return this;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getInstance(R.layout.kv_image_item, convertView, parent);
         holder.id(R.id.kv_image_item_key).text(key);
-        imageDisplay.display(holder.id(R.id.kv_image_item_value).getImageView(), avatarUri, R.drawable.user_icon_default);
+        if (shape == SHAPE_ORIGIN) {
+            holder.id(R.id.kv_image_item_value).image(avatarUri, R.drawable.user_icon_default);
+        } else if (shape == SHAPE_CIRCLE) {
+            holder.id(R.id.kv_image_item_value).imageCircle(avatarUri, R.drawable.user_icon_default);
+        } else if (shape == SHAPE_ROUND_RECT) {
+            holder.id(R.id.kv_image_item_value).imageRound(avatarUri, R.drawable.user_icon_default, radius);
+        }
         holder.id(R.id.kv_image_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
         return holder.getItemView();
     }

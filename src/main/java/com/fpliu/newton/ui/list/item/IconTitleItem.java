@@ -13,11 +13,19 @@ import com.fpliu.newton.ui.list.ViewHolder;
  */
 public class IconTitleItem<T> extends Item<IconTitleItem> {
 
+    protected static final int SHAPE_ORIGIN = 1;
+
+    protected static final int SHAPE_CIRCLE = 2;
+
+    protected static final int SHAPE_ROUND_RECT = 3;
+
     private T icon;
 
     private String title;
 
-    private ImageDisplay imageDisplay;
+    private int shape = SHAPE_ORIGIN;
+
+    private int radius = 6;
 
 
     public IconTitleItem<T> icon(T icon) {
@@ -38,30 +46,52 @@ public class IconTitleItem<T> extends Item<IconTitleItem> {
         return title;
     }
 
-    public IconTitleItem<T> imageDisplay(ImageDisplay imageDisplay) {
-        this.imageDisplay = imageDisplay;
+    public IconTitleItem<T> showAsCircle() {
+        this.shape = SHAPE_CIRCLE;
         return this;
     }
 
-    public ImageDisplay imageDisplay() {
-        return imageDisplay;
+    public IconTitleItem<T> showAsRoundRect(int radius) {
+        this.shape = SHAPE_ROUND_RECT;
+        this.radius = radius;
+        return this;
     }
 
+    public IconTitleItem<T> showAsRoundRect() {
+        this.shape = SHAPE_ROUND_RECT;
+        return this;
+    }
+
+    public int shape() {
+        return shape;
+    }
+
+    public int radius() {
+        return radius;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getInstance(R.layout.icon_title_item, convertView, parent);
-
         holder.id(R.id.icon_title_item_title).text(title);
-
         if (icon instanceof Integer) {
-            holder.id(R.id.icon_title_item_icon).image((Integer) icon);
+            if (shape == SHAPE_ORIGIN) {
+                holder.id(R.id.icon_title_item_icon).image((Integer) icon);
+            } else if (shape == SHAPE_CIRCLE) {
+                holder.id(R.id.icon_title_item_icon).imageCircle((Integer) icon);
+            } else if (shape == SHAPE_ROUND_RECT) {
+                holder.id(R.id.icon_title_item_icon).imageRound((Integer) icon, radius);
+            }
         } else if (icon instanceof String) {
-            imageDisplay.display(holder.id(R.id.icon_title_item_icon).getImageView(), (String) icon, R.drawable.user_icon_default);
+            if (shape == SHAPE_ORIGIN) {
+                holder.id(R.id.icon_title_item_icon).image((String) icon, R.drawable.user_icon_default);
+            } else if (shape == SHAPE_CIRCLE) {
+                holder.id(R.id.icon_title_item_icon).imageCircle((String) icon, R.drawable.user_icon_default);
+            } else if (shape == SHAPE_ROUND_RECT) {
+                holder.id(R.id.icon_title_item_icon).imageRound((String) icon, R.drawable.user_icon_default, radius);
+            }
         }
-
         holder.id(R.id.icon_title_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
-
         return holder.getItemView();
     }
 }

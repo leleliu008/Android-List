@@ -19,8 +19,18 @@ public class IconTitleSummaryItem<T> extends IconTitleItem<T> {
     }
 
     @Override
-    public IconTitleSummaryItem<T> imageDisplay(ImageDisplay imageDisplay) {
-        return (IconTitleSummaryItem<T>) super.imageDisplay(imageDisplay);
+    public IconTitleSummaryItem<T> showAsCircle() {
+        return (IconTitleSummaryItem<T>) super.showAsCircle();
+    }
+
+    @Override
+    public IconTitleSummaryItem<T> showAsRoundRect(int radius) {
+        return (IconTitleSummaryItem<T>) super.showAsRoundRect(radius);
+    }
+
+    @Override
+    public IconTitleSummaryItem<T> showAsRoundRect() {
+        return (IconTitleSummaryItem<T>) super.showAsRoundRect();
     }
 
     @Override
@@ -41,10 +51,23 @@ public class IconTitleSummaryItem<T> extends IconTitleItem<T> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = ViewHolder.getInstance(R.layout.icon_title_summary_item, convertView, parent);
         T icon = icon();
+        int shape = shape();
         if (icon instanceof Integer) {
-            holder.id(R.id.icon_title_summary_item_icon).image((Integer) icon);
+            if (shape == SHAPE_ORIGIN) {
+                holder.id(R.id.icon_title_summary_item_icon).image((Integer) icon);
+            } else if (shape == SHAPE_CIRCLE) {
+                holder.id(R.id.icon_title_summary_item_icon).imageCircle((Integer) icon);
+            } else if (shape == SHAPE_ROUND_RECT) {
+                holder.id(R.id.icon_title_summary_item_icon).imageRound((Integer) icon, radius());
+            }
         } else if (icon instanceof String) {
-            imageDisplay().display(holder.id(R.id.icon_title_summary_item_icon).getImageView(), (String) icon, R.drawable.user_icon_default);
+            if (shape == SHAPE_ORIGIN) {
+                holder.id(R.id.icon_title_summary_item_icon).image((String) icon, R.drawable.user_icon_default);
+            } else if (shape == SHAPE_CIRCLE) {
+                holder.id(R.id.icon_title_summary_item_icon).imageCircle((String) icon, R.drawable.user_icon_default);
+            } else if (shape == SHAPE_ROUND_RECT) {
+                holder.id(R.id.icon_title_summary_item_icon).imageRound((String) icon, R.drawable.user_icon_default, radius());
+            }
         }
         holder.id(R.id.icon_title_summary_item_title).text(title());
         holder.id(R.id.icon_title_summary_item_summary).text(summary());

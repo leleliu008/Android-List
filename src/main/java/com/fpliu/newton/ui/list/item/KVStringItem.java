@@ -49,10 +49,10 @@ public class KVStringItem extends Item<KVStringItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getInstance(R.layout.kv_string_item, convertView, parent);
-        holder.id(R.id.kv_string_item_key).text(key);
-        holder.id(R.id.kv_string_item_value).text(value).compoundDrawablesWithIntrinsicBounds(0, 0, needShowWidget ? R.drawable.ic_widget : 0, 0);
-        holder.id(R.id.kv_string_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
-        return holder.getItemView();
+        return ViewHolder.getInstance(R.layout.kv_string_item, convertView, parent)
+                .id(R.id.kv_string_item_key).text(key)
+                .id(R.id.kv_string_item_value).text(value).compoundDrawablesWithIntrinsicBounds(0, 0, needShowWidget ? R.drawable.ic_widget : 0, 0)
+                .id(R.id.kv_string_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE)
+                .getItemView();
     }
 }

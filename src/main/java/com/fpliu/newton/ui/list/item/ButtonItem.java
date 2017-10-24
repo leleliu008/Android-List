@@ -26,9 +26,9 @@ public class ButtonItem extends Item<ButtonItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getInstance(R.layout.button_item, convertView, parent);
-        holder.id(R.id.button_item_btn).text(btnText);
-        holder.id(R.id.button_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
-        return holder.getItemView();
+        return ViewHolder.getInstance(R.layout.button_item, convertView, parent)
+                .id(R.id.button_item_btn).text(btnText)
+                .id(R.id.button_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE)
+                .getItemView();
     }
 }

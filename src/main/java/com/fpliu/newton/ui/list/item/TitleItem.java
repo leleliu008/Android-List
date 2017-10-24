@@ -27,9 +27,9 @@ public class TitleItem extends Item<TitleItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getInstance(R.layout.title_item, convertView, parent);
-        holder.id(R.id.title_item_title).text(title);
-        holder.id(R.id.title_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE);
-        return holder.getItemView();
+        return ViewHolder.getInstance(R.layout.title_item, convertView, parent)
+                .id(R.id.title_item_title).text(title)
+                .id(R.id.title_item_top_divider).visibility(isGroupFirst() ? View.GONE : View.VISIBLE)
+                .getItemView();
     }
 }
