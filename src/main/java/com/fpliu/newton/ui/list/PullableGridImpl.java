@@ -112,7 +112,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
     @Override
     public T removeLastItem() {
-        return itemAdapter.remove(itemAdapter.size() - 1);
+        return itemAdapter.removeLastItem();
     }
 
     @Override
@@ -267,7 +267,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
     @Override
     public T getLastItem() {
-        return itemAdapter.getItem(itemAdapter.size() - 1);
+        return itemAdapter.getLastItem();
     }
 
     @Override

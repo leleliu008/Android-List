@@ -122,7 +122,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public T removeLastItem() {
-        return itemAdapter.remove(itemAdapter.size() - 1);
+        return itemAdapter.removeLastItem();
     }
 
     @Override
@@ -277,7 +277,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public T getLastItem() {
-        return itemAdapter.getItem(itemAdapter.size() - 1);
+        return itemAdapter.getLastItem();
     }
 
     @Override

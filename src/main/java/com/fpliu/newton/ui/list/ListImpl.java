@@ -94,7 +94,7 @@ public class ListImpl<T> implements IList<T, ListView> {
 
     @Override
     public T removeLastItem() {
-        return itemAdapter.remove(itemAdapter.size() - 1);
+        return itemAdapter.removeLastItem();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ListImpl<T> implements IList<T, ListView> {
 
     @Override
     public T getLastItem() {
-        return itemAdapter.getItem(itemAdapter.size() - 1);
+        return itemAdapter.getLastItem();
     }
 
     @Override

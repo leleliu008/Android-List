@@ -115,7 +115,7 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
     @Override
     public T removeLastItem() {
-        return itemAdapter.remove(itemAdapter.size() - 1);
+        return itemAdapter.removeLastItem();
     }
 
     @Override
@@ -270,7 +270,7 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
     @Override
     public T getLastItem() {
-        return itemAdapter.getItem(itemAdapter.size() - 1);
+        return itemAdapter.getLastItem();
     }
 
     @Override

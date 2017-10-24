@@ -60,6 +60,10 @@ public abstract class ItemAdapter<T> extends BaseAdapter implements List<T> {
         return mItems == null ? null : mItems.get(position);
     }
 
+    public T getLastItem() {
+        return mItems == null || mItems.isEmpty() ? null : mItems.get(size() - 1);
+    }
+
     @Override
     public long getItemId(int position) {
         return mItems == null ? -1 : position;
@@ -179,6 +183,16 @@ public abstract class ItemAdapter<T> extends BaseAdapter implements List<T> {
         }
 
         T t = mItems.remove(location);
+        notifyDataSetChanged();
+        return t;
+    }
+
+    public T removeLastItem() {
+        if (mItems == null || mItems.isEmpty()) {
+            return null;
+        }
+
+        T t = mItems.remove(size() - 1);
         notifyDataSetChanged();
         return t;
     }
