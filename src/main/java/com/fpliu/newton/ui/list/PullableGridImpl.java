@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
@@ -32,7 +33,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
     private ItemAdapter<T> itemAdapter;
 
     @Override
-    public View init(Context context) {
+    public View init(Context context, boolean isBodyCanScroll) {
         LinearLayout contentView = new LinearLayout(context);
         contentView.setOrientation(LinearLayout.VERTICAL);
 
@@ -53,7 +54,14 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
         contentView.addView(footerPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        return contentView;
+        if (isBodyCanScroll) {
+            ScrollView scrollView = new ScrollView(context);
+            scrollView.setFillViewport(true);
+            scrollView.addView(contentView, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+            return scrollView;
+        } else {
+            return contentView;
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ public abstract class PullableGridActivity<T> extends BaseActivity
 
     private IPullable<T, GridView> pullable;
     private IGrid<T, GridView> grid;
+    private boolean isBodyCanScroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public abstract class PullableGridActivity<T> extends BaseActivity
 
         pullable = new PullableGridImpl<>();
         grid = (IGrid<T, GridView>) pullable;
-        addViewInBody(grid.init(this));
+        addViewInBody(grid.init(this, isBodyCanScroll));
         setOnItemClickListener(this);
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override
@@ -224,8 +225,8 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     }
 
     @Override
-    public View init(Context context) {
-        return grid.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return grid.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -346,5 +347,9 @@ public abstract class PullableGridActivity<T> extends BaseActivity
     @Override
     public void setNumColumns(int numColumns) {
         grid.setNumColumns(numColumns);
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }

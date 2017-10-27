@@ -33,12 +33,14 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
 
     private boolean footerIsSelectable;
 
+    private boolean isBodyCanScroll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         list = new ListImpl<>();
-        addViewInBody(init(this));
+        addViewInBody(init(this, isBodyCanScroll));
         setOnItemClickListener(this);
 
         if (headerView != null) {
@@ -51,8 +53,8 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     }
 
     @Override
-    public View init(Context context) {
-        return list.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return list.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -209,5 +211,9 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }

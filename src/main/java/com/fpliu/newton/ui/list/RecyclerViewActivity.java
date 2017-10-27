@@ -20,12 +20,14 @@ public abstract class RecyclerViewActivity<T, H extends ItemViewHolderAbs> exten
 
     private IRecyclerView<T, H> recyclerView;
 
+    private boolean isBodyCanScroll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         PullableRecyclerViewImpl pullableRecyclerView = new PullableRecyclerViewImpl<>();
-        View contentView = pullableRecyclerView.init(this);
+        View contentView = pullableRecyclerView.init(this, isBodyCanScroll);
         addViewInBody(contentView);
         recyclerView = pullableRecyclerView;
         pullableRecyclerView.canPullDown(false);
@@ -51,8 +53,8 @@ public abstract class RecyclerViewActivity<T, H extends ItemViewHolderAbs> exten
     }
 
     @Override
-    public View init(Context context) {
-        return recyclerView.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return recyclerView.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -213,5 +215,9 @@ public abstract class RecyclerViewActivity<T, H extends ItemViewHolderAbs> exten
     @Override
     public void onItemClick(H holder, int position, T item) {
 
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }

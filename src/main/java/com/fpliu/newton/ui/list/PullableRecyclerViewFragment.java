@@ -29,6 +29,7 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
 
     private IPullable<T, RecyclerView> pullable;
     private IRecyclerView<T, H> recyclerView;
+    private boolean isBodyCanScroll;
 
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
 
         pullable = new PullableRecyclerViewImpl<>();
         recyclerView = (IRecyclerView<T, H>) pullable;
-        addViewInBody(recyclerView.init(activity));
+        addViewInBody(recyclerView.init(activity, isBodyCanScroll));
         setItemAdapter(new ItemAdapter<T, H>(null) {
             @Override
             public H onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -230,8 +231,8 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     }
 
     @Override
-    public View init(Context context) {
-        return recyclerView.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return recyclerView.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -388,5 +389,9 @@ public abstract class PullableRecyclerViewFragment<T, H extends ItemViewHolderAb
     @Override
     public void onItemClick(H holder, int position, T item) {
 
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }

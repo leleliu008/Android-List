@@ -39,13 +39,15 @@ public abstract class PullableListActivity<T> extends BaseActivity
 
     private boolean footerIsSelectable;
 
+    private boolean isBodyCanScroll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         pullable = new PullableListImpl<>();
         list = (IList<T, ListView>) pullable;
-        addViewInBody(list.init(this));
+        addViewInBody(list.init(this, isBodyCanScroll));
         setOnItemClickListener(this);
 
         if (headerView != null) {
@@ -247,8 +249,8 @@ public abstract class PullableListActivity<T> extends BaseActivity
     }
 
     @Override
-    public View init(Context context) {
-        return list.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return list.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -385,5 +387,9 @@ public abstract class PullableListActivity<T> extends BaseActivity
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         list.setOnItemClickListener(listener);
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }

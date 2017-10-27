@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ICommon<T> {
 
-    View init(Context context);
+    View init(Context context, boolean isBodyCanScroll);
 
     void setItems(List<T> items);
 

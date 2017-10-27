@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.fpliu.newton.log.Logger;
 import com.fpliu.newton.ui.pullable.PullType;
@@ -43,7 +44,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
     private ItemAdapter<T, H> itemAdapter;
 
     @Override
-    public View init(Context context) {
+    public View init(Context context, boolean isBodyCanScroll) {
         LinearLayout contentView = new LinearLayout(context);
         contentView.setOrientation(LinearLayout.VERTICAL);
 
@@ -63,7 +64,14 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
         contentView.addView(footerPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        return contentView;
+        if (isBodyCanScroll) {
+            ScrollView scrollView = new ScrollView(context);
+            scrollView.setFillViewport(true);
+            scrollView.addView(contentView, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+            return scrollView;
+        } else {
+            return contentView;
+        }
     }
 
     @Override

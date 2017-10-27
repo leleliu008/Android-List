@@ -26,6 +26,7 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
 
     private IPullable<T, GridView> pullable;
     private IGrid<T, GridView> grid;
+    private boolean isBodyCanScroll;
 
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
 
         pullable = new PullableGridImpl<>();
         grid = (IGrid<T, GridView>) pullable;
-        addViewInBody(grid.init(activity));
+        addViewInBody(grid.init(activity, isBodyCanScroll));
         setOnItemClickListener(this);
 
         setItemAdapter(new ItemAdapter<T>(null) {
@@ -228,8 +229,8 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public View init(Context context) {
-        return grid.init(context);
+    public View init(Context context, boolean isBodyCanScroll) {
+        return grid.init(context, isBodyCanScroll);
     }
 
     @Override
@@ -350,5 +351,9 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     @Override
     public void setNumColumns(int numColumns) {
         grid.setNumColumns(numColumns);
+    }
+
+    public void setBodyCanScroll(boolean bodyCanScroll) {
+        isBodyCanScroll = bodyCanScroll;
     }
 }
