@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.fpliu.newton.ui.recyclerview.ItemAdapter;
-import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
+import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 
 import java.util.ArrayList;

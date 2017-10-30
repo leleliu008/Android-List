@@ -18,7 +18,8 @@ import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.ItemAdapter;
-import com.fpliu.newton.ui.recyclerview.ItemViewHolderAbs;
+import com.fpliu.newton.ui.recyclerview.decoration.GridDividerItemDecoration;
+import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 
 import java.lang.reflect.Field;
