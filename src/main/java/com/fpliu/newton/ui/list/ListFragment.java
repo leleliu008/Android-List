@@ -35,14 +35,12 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
 
     private boolean footerIsSelectable;
 
-    private boolean isBodyCanScroll;
-
     @Override
     public BaseView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
 
         list = new ListImpl<>();
-        addViewInBody(init(getActivity(), isBodyCanScroll));
+        addViewInBody(init(getActivity()));
         setOnItemClickListener(this);
 
         if (headerView != null) {
@@ -74,8 +72,8 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     }
 
     @Override
-    public View init(Context context, boolean isBodyCanScroll) {
-        return list.init(context, isBodyCanScroll);
+    public View init(Context context) {
+        return list.init(context);
     }
 
     @Override
@@ -217,9 +215,5 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
-
-    public void setBodyCanScroll(boolean bodyCanScroll) {
-        isBodyCanScroll = bodyCanScroll;
     }
 }

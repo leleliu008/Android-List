@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +27,7 @@ public class ListImpl<T> implements IList<T, ListView> {
     private ItemAdapter<T> itemAdapter;
 
     @Override
-    public View init(Context context, boolean isBodyCanScroll) {
+    public View init(Context context) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.list_activity, null, false);
 
         headPanel = (LinearLayout) contentView.findViewById(R.id.list_activity_head_panel);
@@ -41,14 +40,7 @@ public class ListImpl<T> implements IList<T, ListView> {
         imageView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 1));
         listView.addFooterView(imageView, null, false);
 
-        if (isBodyCanScroll) {
-            ScrollView scrollView = new ScrollView(context);
-            scrollView.setFillViewport(true);
-            scrollView.addView(contentView, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
-            return scrollView;
-        } else {
-            return contentView;
-        }
+        return contentView;
     }
 
     @Override

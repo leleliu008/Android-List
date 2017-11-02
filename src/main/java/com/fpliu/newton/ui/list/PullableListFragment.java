@@ -39,8 +39,6 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
     private boolean footerIsSelectable;
 
-    private boolean isBodyCanScroll;
-
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
         super.onCreateViewLazy(baseView, savedInstanceState);
@@ -49,7 +47,7 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
 
         pullable = new PullableListImpl<>();
         list = (IList<T, ListView>) pullable;
-        addViewInBody(list.init(activity, isBodyCanScroll));
+        addViewInBody(list.init(activity));
         setOnItemClickListener(this);
 
         if (headerView != null) {
@@ -250,8 +248,8 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public View init(Context context, boolean isBodyCanScroll) {
-        return list.init(context, isBodyCanScroll);
+    public View init(Context context) {
+        return list.init(context);
     }
 
     @Override
@@ -388,9 +386,5 @@ public abstract class PullableListFragment<T> extends LazyFragment implements
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         list.setOnItemClickListener(listener);
-    }
-
-    public void setBodyCanScroll(boolean bodyCanScroll) {
-        isBodyCanScroll = bodyCanScroll;
     }
 }

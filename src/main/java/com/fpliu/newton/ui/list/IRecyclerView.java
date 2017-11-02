@@ -3,7 +3,7 @@ package com.fpliu.newton.ui.list;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.fpliu.newton.ui.recyclerview.ItemAdapter;
+import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 

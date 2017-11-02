@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
-import com.fpliu.newton.ui.recyclerview.ItemAdapter;
-import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
+import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
+import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,14 +21,12 @@ public abstract class RecyclerViewFragment<T, H extends ItemViewHolderAbs> exten
 
     private IRecyclerView<T, H> recyclerView;
 
-    private boolean isBodyCanScroll;
-
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
         super.onCreateViewLazy(baseView, savedInstanceState);
 
         PullableRecyclerViewImpl pullableRecyclerView = new PullableRecyclerViewImpl<>();
-        View contentView = pullableRecyclerView.init(getActivity(), isBodyCanScroll);
+        View contentView = pullableRecyclerView.init(getActivity());
         addViewInBody(contentView);
         recyclerView = pullableRecyclerView;
         pullableRecyclerView.canPullDown(false);
@@ -54,8 +52,8 @@ public abstract class RecyclerViewFragment<T, H extends ItemViewHolderAbs> exten
     }
 
     @Override
-    public View init(Context context, boolean isBodyCanScroll) {
-        return recyclerView.init(context, isBodyCanScroll);
+    public View init(Context context) {
+        return recyclerView.init(context);
     }
 
     @Override
@@ -216,9 +214,5 @@ public abstract class RecyclerViewFragment<T, H extends ItemViewHolderAbs> exten
     @Override
     public void onItemClick(H holder, int position, T item) {
 
-    }
-
-    public void setBodyCanScroll(boolean bodyCanScroll) {
-        isBodyCanScroll = bodyCanScroll;
     }
 }
