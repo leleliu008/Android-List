@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.fpliu.newton.log.Logger;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
+import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.decoration.GridDividerItemDecoration;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 
@@ -31,11 +32,11 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements IPullable<T, RecyclerView>, IRecyclerView<T, H> {
+public class PullableScrollViewRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements IPullable<T, ScrollView>, IRecyclerView<T, H> {
 
-    private static final String TAG = PullableRecyclerViewImpl.class.getSimpleName();
+    private static final String TAG = PullableScrollViewRecyclerViewImpl.class.getSimpleName();
 
-    private PullableViewContainer<RecyclerView> pullableViewContainer;
+    private PullableViewContainer<ScrollView> pullableViewContainer;
 
     private RecyclerView recyclerView;
 
@@ -47,17 +48,20 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public View init(Context context) {
+        pullableViewContainer = new PullableViewContainer<>(context, ScrollView.class);
+        ScrollView scrollView = pullableViewContainer.getPullableView();
+        scrollView.setFillViewport(true);
+
         LinearLayout contentView = new LinearLayout(context);
         contentView.setOrientation(LinearLayout.VERTICAL);
+        scrollView.addView(contentView, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
 
         headPanel = new LinearLayout(context);
         headPanel.setOrientation(LinearLayout.VERTICAL);
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(context, RecyclerView.class);
-        recyclerView = pullableViewContainer.getPullableView();
-        contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        contentView.addView(recyclerView = new RecyclerView(context), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         setItemAnimator(new DefaultItemAnimator());
         asList();
@@ -67,11 +71,11 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
         contentView.addView(footerPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        return contentView;
+        return pullableViewContainer;
     }
 
     @Override
-    public PullableViewContainer<RecyclerView> getPullableViewContainer() {
+    public PullableViewContainer<ScrollView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
