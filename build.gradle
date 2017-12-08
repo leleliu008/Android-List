@@ -1,10 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
@@ -13,15 +13,15 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -54,18 +54,14 @@ android {
     }
 }
 
-retrolambda {//指定将源码编译的级别，使用下列代码，会将代码编译到兼容1.6的字节码格式
-    javaVersion JavaVersion.VERSION_1_6
-}
-
 dependencies {
-    compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-8'
-    compile 'com.fpliu:Android-Pullable:1.0.0'
-    compile 'com.fpliu:Android-BaseUI:1.0.0'
-    compile 'com.fpliu:Android-RecyclerViewHelper:1.0.0'
-    compile 'com.fpliu:Android-CustomDrawable:1.0.0'
-    compile 'com.fpliu:Android-Logger:1.0.0'
+    api fileTree(dir: 'src/main/libs', include: ['*.jar'])
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-8'
+    api 'com.fpliu:Android-Pullable:1.0.0'
+    api 'com.fpliu:Android-BaseUI:1.0.0'
+    api 'com.fpliu:Android-RecyclerViewHelper:1.0.0'
+    api 'com.fpliu:Android-CustomDrawable:1.0.0'
+    api 'com.fpliu:Android-Logger:1.0.0'
 }
 
 

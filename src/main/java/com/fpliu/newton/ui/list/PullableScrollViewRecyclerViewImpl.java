@@ -6,7 +6,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -320,22 +319,32 @@ public class PullableScrollViewRecyclerViewImpl<T, H extends ItemViewHolderAbs> 
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        LayoutInflater.from(headPanel.getContext()).inflate(layoutId, headPanel, true);
+        setViewBeforeBody(View.inflate(headPanel.getContext(), layoutId, null));
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        headPanel.addView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp == null) {
+            headPanel.addView(view, generateLayoutParams());
+        } else {
+            headPanel.addView(view, new LinearLayout.LayoutParams(lp.width, lp.height));
+        }
     }
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        LayoutInflater.from(footerPanel.getContext()).inflate(layoutId, footerPanel, true);
+        setViewAfterBody(View.inflate(footerPanel.getContext(), layoutId, null));
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        footerPanel.addView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp == null) {
+            footerPanel.addView(view, generateLayoutParams());
+        } else {
+            footerPanel.addView(view, new LinearLayout.LayoutParams(lp.width, lp.height));
+        }
     }
 
     @Override
@@ -671,5 +680,9 @@ public class PullableScrollViewRecyclerViewImpl<T, H extends ItemViewHolderAbs> 
             }
         });
         setItemDecoration(new GridDividerItemDecoration(context));
+    }
+
+    private LinearLayout.LayoutParams generateLayoutParams() {
+        return new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 }

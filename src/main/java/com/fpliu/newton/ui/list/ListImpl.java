@@ -1,7 +1,6 @@
 package com.fpliu.newton.ui.list;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -28,12 +27,12 @@ public class ListImpl<T> implements IList<T, ListView> {
 
     @Override
     public View init(Context context) {
-        View contentView = LayoutInflater.from(context).inflate(R.layout.list_activity, null, false);
+        View contentView = View.inflate(context, R.layout.list_activity, null);
 
-        headPanel = (LinearLayout) contentView.findViewById(R.id.list_activity_head_panel);
-        footerPanel = (LinearLayout) contentView.findViewById(R.id.list_activity_footer_panel);
+        headPanel = contentView.findViewById(R.id.list_activity_head_panel);
+        footerPanel = contentView.findViewById(R.id.list_activity_footer_panel);
 
-        listView = (ListView) contentView.findViewById(R.id.list_activity_list_view);
+        listView = contentView.findViewById(R.id.list_activity_list_view);
 
         ImageView imageView = new ImageView(context);
         imageView.setBackgroundColor(context.getResources().getColor(R.color.divider));
@@ -149,22 +148,32 @@ public class ListImpl<T> implements IList<T, ListView> {
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        LayoutInflater.from(headPanel.getContext()).inflate(layoutId, headPanel, true);
+        setViewBeforeBody(View.inflate(headPanel.getContext(), layoutId, null));
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        headPanel.addView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp == null) {
+            headPanel.addView(view, generateLayoutParams());
+        } else {
+            headPanel.addView(view, new LinearLayout.LayoutParams(lp.width, lp.height));
+        }
     }
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        LayoutInflater.from(footerPanel.getContext()).inflate(layoutId, footerPanel, true);
+        setViewAfterBody(View.inflate(footerPanel.getContext(), layoutId, null));
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        footerPanel.addView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp == null) {
+            footerPanel.addView(view, generateLayoutParams());
+        } else {
+            footerPanel.addView(view, new LinearLayout.LayoutParams(lp.width, lp.height));
+        }
     }
 
     @Override
@@ -180,5 +189,9 @@ public class ListImpl<T> implements IList<T, ListView> {
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         listView.setOnItemClickListener(listener);
+    }
+
+    private LinearLayout.LayoutParams generateLayoutParams() {
+        return new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 }
