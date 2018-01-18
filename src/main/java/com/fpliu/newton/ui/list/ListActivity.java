@@ -166,8 +166,8 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     }
 
     @Override
-    public void setViewBeforeBody(int layoutId) {
-        list.setViewBeforeBody(layoutId);
+    public View setViewBeforeBody(int layoutId) {
+        return list.setViewBeforeBody(layoutId);
     }
 
     @Override
@@ -176,8 +176,8 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
     }
 
     @Override
-    public void setViewAfterBody(int layoutId) {
-        list.setViewAfterBody(layoutId);
+    public View setViewAfterBody(int layoutId) {
+        return list.setViewAfterBody(layoutId);
     }
 
     @Override

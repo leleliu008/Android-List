@@ -314,8 +314,8 @@ public abstract class PullableScrollViewRecyclerViewActivity<T, H extends ItemVi
     }
 
     @Override
-    public void setViewBeforeBody(int layoutId) {
-        recyclerView.setViewBeforeBody(layoutId);
+    public View setViewBeforeBody(int layoutId) {
+        return recyclerView.setViewBeforeBody(layoutId);
     }
 
     @Override
@@ -324,8 +324,8 @@ public abstract class PullableScrollViewRecyclerViewActivity<T, H extends ItemVi
     }
 
     @Override
-    public void setViewAfterBody(int layoutId) {
-        recyclerView.setViewAfterBody(layoutId);
+    public View setViewAfterBody(int layoutId) {
+        return recyclerView.setViewAfterBody(layoutId);
     }
 
     @Override

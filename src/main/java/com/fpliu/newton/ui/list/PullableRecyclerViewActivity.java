@@ -10,8 +10,8 @@ import com.fpliu.newton.ui.base.BaseActivity;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
-import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
+import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
 
 import java.util.ArrayList;
@@ -313,8 +313,8 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     }
 
     @Override
-    public void setViewBeforeBody(int layoutId) {
-        recyclerView.setViewBeforeBody(layoutId);
+    public View setViewBeforeBody(int layoutId) {
+        return recyclerView.setViewBeforeBody(layoutId);
     }
 
     @Override
@@ -323,8 +323,8 @@ public abstract class PullableRecyclerViewActivity<T, H extends ItemViewHolderAb
     }
 
     @Override
-    public void setViewAfterBody(int layoutId) {
-        recyclerView.setViewAfterBody(layoutId);
+    public View setViewAfterBody(int layoutId) {
+        return recyclerView.setViewAfterBody(layoutId);
     }
 
     @Override

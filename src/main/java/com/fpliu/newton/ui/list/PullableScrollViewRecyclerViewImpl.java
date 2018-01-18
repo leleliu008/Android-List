@@ -318,8 +318,8 @@ public class PullableScrollViewRecyclerViewImpl<T, H extends ItemViewHolderAbs> 
     }
 
     @Override
-    public void setViewBeforeBody(int layoutId) {
-        View.inflate(headPanel.getContext(), layoutId, headPanel);
+    public View setViewBeforeBody(int layoutId) {
+        return View.inflate(headPanel.getContext(), layoutId, headPanel);
     }
 
     @Override
@@ -333,8 +333,8 @@ public class PullableScrollViewRecyclerViewImpl<T, H extends ItemViewHolderAbs> 
     }
 
     @Override
-    public void setViewAfterBody(int layoutId) {
-        View.inflate(footerPanel.getContext(), layoutId, footerPanel);
+    public View setViewAfterBody(int layoutId) {
+        return View.inflate(footerPanel.getContext(), layoutId, footerPanel);
     }
 
     @Override

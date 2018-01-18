@@ -39,11 +39,11 @@ public interface ICommon<T> {
 
     T getLastItem();
 
-    void setViewBeforeBody(int layoutId);
+    View setViewBeforeBody(int layoutId);
 
     void setViewBeforeBody(View view);
 
-    void setViewAfterBody(int layoutId);
+    View setViewAfterBody(int layoutId);
 
     void setViewAfterBody(View view);
 }

@@ -323,8 +323,8 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void setViewBeforeBody(int layoutId) {
-        grid.setViewBeforeBody(layoutId);
+    public View setViewBeforeBody(int layoutId) {
+        return grid.setViewBeforeBody(layoutId);
     }
 
     @Override
@@ -333,8 +333,8 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
     }
 
     @Override
-    public void setViewAfterBody(int layoutId) {
-        grid.setViewAfterBody(layoutId);
+    public View setViewAfterBody(int layoutId) {
+        return grid.setViewAfterBody(layoutId);
     }
 
     @Override
