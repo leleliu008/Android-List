@@ -315,7 +315,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        setViewBeforeBody(View.inflate(headPanel.getContext(), layoutId, null));
+        View.inflate(headPanel.getContext(), layoutId, headPanel);
     }
 
     @Override
@@ -330,7 +330,7 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        setViewAfterBody(View.inflate(footerPanel.getContext(), layoutId, null));
+        View.inflate(footerPanel.getContext(), layoutId, footerPanel);
     }
 
     @Override

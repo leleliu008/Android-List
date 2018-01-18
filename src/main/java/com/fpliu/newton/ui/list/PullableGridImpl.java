@@ -296,7 +296,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
     @Override
     public void setViewBeforeBody(int layoutId) {
-        setViewBeforeBody(View.inflate(headPanel.getContext(), layoutId, null));
+        View.inflate(headPanel.getContext(), layoutId, headPanel);
     }
 
     @Override
@@ -311,7 +311,7 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
     @Override
     public void setViewAfterBody(int layoutId) {
-        setViewAfterBody(View.inflate(footerPanel.getContext(), layoutId, null));
+        View.inflate(footerPanel.getContext(), layoutId, footerPanel);
     }
 
     @Override
