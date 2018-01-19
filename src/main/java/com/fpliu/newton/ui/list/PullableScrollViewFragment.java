@@ -1,6 +1,7 @@
 package com.fpliu.newton.ui.list;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.base.BaseView;
@@ -40,5 +41,17 @@ public abstract class PullableScrollViewFragment extends LazyFragment implements
 
     public PullableViewContainer<ScrollView> getPullableViewContainer() {
         return pullable.getPullableViewContainer();
+    }
+
+    public void addViewInScrollView(View view, ScrollView.LayoutParams lp) {
+        pullable.addViewInScrollView(view, lp);
+    }
+
+    public void addViewInScrollView(View view) {
+        pullable.addViewInScrollView(view);
+    }
+
+    public <V extends View> V addViewInScrollView(int layoutId) {
+        return pullable.addViewInScrollView(layoutId);
     }
 }

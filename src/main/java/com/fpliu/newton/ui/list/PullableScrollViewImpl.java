@@ -2,7 +2,7 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
@@ -19,11 +19,6 @@ public class PullableScrollViewImpl {
         pullableViewContainer = new PullableViewContainer<>(context, ScrollView.class);
         ScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.setFillViewport(true);
-
-        LinearLayout contentView = new LinearLayout(context);
-        contentView.setOrientation(LinearLayout.VERTICAL);
-        scrollView.addView(contentView, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
-
         return pullableViewContainer;
     }
 
@@ -41,5 +36,31 @@ public class PullableScrollViewImpl {
 
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
         pullableViewContainer.setRefreshOrLoadMoreCallback(callback);
+    }
+
+    public void addViewInScrollView(View view, ScrollView.LayoutParams lp) {
+        ScrollView scrollView = pullableViewContainer.getPullableView();
+        scrollView.addView(view, lp);
+    }
+
+    public void addViewInScrollView(View view) {
+        ScrollView scrollView = pullableViewContainer.getPullableView();
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp == null) {
+            scrollView.addView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
+        } else {
+            scrollView.addView(view, new ScrollView.LayoutParams(lp.width, lp.height));
+        }
+    }
+
+    /**
+     * 注意：这几个重载的方法不同互相调用，因为子类可能会重写，会出现不肯想象的结果
+     *
+     * @param layoutId 布局文件的ID
+     */
+    public <V extends View> V addViewInScrollView(int layoutId) {
+        ScrollView scrollView = pullableViewContainer.getPullableView();
+        View.inflate(scrollView.getContext(), layoutId, scrollView);
+        return (V) scrollView.getChildAt(0);
     }
 }
