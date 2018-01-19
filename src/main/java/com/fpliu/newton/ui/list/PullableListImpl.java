@@ -304,11 +304,13 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
     @Override
     public View setViewBeforeBody(int layoutId) {
+        headPanel.removeAllViews();
         return View.inflate(headPanel.getContext(), layoutId, headPanel);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
+        headPanel.removeAllViews();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         if (lp == null) {
             headPanel.addView(view, generateLayoutParams());
@@ -319,11 +321,13 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
     @Override
     public View setViewAfterBody(int layoutId) {
+        footerPanel.removeAllViews();
         return View.inflate(footerPanel.getContext(), layoutId, footerPanel);
     }
 
     @Override
     public void setViewAfterBody(View view) {
+        footerPanel.removeAllViews();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         if (lp == null) {
             footerPanel.addView(view, generateLayoutParams());
