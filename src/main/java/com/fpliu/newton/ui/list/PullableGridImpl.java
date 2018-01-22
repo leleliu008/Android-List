@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
+import com.fpliu.newton.ui.stateview.StateView;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,12 +41,14 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(context, GridView.class);
+        pullableViewContainer = new PullableViewContainer<>(GridView.class, new StateView(context));
+        pullableViewContainer.setDefaultLayout();
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
         GridView gridView = pullableViewContainer.getPullableView();
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridView.setCacheColorHint(Color.TRANSPARENT);
+
 
         footerPanel = new LinearLayout(context);
         footerPanel.setOrientation(LinearLayout.VERTICAL);
@@ -331,12 +334,12 @@ public class PullableGridImpl<T> implements IPullable<T, GridView>, IGrid<T, Gri
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullDown);
+        pullableViewContainer.setEnableRefresh(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadmore(canPullUp);
     }
 
     @Override

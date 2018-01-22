@@ -19,6 +19,7 @@ import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.decoration.GridDividerItemDecoration;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolderAbs;
+import com.fpliu.newton.ui.stateview.StateView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -54,9 +55,11 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(context, RecyclerView.class);
-        recyclerView = pullableViewContainer.getPullableView();
+        pullableViewContainer = new PullableViewContainer<>(RecyclerView.class, new StateView(context));
+        pullableViewContainer.setDefaultLayout();
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        recyclerView = pullableViewContainer.getPullableView();
 
         setItemAnimator(new DefaultItemAnimator());
         asList();
@@ -349,12 +352,12 @@ public class PullableRecyclerViewImpl<T, H extends ItemViewHolderAbs> implements
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullDown);
+        pullableViewContainer.setEnableRefresh(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadmore(canPullUp);
     }
 
     @Override

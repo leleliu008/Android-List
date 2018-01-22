@@ -7,6 +7,7 @@ import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
+import com.fpliu.newton.ui.stateview.StateView;
 
 /**
  * @author 792793182@qq.com 2017-06-29.
@@ -16,7 +17,7 @@ public class PullableScrollViewImpl {
     private PullableViewContainer<ScrollView> pullableViewContainer;
 
     public View init(Context context) {
-        pullableViewContainer = new PullableViewContainer<>(context, ScrollView.class);
+        pullableViewContainer = new PullableViewContainer<>(ScrollView.class, new StateView(context));
         ScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.setFillViewport(true);
         return pullableViewContainer;
@@ -27,11 +28,11 @@ public class PullableScrollViewImpl {
     }
 
     public void canPullDown(boolean canPullDown) {
-        pullableViewContainer.getRefreshLayout().setEnableRefresh(canPullDown);
+        pullableViewContainer.setEnableRefresh(canPullDown);
     }
 
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.getRefreshLayout().setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadmore(canPullUp);
     }
 
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
