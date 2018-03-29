@@ -26,6 +26,8 @@ public interface IRecyclerView<T> extends ICommon<T> {
 
     int onBindLayout(ViewGroup parent, int viewType);
 
+    void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType);
+
     void onBindViewHolder(ItemViewHolder holder, int position, T item);
 
     void notifyDataSetChanged();

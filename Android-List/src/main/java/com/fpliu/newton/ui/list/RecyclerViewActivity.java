@@ -38,6 +38,13 @@ public abstract class RecyclerViewActivity<T> extends BaseActivity
                 return RecyclerViewActivity.this.onBindLayout(parent, viewType);
             }
 
+            @Override
+            public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+                RecyclerViewActivity.this.onCreateViewHolder(itemViewHolder, parent, viewType);
+                return itemViewHolder;
+            }
+
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
                 RecyclerViewActivity.this.onBindViewHolder(holder, position, item);
             }
@@ -208,6 +215,11 @@ public abstract class RecyclerViewActivity<T> extends BaseActivity
     @Override
     public void asGrid(int columnNumber) {
         recyclerView.asGrid(columnNumber);
+    }
+
+    @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
     }
 
     @Override

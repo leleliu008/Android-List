@@ -44,6 +44,13 @@ public abstract class PullableRecyclerViewActivity<T> extends BaseActivity
                 return PullableRecyclerViewActivity.this.onBindLayout(parent, viewType);
             }
 
+            @Override
+            public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+                PullableRecyclerViewActivity.this.onCreateViewHolder(itemViewHolder, parent, viewType);
+                return itemViewHolder;
+            }
+
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
                 PullableRecyclerViewActivity.this.onBindViewHolder(holder, position, item);
             }
@@ -380,6 +387,11 @@ public abstract class PullableRecyclerViewActivity<T> extends BaseActivity
     @Override
     public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         recyclerView.setOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
     }
 
     @Override

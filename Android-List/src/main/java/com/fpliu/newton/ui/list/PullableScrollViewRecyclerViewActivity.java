@@ -45,6 +45,13 @@ public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActi
                 return PullableScrollViewRecyclerViewActivity.this.onBindLayout(parent, viewType);
             }
 
+            @Override
+            public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+                PullableScrollViewRecyclerViewActivity.this.onCreateViewHolder(itemViewHolder, parent, viewType);
+                return itemViewHolder;
+            }
+
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
                 PullableScrollViewRecyclerViewActivity.this.onBindViewHolder(holder, position, item);
             }
@@ -381,6 +388,11 @@ public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActi
     @Override
     public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         recyclerView.setOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
     }
 
     @Override

@@ -47,6 +47,13 @@ public abstract class PullableRecyclerViewFragment<T> extends LazyFragment
             }
 
             @Override
+            public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+                PullableRecyclerViewFragment.this.onCreateViewHolder(itemViewHolder, parent, viewType);
+                return itemViewHolder;
+            }
+
+            @Override
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
                 PullableRecyclerViewFragment.this.onBindViewHolder(holder, position, item);
             }
@@ -384,6 +391,11 @@ public abstract class PullableRecyclerViewFragment<T> extends LazyFragment
     @Override
     public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         recyclerView.setOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
     }
 
     @Override

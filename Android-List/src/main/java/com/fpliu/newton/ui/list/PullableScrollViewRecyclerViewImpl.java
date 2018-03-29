@@ -312,6 +312,11 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
     }
 
     @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
+    }
+
+    @Override
     public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
 
     }

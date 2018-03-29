@@ -39,6 +39,13 @@ public abstract class RecyclerViewFragment<T> extends LazyFragment
                 return RecyclerViewFragment.this.onBindLayout(parent, viewType);
             }
 
+            @Override
+            public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+                RecyclerViewFragment.this.onCreateViewHolder(itemViewHolder, parent, viewType);
+                return itemViewHolder;
+            }
+
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
                 RecyclerViewFragment.this.onBindViewHolder(holder, position, item);
             }
@@ -209,6 +216,11 @@ public abstract class RecyclerViewFragment<T> extends LazyFragment
     @Override
     public void asGrid(int columnNumber) {
         recyclerView.asGrid(columnNumber);
+    }
+
+    @Override
+    public void onCreateViewHolder(ItemViewHolder holder, ViewGroup parent, int viewType) {
+
     }
 
     @Override
