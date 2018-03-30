@@ -1,20 +1,22 @@
 package com.fpliu.newton.ui.list.sample
 
-import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.fpliu.newton.log.Logger
-import com.fpliu.newton.ui.list.RecyclerViewActivity
+import com.fpliu.newton.ui.list.PullableRecyclerViewActivity
+import com.fpliu.newton.ui.pullable.PullType
+import com.fpliu.newton.ui.pullable.PullableViewContainer
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolder
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- *
- * @author 792793182@qq.com 2018-03-30.
+ * RecyclerViewHelper使用示例
+ * @author 792793182@qq.com 2018-03-28.
  */
-class MainActivity : RecyclerViewActivity<String>() {
+class Case1Activity : PullableRecyclerViewActivity<Pair<Int, String>>() {
 
     companion object {
         private val TAG = Case1Activity::class.java.simpleName
@@ -22,21 +24,24 @@ class MainActivity : RecyclerViewActivity<String>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "List使用示例"
+        title = "RecyclerViewHelper使用示例"
+    }
+
+    override fun onRefreshOrLoadMore(pullableViewContainer: PullableViewContainer<RecyclerView>?, pullType: PullType, pageNum: Int, pageSize: Int) {
         Observable
             .just("")
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .map {
-                ArrayList<String>().apply {
+                ArrayList<Pair<Int, String>>().apply {
                     repeat(10, {
-                        add(it.toString())
+                        add(Pair(it, it.toString()))
                     })
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                items = it
+                finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(pullType, it, R.drawable.ic_warnning, "暂无数据")
             }, { Logger.e(TAG, "", it) })
     }
 
@@ -44,19 +49,10 @@ class MainActivity : RecyclerViewActivity<String>() {
         return R.layout.item
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int, item: String) {
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int, item: Pair<Int, String>) {
         holder.run {
             id(R.id.imageView).image("https://modao.cc/uploads/avatars/33224/profile_user-avatar.png", R.drawable.default_img)
+            id(R.id.textView).text(item.second)
         }
     }
-
-    override fun onItemClick(holder: ItemViewHolder, position: Int, item: String?) {
-        super.onItemClick(holder, position, item)
-        when (position) {
-            0 -> Case1Activity::class.java
-            1 -> Case2Activity::class.java
-            else -> Case2Activity::class.java
-        }.let { startActivity(Intent(this, it)) }
-    }
-
 }

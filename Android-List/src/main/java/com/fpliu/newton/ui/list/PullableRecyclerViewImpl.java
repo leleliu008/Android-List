@@ -31,7 +31,7 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableRecyclerViewImpl<T> implements IPullable<T, RecyclerView>, IRecyclerView<T> {
+public class PullableRecyclerViewImpl<T> implements IPullableRecyclerView<T> {
 
     private static final String TAG = PullableRecyclerViewImpl.class.getSimpleName();
 

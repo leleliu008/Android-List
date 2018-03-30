@@ -5,6 +5,7 @@ version = "1.0.0"
 
 plugins {
     id("com.android.library")
+    id("kotlin-android")
     id("com.github.dcendents.android-maven")
     id("com.jfrog.bintray")
 }
@@ -46,6 +47,10 @@ android {
 
 dependencies {
     api(fileTree(mapOf(Pair("dir", "src/main/libs"), Pair("include", "*.jar"))))
+
+    //http://kotlinlang.org/docs/reference/using-gradle.html#configuring-dependencies
+    api("org.jetbrains.kotlin:kotlin-stdlib:1.2.21")
+
     api("com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-8")
     api("com.fpliu:Android-Pullable:1.0.0")
     api("com.fpliu:Android-BaseUI:1.0.0")
