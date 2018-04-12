@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
-import com.fpliu.newton.ui.base.UIUtil;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
@@ -22,13 +21,13 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, ListView> {
+public class PullableGridImpl<T> implements IPullableGridView<T> {
 
     private LinearLayout headPanel;
 
     private LinearLayout footerPanel;
 
-    private PullableViewContainer<ListView> pullableViewContainer;
+    private PullableViewContainer<GridView> pullableViewContainer;
 
     private ItemAdapter<T> itemAdapter;
 
@@ -42,15 +41,14 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        pullableViewContainer = new PullableViewContainer<>(ListView.class, new StateView(context));
+        pullableViewContainer = new PullableViewContainer<>(GridView.class, new StateView(context));
         pullableViewContainer.setDefaultLayout();
         contentView.addView(pullableViewContainer, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 
-        ListView listView = pullableViewContainer.getPullableView();
-        listView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        listView.setCacheColorHint(Color.TRANSPARENT);
-        listView.setDivider(new ColorDrawable(context.getResources().getColor(R.color.background_body)));
-        listView.setDividerHeight(UIUtil.dip2px(context, 1));
+        GridView gridView = pullableViewContainer.getPullableView();
+        gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gridView.setCacheColorHint(Color.TRANSPARENT);
+
 
         footerPanel = new LinearLayout(context);
         footerPanel.setOrientation(LinearLayout.VERTICAL);
@@ -61,12 +59,12 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
     }
 
     @Override
-    public PullableViewContainer<ListView> getPullableViewContainer() {
+    public PullableViewContainer<GridView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
     @Override
-    public ListView getListView() {
+    public GridView getGridView() {
         return pullableViewContainer.getPullableView();
     }
 
@@ -300,19 +298,12 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
     }
 
     @Override
-    public void setDividerHeight(int height) {
-        pullableViewContainer.getPullableView().setDividerHeight(height);
-    }
-
-    @Override
     public View setViewBeforeBody(int layoutId) {
-        headPanel.removeAllViews();
         return View.inflate(headPanel.getContext(), layoutId, headPanel);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        headPanel.removeAllViews();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         if (lp == null) {
             headPanel.addView(view, generateLayoutParams());
@@ -323,29 +314,17 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
 
     @Override
     public View setViewAfterBody(int layoutId) {
-        footerPanel.removeAllViews();
         return View.inflate(footerPanel.getContext(), layoutId, footerPanel);
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        footerPanel.removeAllViews();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         if (lp == null) {
             footerPanel.addView(view, generateLayoutParams());
         } else {
             footerPanel.addView(view, new LinearLayout.LayoutParams(lp.width, lp.height));
         }
-    }
-
-    @Override
-    public void addHeaderView(View view, Object data, boolean isSelectable) {
-        pullableViewContainer.getPullableView().addHeaderView(view, data, isSelectable);
-    }
-
-    @Override
-    public void addFooterView(View view, Object data, boolean isSelectable) {
-        pullableViewContainer.getPullableView().addFooterView(view, data, isSelectable);
     }
 
     @Override
@@ -606,6 +585,11 @@ public class PullableListImpl<T> implements IPullable<T, ListView>, IList<T, Lis
                 pullableViewContainer.setRefreshOrLoadMoreCallback(callback);
             }
         });
+    }
+
+    @Override
+    public void setNumColumns(int numColumns) {
+        pullableViewContainer.getPullableView().setNumColumns(numColumns);
     }
 
     @Override

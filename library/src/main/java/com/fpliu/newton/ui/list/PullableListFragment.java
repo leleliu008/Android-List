@@ -1,13 +1,15 @@
 package com.fpliu.newton.ui.list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
-import com.fpliu.newton.ui.base.BaseActivity;
+import com.fpliu.newton.ui.base.BaseView;
+import com.fpliu.newton.ui.base.LazyFragment;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
@@ -18,40 +20,59 @@ import java.util.List;
 /**
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableGridActivity<T> extends BaseActivity
-        implements IPullable<T, GridView>, IGrid<T, GridView>,
-        AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<GridView> {
+public abstract class PullableListFragment<T> extends LazyFragment implements
+        IPullableListView<T>, AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<ListView> {
 
-    private IPullable<T, GridView> pullable;
-    private IGrid<T, GridView> grid;
+    private IPullableListView<T> pullableListView;
+
+    private View headerView;
+
+    private Object headerData;
+
+    private boolean headerIsSelectable;
+
+    private View footerView;
+
+    private Object footerData;
+
+    private boolean footerIsSelectable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
+        super.onCreateViewLazy(baseView, savedInstanceState);
 
-        pullable = new PullableGridImpl<>();
-        grid = (IGrid<T, GridView>) pullable;
-        addViewInBody(grid.init(this));
+        Activity activity = getActivity();
+
+        pullableListView = new PullableListImpl<>();
+        addViewInBody(pullableListView.init(activity));
         setOnItemClickListener(this);
+
+        if (headerView != null) {
+            pullableListView.addHeaderView(headerView, headerData, headerIsSelectable);
+        }
+
+        if (footerView != null) {
+            pullableListView.addHeaderView(footerView, footerData, footerIsSelectable);
+        }
+
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                return PullableGridActivity.this.getItemView(position, convertView, parent);
+                return PullableListFragment.this.getItemView(position, convertView, parent);
             }
 
             @Override
             public int getViewTypeCount() {
-                return PullableGridActivity.this.getItemViewTypeCount();
+                return PullableListFragment.this.getItemViewTypeCount();
             }
 
             @Override
             public int getItemViewType(int position) {
-                return PullableGridActivity.this.getItemViewType(position);
+                return PullableListFragment.this.getItemViewType(position);
             }
         });
         setRefreshOrLoadMoreCallback(this);
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,291 +81,307 @@ public abstract class PullableGridActivity<T> extends BaseActivity
 
     @Override
     public void canPullDown(boolean canPullDown) {
-        pullable.canPullDown(canPullDown);
+        pullableListView.canPullDown(canPullDown);
     }
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullable.canPullUp(canPullUp);
+        pullableListView.canPullUp(canPullUp);
     }
 
     @Override
     public void finishRequestSuccess(PullType type, List<T> items) {
-        pullable.finishRequestSuccess(type, items);
+        pullableListView.finishRequestSuccess(type, items);
     }
 
     @Override
     public void finishRequestSuccessWithErrorMessageIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithErrorMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithErrorMessageIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithErrorImageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithErrorImageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithErrorImageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithErrorImageAndMessageIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithRefreshActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty) {
-        pullable.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
+        pullableListView.finishRequestSuccessWithRefreshActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, String messageWhenItemsEmpty, String actionText, Runnable action) {
-        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
+        pullableListView.finishRequestSuccessWithActionIfItemsEmpty(type, items, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String actionText, Runnable action) {
-        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
+        pullableListView.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public void finishRequestSuccessWithActionIfItemsEmpty(PullType type, List<T> items, int imageResIdWhenItemsEmpty, String messageWhenItemsEmpty, String actionText, Runnable action) {
-        pullable.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
+        pullableListView.finishRequestSuccessWithActionIfItemsEmpty(type, items, imageResIdWhenItemsEmpty, messageWhenItemsEmpty, actionText, action);
     }
 
     @Override
     public boolean removeThenShowMessageIfEmpty(T item, CharSequence message) {
-        return pullable.removeThenShowMessageIfEmpty(item, message);
+        return pullableListView.removeThenShowMessageIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowImageIfEmpty(T item, int imageResId) {
-        return pullable.removeThenShowImageIfEmpty(item, imageResId);
+        return pullableListView.removeThenShowImageIfEmpty(item, imageResId);
     }
 
     @Override
     public boolean removeThenShowImageAndTextIfEmpty(T item, int imageResId, CharSequence message) {
-        return pullable.removeThenShowImageAndTextIfEmpty(item, imageResId, message);
+        return pullableListView.removeThenShowImageAndTextIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, CharSequence message) {
-        return pullable.removeThenShowRefreshActionIfEmpty(item, message);
+        return pullableListView.removeThenShowRefreshActionIfEmpty(item, message);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId) {
-        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId);
+        return pullableListView.removeThenShowRefreshActionIfEmpty(item, imageResId);
     }
 
     @Override
     public boolean removeThenShowRefreshActionIfEmpty(T item, int imageResId, CharSequence message) {
-        return pullable.removeThenShowRefreshActionIfEmpty(item, imageResId, message);
+        return pullableListView.removeThenShowRefreshActionIfEmpty(item, imageResId, message);
     }
 
     @Override
     public boolean removeThenShowActionIfEmpty(T item, CharSequence message, String actionText, Runnable action) {
-        return pullable.removeThenShowActionIfEmpty(item, message, actionText, action);
+        return pullableListView.removeThenShowActionIfEmpty(item, message, actionText, action);
     }
 
     @Override
     public boolean removeThenShowActionIfEmpty(T item, int imageResId, String actionText, Runnable action) {
-        return pullable.removeThenShowActionIfEmpty(item, imageResId, actionText, action);
+        return pullableListView.removeThenShowActionIfEmpty(item, imageResId, actionText, action);
     }
 
     @Override
     public boolean removeThenShowActionIfEmpty(T item, int imageResId, CharSequence message, String actionText, Runnable action) {
-        return pullable.removeThenShowActionIfEmpty(item, imageResId, message, actionText, action);
+        return pullableListView.removeThenShowActionIfEmpty(item, imageResId, message, actionText, action);
     }
 
     @Override
     public void clearThenShowMessage(CharSequence message) {
-        pullable.clearThenShowMessage(message);
+        pullableListView.clearThenShowMessage(message);
     }
 
     @Override
     public void clearThenShowImage(int imageResId) {
-        pullable.clearThenShowImage(imageResId);
+        pullableListView.clearThenShowImage(imageResId);
     }
 
     @Override
     public void clearThenShowImageAndText(int imageResId, CharSequence message) {
-        pullable.clearThenShowImageAndText(imageResId, message);
+        pullableListView.clearThenShowImageAndText(imageResId, message);
     }
 
     @Override
     public void clearThenShowRefreshAction(CharSequence message) {
-        pullable.clearThenShowRefreshAction(message);
+        pullableListView.clearThenShowRefreshAction(message);
     }
 
     @Override
     public void clearThenShowRefreshAction(int imageResId) {
-        pullable.clearThenShowRefreshAction(imageResId);
+        pullableListView.clearThenShowRefreshAction(imageResId);
     }
 
     @Override
     public void clearThenShowRefreshAction(int imageResId, CharSequence message) {
-        pullable.clearThenShowRefreshAction(imageResId, message);
+        pullableListView.clearThenShowRefreshAction(imageResId, message);
     }
 
     @Override
     public void clearThenShowAction(CharSequence message, String actionText, Runnable action) {
-        pullable.clearThenShowAction(message, actionText, action);
+        pullableListView.clearThenShowAction(message, actionText, action);
     }
 
     @Override
     public void clearThenShowAction(int imageResId, String actionText, Runnable action) {
-        pullable.clearThenShowAction(imageResId, actionText, action);
+        pullableListView.clearThenShowAction(imageResId, actionText, action);
     }
 
     @Override
     public void clearThenShowAction(int imageResId, CharSequence message, String actionText, Runnable action) {
-        pullable.clearThenShowAction(imageResId, message, actionText, action);
+        pullableListView.clearThenShowAction(imageResId, message, actionText, action);
     }
 
     @Override
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
-        pullable.setRefreshOrLoadMoreCallback(callback);
+        pullableListView.setRefreshOrLoadMoreCallback(callback);
     }
 
     @Override
-    public PullableViewContainer<GridView> getPullableViewContainer() {
-        return pullable.getPullableViewContainer();
+    public PullableViewContainer<ListView> getPullableViewContainer() {
+        return pullableListView.getPullableViewContainer();
     }
 
     @Override
     public void refresh() {
-        pullable.refresh();
+        pullableListView.refresh();
     }
 
     @Override
     public View init(Context context) {
-        return grid.init(context);
+        return pullableListView.init(context);
     }
 
     @Override
-    public GridView getGridView() {
-        return grid.getGridView();
+    public ListView getListView() {
+        return pullableListView.getListView();
     }
 
     @Override
     public void setItemAdapter(ItemAdapter<T> itemAdapter) {
-        grid.setItemAdapter(itemAdapter);
+        pullableListView.setItemAdapter(itemAdapter);
     }
 
     @Override
     public ItemAdapter<T> getItemAdapter() {
-        return grid.getItemAdapter();
+        return pullableListView.getItemAdapter();
     }
 
     @Override
     public void setItems(List<T> items) {
-        grid.setItems(items);
+        pullableListView.setItems(items);
     }
 
     @Override
     public List<T> getItems() {
-        return grid.getItems();
+        return pullableListView.getItems();
     }
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        return grid.addAll(collection);
+        return pullableListView.addAll(collection);
     }
 
     @Override
     public boolean add(T item) {
-        return grid.add(item);
+        return pullableListView.add(item);
     }
 
     @Override
     public T set(int location, T item) {
-        return grid.set(location, item);
+        return pullableListView.set(location, item);
     }
 
     @Override
     public T removeAt(int position) {
-        return grid.removeAt(position);
+        return pullableListView.removeAt(position);
     }
 
     @Override
     public T removeLastItem() {
-        return grid.removeLastItem();
+        return pullableListView.removeLastItem();
     }
 
     @Override
     public boolean remove(T item) {
-        return grid.remove(item);
+        return pullableListView.remove(item);
     }
 
     @Override
     public void clear() {
-        grid.clear();
+        pullableListView.clear();
     }
 
     @Override
     public T getItem(int position) {
-        return grid.getItem(position);
+        return pullableListView.getItem(position);
     }
 
     @Override
     public T getLastItem() {
-        return grid.getLastItem();
+        return pullableListView.getLastItem();
     }
 
     @Override
     public int getItemCount() {
-        return grid.getItemCount();
+        return pullableListView.getItemCount();
     }
 
     @Override
     public int getItemViewTypeCount() {
-        return grid.getItemViewTypeCount();
+        return pullableListView.getItemViewTypeCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return grid.getItemViewType(position);
+        return pullableListView.getItemViewType(position);
     }
 
     @Override
     public void notifyDataSetChanged() {
-        grid.notifyDataSetChanged();
+        pullableListView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setDividerHeight(int height) {
+        pullableListView.setDividerHeight(height);
     }
 
     @Override
     public View setViewBeforeBody(int layoutId) {
-        return grid.setViewBeforeBody(layoutId);
+        return pullableListView.setViewBeforeBody(layoutId);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        grid.setViewBeforeBody(view);
+        pullableListView.setViewBeforeBody(view);
     }
 
     @Override
     public View setViewAfterBody(int layoutId) {
-        return grid.setViewAfterBody(layoutId);
+        return pullableListView.setViewAfterBody(layoutId);
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        grid.setViewAfterBody(view);
+        pullableListView.setViewAfterBody(view);
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addHeaderView(View view, Object data, boolean isSelectable) {
+        this.headerView = view;
+        this.headerData = data;
+        this.headerIsSelectable = isSelectable;
+    }
+
+    //必须在super.onCreate()之前调用
+    @Override
+    public void addFooterView(View view, Object data, boolean isSelectable) {
+        this.footerView = view;
+        this.footerData = data;
+        this.footerIsSelectable = isSelectable;
     }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        grid.setOnItemClickListener(listener);
-    }
-
-    @Override
-    public void setNumColumns(int numColumns) {
-        grid.setNumColumns(numColumns);
+        pullableListView.setOnItemClickListener(listener);
     }
 }

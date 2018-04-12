@@ -1,13 +1,16 @@
 import java.util.Properties
 
-group = "com.fpliu"
-version = "1.0.0"
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("com.github.dcendents.android-maven")
     id("com.jfrog.bintray")
+}
+
+val rootProjectName: String = rootProject.name
+
+base {
+    archivesBaseName = rootProjectName
 }
 
 android {
@@ -59,11 +62,14 @@ dependencies {
     api("com.fpliu:Android-Logger:1.0.0")
 }
 
+group = "com.fpliu"
+version = "1.0.0"
+
 // 项目的主页,这个是说明，可随便填
-val siteUrl = "https://github.com/leleliu008/Android-List"
+val siteUrl = "https://github.com/leleliu008/$rootProjectName"
 
 // GitHub仓库的URL,这个是说明，可随便填
-val gitUrl = "https://github.com/leleliu008/Android-List"
+val gitUrl = "https://github.com/leleliu008/$rootProjectName"
 
 tasks {
     "install"(Upload::class) {
@@ -74,7 +80,8 @@ tasks {
                     pom.project {
                         withGroovyBuilder {
                             "packaging"("aar")
-                            "name"("Android-List")
+                            "artifactId"(rootProjectName)
+                            "name"(rootProjectName)
                             "url"(siteUrl)
                             "licenses" {
                                 "license" {
@@ -105,21 +112,23 @@ tasks {
 // 生成jar包的task
 val sourcesJarTask = task("sourcesJar", Jar::class) {
     from(android.sourceSets["main"].java.srcDirs)
+    baseName = rootProjectName
     classifier = "sources"
 }
 
 // 生成jarDoc的task
 val javadocTask = task("javadoc", Javadoc::class) {
     source(android.sourceSets["main"].java.srcDirs)
-    classpath += project.files(android.getBootClasspath())
+    classpath += project.files(android.bootClasspath)
+    isFailOnError = false
 }
 
 // 生成javaDoc的jar
 val javadocJarTask = task("javadocJar", Jar::class) {
-    dependsOn(javadocTask)
-    classifier = "javadoc"
     from(javadocTask.destinationDir)
-}
+    baseName = rootProjectName
+    classifier = "javadoc"
+}.dependsOn(javadocTask)
 
 artifacts {
     add("archives", javadocJarTask)
@@ -134,7 +143,7 @@ bintray {
     pkg = PackageConfig().apply {
         userOrg = "fpliu"
         repo = "newton"
-        name = "Android-List"
+        name = rootProjectName
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         setLicenses("Apache-2.0")
