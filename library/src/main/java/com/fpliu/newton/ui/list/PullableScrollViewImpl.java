@@ -35,7 +35,7 @@ public class PullableScrollViewImpl {
         pullableViewContainer.setEnableLoadmore(canPullUp);
     }
 
-    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback callback) {
+    public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback<ScrollView> callback) {
         pullableViewContainer.setRefreshOrLoadMoreCallback(callback);
     }
 

@@ -89,7 +89,7 @@ public interface IPullable<T, V extends View> {
 
 
 
-    void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback);
+    void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback<V> callback);
 
     void refresh();
 }
