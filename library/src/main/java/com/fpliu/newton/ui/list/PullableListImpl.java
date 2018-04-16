@@ -598,6 +598,7 @@ public class PullableListImpl<T> implements IPullableListView<T> {
         }
     }
 
+    @Override
     public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback) {
         pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

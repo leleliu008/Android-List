@@ -577,6 +577,7 @@ public class PullableGridImpl<T> implements IPullableGridView<T> {
         }
     }
 
+    @Override
     public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback) {
         pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

@@ -610,6 +610,7 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
         }
     }
 
+    @Override
     public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback callback) {
         pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
