@@ -2,6 +2,8 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,12 @@ public abstract class ListFragment<T> extends LazyFragment implements IList<T, L
         BaseView baseView = super.onCreateView(inflater, container, savedInstanceState);
 
         list = new ListImpl<>();
-        addViewInBody(init(getActivity()));
+
+        View contentView = init(getActivity());
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        baseView.addView(contentView, lp);
+
         setOnItemClickListener(this);
 
         if (headerView != null) {

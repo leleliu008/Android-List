@@ -3,6 +3,8 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +34,12 @@ public abstract class PullableGridFragment<T> extends LazyFragment implements
         Activity activity = getActivity();
 
         pullableGridView = new PullableGridImpl<>();
-        addViewInBody(pullableGridView.init(activity));
+
+        View contentView = pullableGridView.init(activity);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        baseView.addView(contentView, lp);
+
         setOnItemClickListener(this);
 
         setItemAdapter(new ItemAdapter<T>(null) {

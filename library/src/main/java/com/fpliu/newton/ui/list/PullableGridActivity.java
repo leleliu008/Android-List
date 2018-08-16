@@ -2,6 +2,8 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,7 +21,7 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableGridActivity<T> extends BaseActivity
-        implements IPullableGridView<T>, AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<GridView> {
+    implements IPullableGridView<T>, AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<GridView> {
 
     private IPullableGridView<T> pullableGridView;
 
@@ -28,7 +30,12 @@ public abstract class PullableGridActivity<T> extends BaseActivity
         super.onCreate(savedInstanceState);
 
         pullableGridView = new PullableGridImpl<>();
-        addViewInBody(pullableGridView.init(this));
+
+        View contentView = pullableGridView.init(this);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        addContentView(contentView, lp);
+
         setOnItemClickListener(this);
         setItemAdapter(new ItemAdapter<T>(null) {
             @Override

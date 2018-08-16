@@ -2,6 +2,8 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,7 +23,7 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableListActivity<T> extends BaseActivity
-        implements IPullableListView<T>, AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<ListView> {
+    implements IPullableListView<T>, AdapterView.OnItemClickListener, RefreshOrLoadMoreCallback<ListView> {
 
     private IPullableListView<T> pullableListView;
 
@@ -42,7 +44,12 @@ public abstract class PullableListActivity<T> extends BaseActivity
         super.onCreate(savedInstanceState);
 
         pullableListView = new PullableListImpl<>();
-        addViewInBody(pullableListView.init(this));
+
+        View contentView = pullableListView.init(this);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        addContentView(contentView, lp);
+
         setOnItemClickListener(this);
 
         if (headerView != null) {

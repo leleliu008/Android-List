@@ -1,6 +1,7 @@
 package com.fpliu.newton.ui.list;
 
 import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -14,16 +15,16 @@ import com.fpliu.newton.ui.stateview.StateView;
  */
 public class PullableScrollViewImpl {
 
-    private PullableViewContainer<ScrollView> pullableViewContainer;
+    private PullableViewContainer<NestedScrollView> pullableViewContainer;
 
     public View init(Context context) {
-        pullableViewContainer = new PullableViewContainer<>(ScrollView.class, new StateView(context));
-        ScrollView scrollView = pullableViewContainer.getPullableView();
+        pullableViewContainer = new PullableViewContainer<>(NestedScrollView.class, new StateView(context));
+        NestedScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.setFillViewport(true);
         return pullableViewContainer;
     }
 
-    public PullableViewContainer<ScrollView> getPullableViewContainer() {
+    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
@@ -39,18 +40,18 @@ public class PullableScrollViewImpl {
         pullableViewContainer.setRefreshOrLoadMoreCallback(callback);
     }
 
-    public void addViewInScrollView(View view, ScrollView.LayoutParams lp) {
-        ScrollView scrollView = pullableViewContainer.getPullableView();
+    public void addViewInScrollView(View view, NestedScrollView.LayoutParams lp) {
+        NestedScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.addView(view, lp);
     }
 
     public void addViewInScrollView(View view) {
-        ScrollView scrollView = pullableViewContainer.getPullableView();
+        NestedScrollView scrollView = pullableViewContainer.getPullableView();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         if (lp == null) {
-            scrollView.addView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
+            scrollView.addView(view, new NestedScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT));
         } else {
-            scrollView.addView(view, new ScrollView.LayoutParams(lp.width, lp.height));
+            scrollView.addView(view, new NestedScrollView.LayoutParams(lp.width, lp.height));
         }
     }
 
@@ -60,7 +61,7 @@ public class PullableScrollViewImpl {
      * @param layoutId 布局文件的ID
      */
     public <V extends View> V addViewInScrollView(int layoutId) {
-        ScrollView scrollView = pullableViewContainer.getPullableView();
+        NestedScrollView scrollView = pullableViewContainer.getPullableView();
         View.inflate(scrollView.getContext(), layoutId, scrollView);
         return (V) scrollView.getChildAt(0);
     }

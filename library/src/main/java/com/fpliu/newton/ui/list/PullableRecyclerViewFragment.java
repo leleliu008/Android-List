@@ -3,6 +3,8 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,12 @@ public abstract class PullableRecyclerViewFragment<T> extends LazyFragment
         Activity activity = getActivity();
 
         pullableRecyclerView = new PullableRecyclerViewImpl<>();
-        addViewInBody(pullableRecyclerView.init(activity));
+
+        View contentView = pullableRecyclerView.init(activity);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        baseView.addView(contentView, lp);
+
         setItemAdapter(new ItemAdapter<T>(null) {
 
             @Override

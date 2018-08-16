@@ -1,6 +1,7 @@
 package com.fpliu.newton.ui.list;
 
 import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,11 +34,11 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
-public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, ScrollView>, IRecyclerView<T> {
+public class PullableScrollViewRecyclerViewImpl<T> implements IPullableScrollViewRecyclerView<T> {
 
     private static final String TAG = PullableScrollViewRecyclerViewImpl.class.getSimpleName();
 
-    private PullableViewContainer<ScrollView> pullableViewContainer;
+    private PullableViewContainer<NestedScrollView> pullableViewContainer;
 
     private RecyclerView recyclerView;
 
@@ -50,9 +51,9 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
     @Override
     public View init(Context context) {
         StateView stateView = new StateView(context);
-        pullableViewContainer = new PullableViewContainer<>(ScrollView.class, stateView);
+        pullableViewContainer = new PullableViewContainer<>(NestedScrollView.class, stateView);
 
-        ScrollView scrollView = pullableViewContainer.getPullableView();
+        NestedScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.setFillViewport(true);
         pullableViewContainer.addView(scrollView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -65,8 +66,12 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
 
         contentView.addView(headPanel, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        recyclerView = new RecyclerView(context);
+        //recyclerView且套在NestedScrollView中必须关闭他，否则会有卡顿的感觉
+        recyclerView.setNestedScrollingEnabled(false);
+
         RelativeLayout relativeLayout = new RelativeLayout(context);
-        relativeLayout.addView(recyclerView = new RecyclerView(context), new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        relativeLayout.addView(recyclerView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         relativeLayout.addView(stateView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
         contentView.addView(relativeLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
@@ -83,7 +88,7 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
     }
 
     @Override
-    public PullableViewContainer<ScrollView> getPullableViewContainer() {
+    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
@@ -611,7 +616,7 @@ public class PullableScrollViewRecyclerViewImpl<T> implements IPullable<T, Scrol
     }
 
     @Override
-    public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback<ScrollView> callback) {
+    public void setRefreshOrLoadMoreCallback(final RefreshOrLoadMoreCallback<NestedScrollView> callback) {
         pullableViewContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {

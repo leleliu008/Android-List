@@ -3,10 +3,12 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.base.BaseView;
 import com.fpliu.newton.ui.base.LazyFragment;
@@ -25,11 +27,10 @@ import java.util.List;
  * @author 792793182@qq.com 2016-06-06.
  */
 public abstract class PullableScrollViewRecyclerViewFragment<T> extends LazyFragment
-    implements IPullable<T, ScrollView>, IRecyclerView<T>,
-    OnItemClickListener<T>, RefreshOrLoadMoreCallback<ScrollView> {
+    implements IPullableScrollViewRecyclerView<T>,
+    OnItemClickListener<T>, RefreshOrLoadMoreCallback<NestedScrollView> {
 
-    private IPullable<T, ScrollView> pullable;
-    private IRecyclerView<T> recyclerView;
+    private IPullableScrollViewRecyclerView<T> pullable;
 
     @Override
     protected void onCreateViewLazy(BaseView baseView, Bundle savedInstanceState) {
@@ -38,8 +39,12 @@ public abstract class PullableScrollViewRecyclerViewFragment<T> extends LazyFrag
         Activity activity = getActivity();
 
         pullable = new PullableScrollViewRecyclerViewImpl<>();
-        recyclerView = (IRecyclerView<T>) pullable;
-        addViewInBody(recyclerView.init(activity));
+
+        View contentView = pullable.init(activity);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        baseView.addView(contentView, lp);
+
         setItemAdapter(new ItemAdapter<T>(null) {
 
             @Override
@@ -224,13 +229,13 @@ public abstract class PullableScrollViewRecyclerViewFragment<T> extends LazyFrag
     }
 
     @Override
-    public PullableViewContainer<ScrollView> getPullableViewContainer() {
+    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
         return pullable.getPullableViewContainer();
     }
 
     @Override
     public RecyclerView getRecyclerView() {
-        return recyclerView.getRecyclerView();
+        return pullable.getRecyclerView();
     }
 
     @Override
@@ -240,158 +245,158 @@ public abstract class PullableScrollViewRecyclerViewFragment<T> extends LazyFrag
 
     @Override
     public View init(Context context) {
-        return recyclerView.init(context);
+        return pullable.init(context);
     }
 
     @Override
     public void setItemAdapter(ItemAdapter<T> itemAdapter) {
-        recyclerView.setItemAdapter(itemAdapter);
+        pullable.setItemAdapter(itemAdapter);
     }
 
     @Override
     public ItemAdapter<T> getItemAdapter() {
-        return recyclerView.getItemAdapter();
+        return pullable.getItemAdapter();
     }
 
     @Override
     public void setItems(List<T> items) {
-        recyclerView.setItems(items);
+        pullable.setItems(items);
     }
 
     @Override
     public List<T> getItems() {
-        return recyclerView.getItems();
+        return pullable.getItems();
     }
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        return recyclerView.addAll(collection);
+        return pullable.addAll(collection);
     }
 
     @Override
     public boolean add(T item) {
-        return recyclerView.add(item);
+        return pullable.add(item);
     }
 
     @Override
     public T set(int location, T item) {
-        return recyclerView.set(location, item);
+        return pullable.set(location, item);
     }
 
     @Override
     public T removeAt(int position) {
-        return recyclerView.removeAt(position);
+        return pullable.removeAt(position);
     }
 
     @Override
     public T removeLastItem() {
-        return recyclerView.removeLastItem();
+        return pullable.removeLastItem();
     }
 
     @Override
     public boolean remove(T item) {
-        return recyclerView.remove(item);
+        return pullable.remove(item);
     }
 
     @Override
     public void clear() {
-        recyclerView.clear();
+        pullable.clear();
     }
 
     @Override
     public T getItem(int position) {
-        return recyclerView.getItem(position);
+        return pullable.getItem(position);
     }
 
     @Override
     public T getLastItem() {
-        return recyclerView.getLastItem();
+        return pullable.getLastItem();
     }
 
     @Override
     public int getItemCount() {
-        return recyclerView.getItemCount();
+        return pullable.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return recyclerView.getItemViewType(position);
+        return pullable.getItemViewType(position);
     }
 
     @Override
     public void notifyDataSetChanged() {
-        recyclerView.notifyDataSetChanged();
+        pullable.notifyDataSetChanged();
     }
 
 
     @Override
     public View setViewBeforeBody(int layoutId) {
-        return recyclerView.setViewBeforeBody(layoutId);
+        return pullable.setViewBeforeBody(layoutId);
     }
 
     @Override
     public void setViewBeforeBody(View view) {
-        recyclerView.setViewBeforeBody(view);
+        pullable.setViewBeforeBody(view);
     }
 
     @Override
     public View setViewAfterBody(int layoutId) {
-        return recyclerView.setViewAfterBody(layoutId);
+        return pullable.setViewAfterBody(layoutId);
     }
 
     @Override
     public void setViewAfterBody(View view) {
-        recyclerView.setViewAfterBody(view);
+        pullable.setViewAfterBody(view);
     }
 
     @Override
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        recyclerView.setLayoutManager(layoutManager);
+        pullable.setLayoutManager(layoutManager);
     }
 
     @Override
     public void setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        recyclerView.setItemDecoration(itemDecoration);
+        pullable.setItemDecoration(itemDecoration);
     }
 
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        recyclerView.addItemDecoration(itemDecoration);
+        pullable.addItemDecoration(itemDecoration);
     }
 
     @Override
     public void removeItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
-        recyclerView.removeItemDecoration(itemDecoration);
+        pullable.removeItemDecoration(itemDecoration);
     }
 
     @Override
     public ArrayList<RecyclerView.ItemDecoration> getItemDecorations() {
-        return recyclerView.getItemDecorations();
+        return pullable.getItemDecorations();
     }
 
     @Override
     public void clearItemDecorations() {
-        recyclerView.clearItemDecorations();
+        pullable.clearItemDecorations();
     }
 
     @Override
     public void setItemAnimator(RecyclerView.ItemAnimator itemAnimator) {
-        recyclerView.setItemAnimator(itemAnimator);
+        pullable.setItemAnimator(itemAnimator);
     }
 
     @Override
     public void asList() {
-        recyclerView.asList();
+        pullable.asList();
     }
 
     @Override
     public void asGrid(int columnNumber) {
-        recyclerView.asGrid(columnNumber);
+        pullable.asGrid(columnNumber);
     }
 
     @Override
     public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
-        recyclerView.setOnItemClickListener(onItemClickListener);
+        pullable.setOnItemClickListener(onItemClickListener);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,12 @@ public abstract class RecyclerViewActivity<T> extends BaseActivity
         super.onCreate(savedInstanceState);
 
         PullableRecyclerViewImpl pullableRecyclerView = new PullableRecyclerViewImpl<>();
+
         View contentView = pullableRecyclerView.init(this);
-        addViewInBody(contentView);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        addContentView(contentView, lp);
+
         recyclerView = pullableRecyclerView;
         pullableRecyclerView.canPullDown(false);
         pullableRecyclerView.canPullUp(false);

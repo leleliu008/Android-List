@@ -1,6 +1,7 @@
 package com.fpliu.newton.ui.list;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
+import com.fpliu.newton.ui.base.HeadBarLayout;
 import com.fpliu.newton.ui.base.TextBtn;
 
 /**
@@ -29,14 +30,16 @@ public abstract class SingleChoiceListActivity<T> extends ListActivity<T> {
         listView.setDivider(new ColorDrawable(getResources().getColor(R.color.divider)));
         listView.setDividerHeight(1);
 
-        getContentView().setRightViewStrategy(new TextBtn() {
+        HeadBarLayout headBarLayout = getContentView().getHeadBarLayout();
+        headBarLayout.setRightViewStrategy(new TextBtn() {
             @Override
-            public Button onCreateView(RelativeLayout headView) {
-                Button commitBtn = super.onCreateView(headView);
+            public Button onCreateView(Context context) {
+                Button commitBtn = super.onCreateView(context);
                 commitBtn.setEnabled(true);
                 return commitBtn;
             }
-        }).getRightBtnClickObservable().compose(bindToLifecycle()).subscribe(o -> onRightBtnClick(SingleChoiceListActivity.this));
+        });
+        headBarLayout.getRightBtnClickObservable().compose(bindToLifecycle()).subscribe(o -> onRightBtnClick(SingleChoiceListActivity.this));
     }
 
     @Override
@@ -51,11 +54,11 @@ public abstract class SingleChoiceListActivity<T> extends ListActivity<T> {
     @Override
     public View getItemView(int position, View convertView, ViewGroup parent) {
         return ViewHolder
-                .getInstance(R.layout.single_choice_activity, convertView, parent)
-                .id(R.id.single_choice_activity_tv)
-                .compoundDrawablesWithIntrinsicBounds(position == selectedIndex ? R.drawable.btn_radio_checked : R.drawable.btn_radio_unchecked, 0, 0, 0)
-                .text(getItemDisplay(position))
-                .getItemView();
+            .getInstance(R.layout.single_choice_activity, convertView, parent)
+            .id(R.id.single_choice_activity_tv)
+            .compoundDrawablesWithIntrinsicBounds(position == selectedIndex ? R.drawable.btn_radio_checked : R.drawable.btn_radio_unchecked, 0, 0, 0)
+            .text(getItemDisplay(position))
+            .getItemView();
     }
 
     public final void setSelectedIndex(int selectedIndex) {

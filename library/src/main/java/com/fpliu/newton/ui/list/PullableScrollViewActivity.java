@@ -1,6 +1,9 @@
 package com.fpliu.newton.ui.list;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -13,7 +16,7 @@ import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
  *
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableScrollViewActivity extends BaseActivity implements RefreshOrLoadMoreCallback<ScrollView> {
+public abstract class PullableScrollViewActivity extends BaseActivity implements RefreshOrLoadMoreCallback<NestedScrollView> {
 
     private PullableScrollViewImpl pullable;
 
@@ -22,7 +25,12 @@ public abstract class PullableScrollViewActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         pullable = new PullableScrollViewImpl();
-        addViewInBody(pullable.init(this));
+
+        View contentView = pullable.init(this);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        addContentView(contentView, lp);
+
         setRefreshOrLoadMoreCallback(this);
     }
 
@@ -38,11 +46,11 @@ public abstract class PullableScrollViewActivity extends BaseActivity implements
         pullable.setRefreshOrLoadMoreCallback(callback);
     }
 
-    public PullableViewContainer<ScrollView> getPullableViewContainer() {
+    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
         return pullable.getPullableViewContainer();
     }
 
-    public void addViewInScrollView(View view, ScrollView.LayoutParams lp) {
+    public void addViewInScrollView(View view, NestedScrollView.LayoutParams lp) {
         pullable.addViewInScrollView(view, lp);
     }
 

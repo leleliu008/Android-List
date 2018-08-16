@@ -2,6 +2,8 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,7 +40,12 @@ public abstract class ListActivity<T> extends BaseActivity implements IList<T, L
         super.onCreate(savedInstanceState);
 
         list = new ListImpl<>();
-        addViewInBody(init(this));
+
+        View contentView = init(this);
+        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        addContentView(contentView, lp);
+
         setOnItemClickListener(this);
 
         if (headerView != null) {
