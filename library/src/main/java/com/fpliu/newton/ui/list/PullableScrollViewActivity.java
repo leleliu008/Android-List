@@ -1,22 +1,22 @@
 package com.fpliu.newton.ui.list;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.view.View;
-import android.widget.ScrollView;
 
 import com.fpliu.newton.ui.base.BaseActivity;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
+import com.google.android.material.appbar.AppBarLayout;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 
 /**
  * 可以下拉刷新和上拉加载更多
  *
  * @author 792793182@qq.com 2016-06-06.
  */
-public abstract class PullableScrollViewActivity extends BaseActivity implements RefreshOrLoadMoreCallback<NestedScrollView> {
+public abstract class PullableScrollViewActivity extends BaseActivity implements RefreshOrLoadMoreCallback<MyNestedScrollView> {
 
     private PullableScrollViewImpl pullable;
 
@@ -46,7 +46,7 @@ public abstract class PullableScrollViewActivity extends BaseActivity implements
         pullable.setRefreshOrLoadMoreCallback(callback);
     }
 
-    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
+    public PullableViewContainer<MyNestedScrollView> getPullableViewContainer() {
         return pullable.getPullableViewContainer();
     }
 

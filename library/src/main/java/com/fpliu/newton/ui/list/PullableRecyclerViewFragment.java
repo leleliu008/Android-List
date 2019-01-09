@@ -3,9 +3,6 @@ package com.fpliu.newton.ui.list;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,10 +14,14 @@ import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolder;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author 792793182@qq.com 2016-06-06.
@@ -56,6 +57,15 @@ public abstract class PullableRecyclerViewFragment<T> extends LazyFragment
                 ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
                 PullableRecyclerViewFragment.this.onCreateViewHolder(itemViewHolder, parent, viewType);
                 return itemViewHolder;
+            }
+
+            @Override
+            public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
+                if (payloads.isEmpty()) {
+                    onBindViewHolder(holder, position);
+                } else {
+                    PullableRecyclerViewFragment.this.onBindViewHolder(holder, position, payloads);
+                }
             }
 
             @Override
@@ -405,6 +415,11 @@ public abstract class PullableRecyclerViewFragment<T> extends LazyFragment
 
     @Override
     public void onItemClick(ItemViewHolder holder, int position, T item) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
 
     }
 }

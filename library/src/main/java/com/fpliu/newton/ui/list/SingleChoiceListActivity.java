@@ -12,6 +12,10 @@ import android.widget.ListView;
 
 import com.fpliu.newton.ui.base.HeadBarLayout;
 import com.fpliu.newton.ui.base.TextBtn;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
+
+import androidx.lifecycle.Lifecycle;
 
 /**
  * 单选
@@ -39,7 +43,10 @@ public abstract class SingleChoiceListActivity<T> extends ListActivity<T> {
                 return commitBtn;
             }
         });
-        headBarLayout.getRightBtnClickObservable().compose(bindToLifecycle()).subscribe(o -> onRightBtnClick(SingleChoiceListActivity.this));
+        headBarLayout
+            .getRightBtnClickObservable()
+            .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
+            .subscribe(o -> onRightBtnClick(SingleChoiceListActivity.this));
     }
 
     @Override

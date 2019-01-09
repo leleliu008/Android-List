@@ -11,8 +11,13 @@ import android.widget.ListView;
 
 import com.fpliu.newton.ui.base.HeadBarLayout;
 import com.fpliu.newton.ui.base.TextBtn;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import java.util.List;
+
+import androidx.lifecycle.Lifecycle;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 /**
  * 多选
@@ -35,7 +40,7 @@ public class MultiChoiceListActivity extends ListActivity<MultiChoiceListActivit
             }
         });
         headBarLayout.getRightBtnClickObservable()
-            .compose(bindToLifecycle())
+            .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
             .subscribe(o -> onResult(getItems()));
 
         ListView listView = getListView();

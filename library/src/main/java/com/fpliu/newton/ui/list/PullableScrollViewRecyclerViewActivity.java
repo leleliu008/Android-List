@@ -2,10 +2,6 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,10 +12,14 @@ import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolder;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 可以下拉刷新和上拉加载更多
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActivity
     implements IPullableScrollViewRecyclerView<T>,
-    OnItemClickListener<T>, RefreshOrLoadMoreCallback<NestedScrollView> {
+    OnItemClickListener<T>, RefreshOrLoadMoreCallback<MyNestedScrollView> {
 
     private IPullableScrollViewRecyclerView<T> pullable;
 
@@ -55,6 +55,15 @@ public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActi
                 ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
                 PullableScrollViewRecyclerViewActivity.this.onCreateViewHolder(itemViewHolder, parent, viewType);
                 return itemViewHolder;
+            }
+
+            @Override
+            public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
+                if (payloads.isEmpty()) {
+                    onBindViewHolder(holder, position);
+                } else {
+                    PullableScrollViewRecyclerViewActivity.this.onBindViewHolder(holder, position, payloads);
+                }
             }
 
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
@@ -226,7 +235,7 @@ public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActi
     }
 
     @Override
-    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
+    public PullableViewContainer<MyNestedScrollView> getPullableViewContainer() {
         return pullable.getPullableViewContainer();
     }
 
@@ -402,6 +411,11 @@ public abstract class PullableScrollViewRecyclerViewActivity<T> extends BaseActi
 
     @Override
     public void onItemClick(ItemViewHolder holder, int position, T item) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
 
     }
 }

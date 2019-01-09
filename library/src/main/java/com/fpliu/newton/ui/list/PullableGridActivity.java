@@ -2,8 +2,6 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,9 +11,12 @@ import com.fpliu.newton.ui.base.BaseActivity;
 import com.fpliu.newton.ui.pullable.PullType;
 import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.Collection;
 import java.util.List;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 /**
  * @author 792793182@qq.com 2016-06-06.

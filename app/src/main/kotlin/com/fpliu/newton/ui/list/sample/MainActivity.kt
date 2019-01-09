@@ -29,9 +29,9 @@ class MainActivity : RecyclerViewActivity<String>() {
             .observeOn(Schedulers.io())
             .map {
                 ArrayList<String>().apply {
-                    repeat(10, {
+                    repeat(10) {
                         add(it.toString())
-                    })
+                    }
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
@@ -52,11 +52,12 @@ class MainActivity : RecyclerViewActivity<String>() {
 
     override fun onItemClick(holder: ItemViewHolder, position: Int, item: String?) {
         super.onItemClick(holder, position, item)
-        when (position) {
+        startActivity(Intent(this, when (position) {
             0 -> Case1Activity::class.java
             1 -> Case2Activity::class.java
+            2 -> PullableScrollViewActivityExample::class.java
             else -> Case2Activity::class.java
-        }.let { startActivity(Intent(this, it)) }
+        }))
     }
 
 }

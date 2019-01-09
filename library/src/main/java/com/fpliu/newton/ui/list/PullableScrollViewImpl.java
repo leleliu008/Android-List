@@ -1,7 +1,6 @@
 package com.fpliu.newton.ui.list;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -10,21 +9,23 @@ import com.fpliu.newton.ui.pullable.PullableViewContainer;
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback;
 import com.fpliu.newton.ui.stateview.StateView;
 
+import androidx.core.widget.NestedScrollView;
+
 /**
  * @author 792793182@qq.com 2017-06-29.
  */
 public class PullableScrollViewImpl {
 
-    private PullableViewContainer<NestedScrollView> pullableViewContainer;
+    private PullableViewContainer<MyNestedScrollView> pullableViewContainer;
 
     public View init(Context context) {
-        pullableViewContainer = new PullableViewContainer<>(NestedScrollView.class, new StateView(context));
+        pullableViewContainer = new PullableViewContainer<>(MyNestedScrollView.class, new StateView(context));
         NestedScrollView scrollView = pullableViewContainer.getPullableView();
         scrollView.setFillViewport(true);
         return pullableViewContainer;
     }
 
-    public PullableViewContainer<NestedScrollView> getPullableViewContainer() {
+    public PullableViewContainer<MyNestedScrollView> getPullableViewContainer() {
         return pullableViewContainer;
     }
 
@@ -33,7 +34,7 @@ public class PullableScrollViewImpl {
     }
 
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadMore(canPullUp);
     }
 
     public void setRefreshOrLoadMoreCallback(RefreshOrLoadMoreCallback<ScrollView> callback) {

@@ -1,8 +1,8 @@
 package com.fpliu.newton.ui.list.sample
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.fpliu.newton.log.Logger
 import com.fpliu.newton.ui.list.PullableRecyclerViewActivity
 import com.fpliu.newton.ui.pullable.PullType

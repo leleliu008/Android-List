@@ -1,11 +1,6 @@
 package com.fpliu.newton.ui.list;
 
 import android.content.Context;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -26,7 +21,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author 792793182@qq.com 2017-06-29.
@@ -307,6 +306,11 @@ public class PullableRecyclerViewImpl<T> implements IPullableRecyclerView<T> {
     }
 
     @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
+
+    }
+
+    @Override
     public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
 
     }
@@ -362,7 +366,7 @@ public class PullableRecyclerViewImpl<T> implements IPullableRecyclerView<T> {
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadMore(canPullUp);
     }
 
     @Override
@@ -672,7 +676,7 @@ public class PullableRecyclerViewImpl<T> implements IPullableRecyclerView<T> {
                 }
             }
         });
-        setItemDecoration(new DividerItemDecoration(context, VERTICAL));
+        setItemDecoration(new DividerItemDecoration(context, RecyclerView.VERTICAL));
     }
 
     @Override

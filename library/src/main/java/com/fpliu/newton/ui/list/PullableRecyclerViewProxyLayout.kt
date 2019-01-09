@@ -1,9 +1,9 @@
 package com.fpliu.newton.ui.list
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.fpliu.newton.ui.pullable.RefreshOrLoadMoreCallback
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener
 import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter

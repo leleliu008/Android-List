@@ -2,9 +2,6 @@ package com.fpliu.newton.ui.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,10 +10,14 @@ import com.fpliu.newton.ui.base.LazyFragment;
 import com.fpliu.newton.ui.recyclerview.OnItemClickListener;
 import com.fpliu.newton.ui.recyclerview.adapter.ItemAdapter;
 import com.fpliu.newton.ui.recyclerview.holder.ItemViewHolder;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RecyclerViewFragment<T> extends LazyFragment
     implements IRecyclerView<T>, OnItemClickListener<T> {
@@ -50,6 +51,15 @@ public abstract class RecyclerViewFragment<T> extends LazyFragment
                 ItemViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
                 RecyclerViewFragment.this.onCreateViewHolder(itemViewHolder, parent, viewType);
                 return itemViewHolder;
+            }
+
+            @Override
+            public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
+                if (payloads.isEmpty()) {
+                    onBindViewHolder(holder, position);
+                } else {
+                    RecyclerViewFragment.this.onBindViewHolder(holder, position, payloads);
+                }
             }
 
             public void onBindViewHolder(ItemViewHolder holder, int position, T item) {
@@ -231,6 +241,11 @@ public abstract class RecyclerViewFragment<T> extends LazyFragment
 
     @Override
     public void onItemClick(ItemViewHolder holder, int position, T item) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position, List<Object> payloads) {
 
     }
 }

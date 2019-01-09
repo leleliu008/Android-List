@@ -1,8 +1,8 @@
 package com.fpliu.newton.ui.list.sample
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.fpliu.newton.log.Logger
 import com.fpliu.newton.ui.list.PullableRecyclerViewImpl
 import com.fpliu.newton.ui.list.PullableRecyclerViewProxyLayout
@@ -33,9 +33,9 @@ class XXPullableRecyclerView : PullableRecyclerViewProxyLayout<Pair<Int, String>
             .observeOn(Schedulers.io())
             .map {
                 ArrayList<Pair<Int, String>>().apply {
-                    repeat(10, {
+                    repeat(10) {
                         add(Pair(it, it.toString()))
-                    })
+                    }
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())

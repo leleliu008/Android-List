@@ -360,7 +360,7 @@ public class PullableListImpl<T> implements IPullableListView<T> {
 
     @Override
     public void canPullUp(boolean canPullUp) {
-        pullableViewContainer.setEnableLoadmore(canPullUp);
+        pullableViewContainer.setEnableLoadMore(canPullUp);
     }
 
     @Override
